@@ -217,53 +217,17 @@ unter [^2] und [^1] entnommen:
 
 | **Methode**                      | **Kurzbeschreibung**             |
 |----------------------------------|----------------------------------|
-| abort()                          | Stoppt die aktuell laufende      |
-|                                  | Server-Anfrage.                  |
-|----------------------------------|----------------------------------|
-| getAllResponseHeaders()          | Gibt den kompletten vom Server   |
-|                                  | gesendeten Headersatz (Feldnamen |
-|                                  | und Werte) als String zurück.    |
-|----------------------------------|----------------------------------|
-| get                              | Gibt den Wert eines einzelnen    |
-| ResponseHeader("*Headername*") | Headerfeldes als String zurück.  |
-|----------------------------------|----------------------------------|
-| open("Methode", "URL"\[,     | Stellt eine Verbindung zum       |
-| *asyncFlag*\[,                   | Server her.                      |
-| "*Benutzername*"\[,            |                                  |
-| "*Passwort*"\]\]\])            | Parameter:                       |
-|                                  |                                  |
-|                                  | \- *Methode*: GET, POST, PUT,    |
-|                                  | HEAD                             |
-|                                  |                                  |
-|                                  | POST sollte verwendet werden,    |
-|                                  | wenn die gesendeten Daten größer |
-|                                  | als 500 Bytes sind.              |
-|                                  |                                  |
-|                                  | HEAD wird verwendet, wenn nur    |
-|                                  | Response-Header und keine Daten  |
-|                                  | angefordert werden. Dieses kann  |
-|                                  | z.B. verwendet werden, wenn für  |
-|                                  | eine Datei auf dem Server das    |
-|                                  | Datum der letzten Änderung       |
-|                                  | (Last-Modified) abgefragt werden |
-|                                  | soll.                            |
-|                                  |                                  |
-|                                  | \- *URL*:                        |
-|                                  |                                  |
-|                                  | Pfad (relativ oder absolut) |    |
-|                                  | ggf. Anfrageparameter als        |
-|                                  | Query-String                     |
-|                                  |                                  |
-|                                  | \- *asyncFlag*: true, false      |
-|                                  |                                  |
-|                                  | Asynchrone (true) oder synchrone |
-|                                  | (false) Datenübertragung         |
-|                                  |                                  |
-|                                  | \- *Benutzername, Passwort*:     |
-|                                  |                                  |
-|                                  | Benutzername und Passwort für    |
-|                                  | den Zugriff auf eine Ressource   |
-|                                  | auf dem Server.                  |
+| abort()                          | Stoppt die aktuell laufende Server-Anfrage. |
+| getAllResponseHeaders()          | Gibt den kompletten vom Server gesendeten Headersatz (Feldnamen und Werte) als String zurück. |
+| getResponseHeader("*Headername*")| Gibt den Wert eines einzelnen Headerfeldes als String zurück. |
+| open("Methode", "URL"\[, *asyncFlag*\[, "*Benutzername*"\[, "*Passwort*"\]\]\])  | <p>Stellt eine Verbindung zum Server her.
+    Parameter:
+     - Methode: GET, POST, PUT, HEAD
+     POST sollte verwendet werden, wenn die gesendeten Daten größer als 500 Bytes sind.
+     HEAD wird verwendet, wenn nur Response-Header und keine Daten angefordert werden. Dieses kann z.B. verwendet werden, wenn für eine Datei auf dem Server das Datum der letzten Änderung (Last-Modified) abgefragt werden soll.
+     - URL: Pfad (relativ oder absolut) + ggf. Anfrageparameter als Query-String
+     - asyncFlag: true, false: Asynchrone (true) oder synchrone (false) Datenübertragung
+     - Benutzername, Passwort: Benutzername und Passwort für den Zugriff auf eine Ressource auf dem Server.</p> |
 |----------------------------------|----------------------------------|
 | send(*Anfrageparameter*)         | Sendet die Anfrage an den        |
 |                                  | Server.                          |
