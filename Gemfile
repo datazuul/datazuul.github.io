@@ -11,5 +11,5 @@ group :jekyll_plugins do
   gem "jekyll-seo-tag"
   gem "jemoji"
   gem "webrick"
-  gem "jekyll-toc"
+  #gem "jekyll-toc" # not working on github
 end
