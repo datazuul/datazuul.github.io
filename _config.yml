@@ -33,6 +33,9 @@ navigation_links:
   - title: Blog
     url: /
 
+  - title: Categories
+    url: /categories
+
   - title: About
     url: /about
 
