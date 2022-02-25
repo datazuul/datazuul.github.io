@@ -3,6 +3,7 @@ layout: post
 title: Ajax für Einsteiger
 author: Ralf Eichinger
 categories: [javascript]
+toc: true
 ---
 
 Bis vor kurzem hätte wohl jeder auf die Frage "Was ist Ajax?" an ein

@@ -99,6 +99,7 @@ gems:
   - jekyll-seo-tag
   - jemoji
   - webrick
+  - jekyll-toc # https://github.com/toshimaru/jekyll-toc
 
 # Exclude these files from your production _site
 exclude:

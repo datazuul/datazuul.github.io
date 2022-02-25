@@ -287,3 +287,18 @@ $ bundle exec jekyll serve
 ```
 pandoc test2.odt -t markdown -o test2.md
 ```
+
+## ToC
+
+https://github.com/toshimaru/jekyll-toc
+
+Gemfile: gem 'jekyll-toc'
+_config.yml: 
+plugins:
+  - jekyll-toc
+
+---
+layout: post
+title: "Welcome to Jekyll!"
+toc: true
+---
