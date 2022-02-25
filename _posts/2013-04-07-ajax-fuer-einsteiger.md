@@ -12,6 +12,8 @@ schon vom Web der Zukunft - von Web 2.0.
 Was hat es mit der Webtechnologie AJAX (Asynchronous JavaScript And XML)
 auf sich, dass sie solche Aufregung verursacht?
 
+<!--more-->
+
 # Webanwendung alt
 
 Zunächst einmal muss man verstehen, wie Webanwendungen bisher
@@ -209,58 +211,112 @@ try {
 
 ---
 
-** Methoden und Eigenschaften des XMLHttpRequest-Objekts **
+**Methoden und Eigenschaften des XMLHttpRequest-Objekts**
 
 In den folgenden Tabellen sind alle Methoden und Eigenschaften des
 XMLHttpRequest-Objekts aufgelistet. Diese Tabellen sind den Artikeln
 unter [^2] und [^1] entnommen:
 
-| **Methode**                      | **Kurzbeschreibung**             |
-|----------------------------------|----------------------------------|
-| abort()                          | Stoppt die aktuell laufende Server-Anfrage. |
-| getAllResponseHeaders()          | Gibt den kompletten vom Server gesendeten Headersatz (Feldnamen und Werte) als String zurück. |
-| getResponseHeader("*Headername*")| Gibt den Wert eines einzelnen Headerfeldes als String zurück. |
-| open("Methode", "URL"\[, *asyncFlag*\[, "*Benutzername*"\[, "*Passwort*"\]\]\])  | <p>Stellt eine Verbindung zum Server her.
-    Parameter:
-     - Methode: GET, POST, PUT, HEAD
-     POST sollte verwendet werden, wenn die gesendeten Daten größer als 500 Bytes sind.
-     HEAD wird verwendet, wenn nur Response-Header und keine Daten angefordert werden. Dieses kann z.B. verwendet werden, wenn für eine Datei auf dem Server das Datum der letzten Änderung (Last-Modified) abgefragt werden soll.
-     - URL: Pfad (relativ oder absolut) + ggf. Anfrageparameter als Query-String
-     - asyncFlag: true, false: Asynchrone (true) oder synchrone (false) Datenübertragung
-     - Benutzername, Passwort: Benutzername und Passwort für den Zugriff auf eine Ressource auf dem Server.</p> |
-|----------------------------------|----------------------------------|
-| send(*Anfrageparameter*)         | Sendet die Anfrage an den        |
-|                                  | Server.                          |
-|                                  |                                  |
-|                                  | Parameter:                       |
-|                                  |                                  |
-|                                  | \- *Anfrageparameter*:           |
-|                                  |                                  |
-|                                  | bei GET: null (Anfrageparameter  |
-|                                  | bereits in URL als Query-String  |
-|                                  | enthalten)                       |
-|                                  |                                  |
-|                                  | bei POST: Anfrageparameter als   |
-|                                  | Query-String oder                |
-|                                  | DOM-Datenobjekt                  |
-|----------------------------------|----------------------------------|
-| setMimeType("*Mime-Type*")     | Setzen des Mimetyps der          |
-|                                  | angeforderten Daten (Response).  |
-|                                  |                                  |
-|                                  | (Wird vom Internet Explorer      |
-|                                  | nicht unterstützt)               |
-|                                  |                                  |
-|                                  | Parameter:                       |
-|                                  |                                  |
-|                                  | \- *Mime-Type*:                  |
-|                                  |                                  |
-|                                  | der Mimetyp als String, z.B.     |
-|                                  | "text/xml"                     |
-|----------------------------------|----------------------------------|
-| setRequestHeader("*Feldname*", | Setzt ein Name-/Wert-Paar im     |
-| "*Headerwert*")                | Request-Header, z.B. den         |
-|                                  | Content-Type                     |
-|----------------------------------|----------------------------------|
+<table>
+<tr>
+<th>Methode</th>
+<th>Kurzbeschreibung</th>
+</tr>
+
+<tr>
+<td>abort()</td>
+<td>Stoppt die aktuell laufende Server-Anfrage.</td>
+</tr>
+
+<tr>
+<td>getAllResponseHeaders()</td>
+<td>Gibt den kompletten vom Server gesendeten Headersatz (Feldnamen und Werte) als String zurück.</td>
+</tr>
+
+<tr>
+<td>getResponseHeader("Headername")</td>
+<td>Gibt den Wert eines einzelnen Headerfeldes als String zurück.</td>
+</tr>
+
+<tr>
+<td>open("Methode", "URL"[, asyncFlag[, "Benutzername"[, "Passwort"]]])</td>
+<td markdown="1">Stellt eine Verbindung zum Server her.
+
+Parameter:
+- Methode: GET, POST, PUT, HEAD
+
+  POST sollte verwendet werden, wenn die gesendeten Daten größer als 500 Bytes sind.
+  HEAD wird verwendet, wenn nur Response-Header und keine Daten angefordert werden. Dieses kann z.B. verwendet werden, wenn für eine Datei auf dem Server das Datum der letzten Änderung (Last-Modified) abgefragt werden soll.
+
+- URL: Pfad (relativ oder absolut) + ggf. Anfrageparameter als Query-String
+
+- asyncFlag: true, false
+
+  Asynchrone (true) oder synchrone (false) Datenübertragung
+
+- Benutzername, Passwort:
+
+  Benutzername und Passwort für den Zugriff auf eine Ressource auf dem Server.
+</td>
+</tr>
+
+<tr>
+<td>send(Anfrageparameter)</td>
+<td markdown="1">Sendet die Anfrage an den Server.
+
+Parameter:
+
+- Anfrageparameter:
+
+  bei GET: null (Anfrageparameter bereits in URL als Query-String enthalten)
+  bei POST: Anfrageparameter als Query-String oder DOM-Datenobjekt
+</td>
+</tr>
+
+<tr>
+<td>setMimeType("Mime-Type")</td>
+<td markdown="1">Setzen des Mimetyps der angeforderten Daten (Response).
+
+(Wird vom Internet Explorer nicht unterstützt)
+
+Parameter:
+
+- Mime-Type: der Mimetyp als String, z.B. "text/xml"
+</td>
+</tr>
+
+<tr>
+<td>setRequestHeader("Feldname", "Headerwert")</td>
+<td>Setzt ein Name-/Wert-Paar im Request-Header, z.B. den Content-Type</td>
+</tr>
+</table>
+
+<table>
+<tr>
+<th>Eigenschaft</th>
+<th>Kurzbeschreibung</th>
+</tr>
+
+<tr>
+<td>onreadystatechange</td>
+<td>Name der Funktion (Event-Handler), die jedesmal aufgerufen wird, wenn sich der Verbindungsstatus (readyState) ändert.</td>
+</tr>
+
+<tr>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td></td>
+<td></td>
+</tr>
+</table>
 
 +--------------------+------------------------------------------------+
 | **Eigenschaft**    | **Kurzbeschreibung**                           |

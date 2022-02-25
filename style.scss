@@ -356,26 +356,27 @@ table {
   }
 
   tr {
-    &:nth-child(even) {
+    &:nth-child(odd) {
       background-color: #efefef;
     }
   }
 
   th, td {
+    font-size: 0.8em;
     padding: 10px 15px;
+    vertical-align: top;
+    border: 01px solid #dddddd;
   }
 
   th {
-    background-color: #efefef;
-    border: 01px solid #dddddd;
+    background-color: #ffedd6;
   }
 
   td {
-    border: 01px solid #dddddd;
+    text-align: left;
   }
 
   tr,
-  td,
   th {
     vertical-align: middle;
     text-align: center;
