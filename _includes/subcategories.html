@@ -1,0 +1,16 @@
+<ul>
+{% assign page_cats = page.dir | split:'/' %}
+{% for subpage in site.pages %}
+  {% if subpage.name == 'index.md' and subpage.dir != page.dir %}
+    {% assign subpage_categories = subpage.dir | remove_first: '/' | split:"/" %}
+    
+    {% comment %} only direct children to page: {% endcomment %}
+    {% if subpage_categories.size == page_cats.size | plus: 1 %}
+      {% assign calculatedDir = page.dir | append: subpage_categories.last | append: '/' %}
+      {% if subpage.dir == calculatedDir %}
+      <li><a href="{{subpage.url}}"><img src="/assets/image/icons8-folder.svg" style="margin-bottom: -1px;" /> {{ subpage.title }}</a></li>      
+      {% endif %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+</ul>

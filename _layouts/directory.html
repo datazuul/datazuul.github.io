@@ -1,0 +1,29 @@
+---
+layout: default
+---
+
+<div class="breadcrumbs">
+{% include breadcrumbs.html path=page.path title=page.title %}
+</div>
+
+<main>
+  <div class="left">
+    <p>Posts</p>
+    <ul>
+      {% for post in site.posts %}
+      {% assign postPath = post.categories | join: '/' %}
+      {% assign postPath = '/' | append: postPath | append: '/' %}
+      {% if postPath == page.dir %}
+      <li>{{ post.date | date: "%B %e, %Y" }}: <a href="{{post.url}}">{{ post.title }}</a></li>
+      {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="right">
+    <aside>
+    <p>Subtopics</p>
+
+    {% include subcategories.html %}
+    </aside>
+  </div>
+</main>

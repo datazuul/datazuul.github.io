@@ -2,7 +2,6 @@
 layout: post
 title: Ajax für Einsteiger
 author: Ralf Eichinger
-categories: [javascript]
 toc: true
 ---
 
@@ -89,7 +88,7 @@ Zusammenfassend kann gesagt werden, daß AJAX auf den folgenden
 - HTML
 - CSS
 
-# Kommunikation über XMLHttpRequest
+## Kommunikation über XMLHttpRequest
 
 Doch wie kann man mit JavaScript eine Anfrage an einen Server schicken
 und die Antwort holen? Hier kommt eine neue Technologiekomponente ins
@@ -124,8 +123,7 @@ darstellt.
 Dass der Zugriff auf Inhalte eines fremden Servers leider nicht so
 einfach ist, erklärt der Kasten "Fremdcontent nur indirekt".
 
----
-
+<div class="box" markdown="1">
 **Fremdcontent nur indirekt**
 
 Der direkte Zugriff aus dem XMLHttpRequest-Objekt heraus auf fremde
@@ -144,10 +142,9 @@ ausliefert\...
 Bevor wir uns an die Nachrichtenliste wagen, betrachten wir
 grundlegenden Beispiel-Code, wie in JavaScript mit dem
 XMLHttpRequest-Objekt gearbeitet wird.
+</div>
 
----
-
-# Erzeugen des XMLHttpRequest-Objekts
+## Erzeugen des XMLHttpRequest-Objekts
 
 Bei der Erzeugung des Objekts prüfen wir, ob es direkt
 (Nicht-IE-Browser) erzeugbar ist oder als ActiveX-Objekt erzeugt werden
@@ -292,6 +289,7 @@ Parameter:
 </tr>
 </table>
 
+
 <table>
 <tr>
 <th>Eigenschaft</th>
@@ -304,78 +302,51 @@ Parameter:
 </tr>
 
 <tr>
-<td></td>
-<td></td>
+<td>readyState</td>
+<td markdown="1">Enthält den aktuellen Verbindungsstatus:
+
+Mögliche Werte:
+
+* 0 (uninitialized): Verbindung noch nicht aufgebaut ("open()" wurde noch nicht aufgerufen)
+* 1 (loading): Anfrage noch nicht gesendet ("send()" wurde noch nicht aufgerufen)
+* 2 (loaded): Anfrage gesendet, Antwort-Header und Antwort-Status kann abgefragt werden.
+* 3 (interactive): Übertragung der Daten vom Server findet statt, die eintreffenden Daten werden in "responseText" aufgesammelt.
+* 4 (complete): Die Kommunikation mit dem Server ist abgeschlossen. Alle Daten sind angekommen (bei status = 200), wenn kein Fehler aufgetreten ist (z.B. status = 404, Dokument nicht gefunden)
+</td>
 </tr>
 
 <tr>
-<td></td>
-<td></td>
+<td>responseXML</td>
+<td>Enthält die Antwortdaten im XML-Format (DOM-kompatibles Document-Objekt). Wenn die Daten als Plaintext gesendet worden sind, enthält responseXML null.</td>
 </tr>
 
 <tr>
-<td></td>
-<td></td>
+<td>responseText</td>
+<td>Enthält die Antwortdaten als Text.</td>
+</tr>
+
+<tr>
+<td>status</td>
+<td>Enthält den HTTP-Status der Verbindung als Zahl (z.B. 200 für "OK" oder 404 für "Not Found")</td>
+</tr>
+
+<tr>
+<td>statusText</td>
+<td>Enthält den HTTP-Status als Text-Meldung (z.B. "Not found")</td>
 </tr>
 </table>
 
-+--------------------+------------------------------------------------+
-| **Eigenschaft**    | **Kurzbeschreibung**                           |
-+--------------------+------------------------------------------------+
-| onreadystatechange | Name der Funktion (Event-Handler), die         |
-|                    | jedesmal aufgerufen wird, wenn sich der        |
-|                    | Verbindungsstatus (readyState) ändert.         |
-+--------------------+------------------------------------------------+
-| readyState         | Enthält den aktuellen Verbindungsstatus:       |
-|                    |                                                |
-|                    | Mögliche Werte:                                |
-|                    |                                                |
-|                    | 0 (uninitialized): Verbindung noch nicht       |
-|                    | aufgebaut ("open()" wurde noch nicht         |
-|                    | aufgerufen)                                    |
-|                    |                                                |
-|                    | 1 (loading): Anfrage noch nicht gesendet       |
-|                    | ("send()" wurde noch nicht aufgerufen)       |
-|                    |                                                |
-|                    | 2 (loaded): Anfrage gesendet, Antwort-Header   |
-|                    | und Antwort-Status kann abgefragt werden.      |
-|                    |                                                |
-|                    | 3 (interactive): Übertragung der Daten vom     |
-|                    | Server findet statt, die eintreffenden Daten   |
-|                    | werden in "responseText" aufgesammelt.       |
-|                    |                                                |
-|                    | 4 (complete): Die Kommunikation mit dem Server |
-|                    | ist abgeschlossen. Alle Daten sind angekommen  |
-|                    | (bei status = 200), wenn kein Fehler           |
-|                    | aufgetreten ist (z.B. status = 404, Dokument   |
-|                    | nicht gefunden)                                |
-+--------------------+------------------------------------------------+
-| responseXML        | Enthält die Antwortdaten im XML-Format         |
-|                    | (DOM-kompatibles Document-Objekt). Wenn die    |
-|                    | Daten als Plaintext gesendet worden sind,      |
-|                    | enthält responseXML null.                      |
-+--------------------+------------------------------------------------+
-| responseText       | Enthält die Antwortdaten als Text.             |
-+--------------------+------------------------------------------------+
-| status             | Enthält den HTTP-Status der Verbindung als     |
-|                    | Zahl (z.B. 200 für "OK" oder 404 für "Not   |
-|                    | Found")                                       |
-+--------------------+------------------------------------------------+
-| statusText         | Enthält den HTTP-Status als Text-Meldung (z.B. |
-|                    | "Not found")                                 |
-+--------------------+------------------------------------------------+
-
-Anfrage an Server (Request)
+## Anfrage an Server (Request)
 
 Nach der Erzeugung des XMLHttpRequest-Objekts kann eine Verbindung zum
 Server hergestellt und ein Request über das HTTP-Protokoll geschickt
 werden. Im einfachsten Fall handelt es sich um einen GET-Request:
 
+```javascript
 xmlhttp.open("GET", url, true); // Verbindung herstellen
-
 xmlhttp.onreadystatechange = handleResponse; // Handler registrieren
-
 xmlhttp.send(null); // Request schicken
+```
 
 Die Parameter bei der Herstellung der Verbindung (Funktion "open")
 sind:
@@ -397,7 +368,7 @@ XMLHttpRequest-Objekts. Dies muß vor dem Senden des Requests geschehen.
 Der Parameter der Funktion "send" ist nur bei einem POST-Request (mit
 den Abfrageparametern) zu füllen.
 
-Antwort vom Server (Response)
+## Antwort vom Server (Response)
 
 Die Verarbeitung der Server-Antwort geschieht innerhalb der
 Handler-Funktion "handleResponse". Diese Funktion wird bei jeder
@@ -406,43 +377,61 @@ Beginn bis zum Abschluß der Kommunikation mehrere Zustände annehmen.
 
 Der Kommunikationsstatus kann über
 
+```javascript
 xmlhttp.readyState
+```
 
 abgefragt werden und kann folgende Zahlenwerte annehmen:
 
-+---+-----------------------------------------------------------------+
-| 0 | UNINITIALIZED                                                   |
-|   |                                                                 |
-|   | Verbindung wurde noch nicht über open() hergestellt             |
-+---+-----------------------------------------------------------------+
-| 1 | LOADING                                                         |
-|   |                                                                 |
-|   | Request wurde noch nicht über send() abgeschickt                |
-+---+-----------------------------------------------------------------+
-| 2 | LOADED                                                          |
-|   |                                                                 |
-|   | Request wurde über send() abgeschickt, Header und Status sind   |
-|   | verfügbar                                                       |
-+---+-----------------------------------------------------------------+
-| 3 | INTERACTIVE                                                     |
-|   |                                                                 |
-|   | Antwort wird heruntergeladen, die Daten werden in responseText  |
-|   | gespeichert                                                     |
-+---+-----------------------------------------------------------------+
-| 4 | COMPLETED                                                       |
-|   |                                                                 |
-|   | Alle Verarbeitungsschritte abgeschlossen. Daten oder Fehler     |
-|   | können ausgewertet werden.                                      |
-+---+-----------------------------------------------------------------+
+<table>
+<tr>
+<td>0</td>
+<td markdown="1">UNINITIALIZED<br>
+Verbindung wurde noch nicht über open() hergestellt
+</td>
+</tr>
+
+<tr>
+<td>1</td>
+<td markdown="1">LOADING<br>
+Request wurde noch nicht über send() abgeschickt
+</td>
+</tr>
+
+<tr>
+<td>2</td>
+<td markdown="1">LOADED<br>
+Request wurde über send() abgeschickt, Header und Status sind verfügbar
+</td>
+</tr>
+
+<tr>
+<td>3</td>
+<td markdown="1">INTERACTIVE<br>
+Antwort wird heruntergeladen, die Daten werden in responseText gespeichert
+</td>
+</tr>
+
+<tr>
+<td>4</td>
+<td markdown="1">COMPLETED<br>
+Alle Verarbeitungsschritte abgeschlossen. Daten oder Fehler können ausgewertet werden.
+</td>
+</tr>
+</table>
 
 Sobald die Übertragung der Antwortdaten ohne Fehler abgeschlossen ist
 (readyState 4, HTTP-Status 200), kann auf diese über
 
+```javascript
 xmlhttp.responseText
+```
 
 oder
 
+```javascript
 xmlhttp.responseXML
+```
 
 zugegriffen werden. Die Text-Antwortdaten sind in "responseText",
 XMLAntwortdaten in "responseXML" gespeichert.
@@ -451,7 +440,7 @@ XMLAntwortdaten in "responseXML" gespeichert.
 geschickt wurden und der MIME-Typ "text/xml" im Header gesetzt wurde,
 ansonsten ist "responseXML" null.
 
-Auswertung Antwortdaten in "responseText"
+## Auswertung Antwortdaten in "responseText"
 
 Handelt es sich bei der erwarteten Antwort nicht um XML, sondern z.B. um
 fertigen HTML-Code, der in die Webseite eingefügt werden soll, können
@@ -462,21 +451,14 @@ Die "responseText"-Daten brauchen dazu nur in die
 geschrieben werden. Das HTML-Element muß dabei über eine eindeutige
 "id" ansprechbar sein:
 
-function handleResponse()
-
-{
-
-if ((xmlhttp.readyState == 4) && (xmlhttp.status == 200))
-
-{
-
-// xmlhttp.responseText object contains the response.
-
-document.getElementById("antwort").innerHTML = xmlhttp.responseText;
-
+```javascript
+function handleResponse() {
+  if ((xmlhttp.readyState == 4) && (xmlhttp.status == 200)) {
+    // xmlhttp.responseText object contains the response.
+    document.getElementById("antwort").innerHTML = xmlhttp.responseText;
+  }
 }
-
-}
+```
 
 In einem ersten Beispiel, wollen wir den Inhalt einer Datei
 "antwort.txt" in das HTML-Element mit der id "antwort" einfügen. Den
@@ -485,141 +467,95 @@ Methode "getXMLHttpRequest()", den Quellcode für die Anfrage an den
 Server in der Funktion "getResponse(url)" und die Auswertung der
 Antwort in der Funktion "handleResponse()". Der Inhalt dieser
 Funktionen wird sich auch im weiteren Verlauf nicht mehr ändern. Den
-vollständigen Quellcode finden Sie im Kasten "Quellcode \'Hallo
-Welt!\'".
+vollständigen Quellcode finden Sie im Kasten "Quellcode 'Hallo Welt!'".
 
-**Bild:** Die erste AJAX-Anwendung: "Hallo Welt!" vor dem Holen der
-Antwort
+<figure>
+<img src="{{site.baseurl}}/assets/posts/docs/javascript/bild_hallo-ajax.jpg" alt="AJAX - Hello World" />
+<figcaption markdown="1">
+**Bild:** Die erste AJAX-Anwendung: "Hallo Welt!" vor dem Holen der Antwort
+</figcaption>
+</figure>
 
-Kasten: Quellcode "Hallo Welt!"
+<div class="box" markdown="1">
+**Quellcode "Hallo Welt!"**
 
-\<html\>
-
-\<head\>
-
-\<title\>www.pixotec.de - Hallo AJAX\</title\>
-
-\<script type="text/javascript"\>
-
+```html
+<html>
+<head>
+<title>www.pixotec.de - Hallo AJAX</title>
+<script type="text/javascript">
 var xmlhttp = null;
 
 function getXMLHttpRequest() {
-
-if (xmlhttp == null) {
-
-try {
-
-if (window.XMLHttpRequest) {
-
-xmlhttp = new XMLHttpRequest();
-
-} else if (window.ActiveXObject) {
-
-for (var i=5; i; i\--) {
-
-try {
-
-if (i == 2) {
-
-xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-
-} else {
-
-xmlhttp = new ActiveXObject("Msxml2.XMLHTTP." + i + ".0");
-
-}
-
-break;
-
-} catch (e) {
-
-xmlhttp = null;
-
-}
-
-}
-
-}
-
-} catch (e) {
-
-xmlhttp = null;
-
-}
-
-}
-
-return xmlhttp;
-
+  if (xmlhttp == null) {
+    try {
+      if (window.XMLHttpRequest) {
+        xmlhttp = new XMLHttpRequest();
+      } else if (window.ActiveXObject) {
+        for (var i=5; i; i--) {
+          try {
+            if (i == 2) {
+              xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            } else {
+              xmlhttp = new ActiveXObject("Msxml2.XMLHTTP." + i + ".0");
+            }
+            break;
+          } catch (e) {
+            xmlhttp = null;
+          }
+        }
+      }
+    } catch (e) {
+      xmlhttp = null;
+    }
+  }
+  return xmlhttp;
 }
 
 function getResponse(url) {
-
-xmlhttpReq = getXMLHttpRequest();
-
-if (xmlhttpReq != null) {
-
-xmlhttpReq.open("GET", url, true);
-
-xmlhttpReq.onreadystatechange = handleResponse;
-
-xmlhttpReq.send(null);
-
-return true;
-
-} else {
-
-alert("AJAX wird von Ihrem Browser nicht unterstützt.");
-
-return false;
-
-}
-
+  xmlhttpReq = getXMLHttpRequest();
+  if (xmlhttpReq != null) {
+    xmlhttpReq.open("GET", url, true);
+    xmlhttpReq.onreadystatechange = handleResponse;
+    xmlhttpReq.send(null);
+    return true;
+  } else {
+    alert("AJAX wird von Ihrem Browser nicht unterstützt.");
+    return false;
+  }
 }
 
 function handleResponse() {
-
-if ((xmlhttp != null) && (xmlhttp.readyState == 4)
-
-&& (xmlhttp.status == 200)) {
-
-document.getElementById("antwort").innerHTML = xmlhttp.responseText;
-
+  if ((xmlhttp != null)
+      && (xmlhttp.readyState == 4)
+      && (xmlhttp.status == 200)) {
+    document.getElementById("antwort").innerHTML = xmlhttp.responseText;
+  }
 }
+</script>
+</head>
 
-}
-
-\</script\>
-
-\</head\>
-
-\<body\>
-
-McHTML: "Hallo AJAX!"\<br\>
-
-McAJAX: \<span id="antwort"\>\</span\>\<br\>
-
-\<br\>
-
-\<input type="button"
-onClick="getResponse(\'/demo/hallo-ajax/antwort.txt\');"
-value="Antwort holen und einfügen" /\>
-
-\</body\>
-
-\</html\>
+<body>
+McHTML: "Hallo AJAX!"<br>
+McAJAX: <span id="antwort"></span><br>
+<br>
+<input type="button" onClick="getResponse('/demo/hallo-ajax/antwort.txt');"
+       value="Antwort holen und einfügen" />
+</body>
+</html>
+```
+</div>
 
 Beim Klick auf den Button "Antwort holen und einfügen", wird der
 Inhalt der Datei "antwort.txt" vom Server geholt und innerhalb des
-HTML-Elements "\<span id="antwort"\>" eingefügt.
+HTML-Elements `<span id="antwort">` eingefügt.
 
-Das Beispiel können Sie live testen unter
-"http://www.pixotec.de/demo/hallo-ajax/".
+Das Beispiel können Sie live testen unter <http://www.pixotec.de/demo/hallo-ajax/>.
 
 Dieses Beispiel dient als Basis für unseren RSS-Newsreader. Der
 Unterschied besteht in der Auswertung der Daten.
 
-XML-Daten für einen einfachen RSS-Newsreader
+## XML-Daten für einen einfachen RSS-Newsreader
 
 Daten im XML-Format bieten mehr Möglichkeiten als unstrukturierte
 Textdaten. Durch standardisierte Zugriffsmethoden des W3C Document
@@ -631,54 +567,40 @@ Im Falle unseres Nachrichten-Lesers, sind dies XML-Daten im
 RSS-Nachrichtenformat. Es handelt sich dabei um den News-Überblick der
 Zeitschrift "PC Magazin", abrufbar unter der URL:
 
-http://www.pc-magazin.de/common/rss/rss.php?r=all
+<https://www.pc-magazin.de/rss/alle.xml> (aktualisiert am 28.02.2022)
 
-**Auswertung statischer Antwortdaten in "responseXML"**
+## Auswertung statischer Antwortdaten in "responseXML"
 
 Für den ersten Prototypen empfiehlt es sich mit einer statischen
 XML-Datei zu arbeiten, die im gleichen Verzeichnis liegt wie die
 HTML-Seite mit dem AJAX-Code für den Newsreader. Wir haben über die oben
-genannte URL von der PC-MAgazin-Webseite eine Liste der aktuellen News
+genannte URL von der PC-Magazin-Webseite eine Liste der aktuellen News
 heruntergeladen und neben "index.html" unter "rss.xml"
 abgespeichert.
 
 Der Inhalt der XML-Datei "rss.xml" ist folgendermaßen strukturiert:
 
-\<?xml version="1.0" encoding="ISO-8859-1"?\>
+```xml
+<?xml version="1.0" encoding="ISO-8859-1"?>
 
-\<rss version="0.92"\>
-
-\<channel\>
-
-\<title\>Aktuelle www.pc-magazin.de-News\</title\>
-
-\...
-
-\<lastBuildDate\>Sat, 08 Apr 2006 20:27:15 GMT\</lastBuildData\>
-
-\...
-
-\<item\>
-
-\<title\>MIT-Forscher bauen Akkus aus Viren\</title\>
-
-\...
-
-\<link\>http://www.pc-magazin.de/common/nws/einemeldung.php?id=44580\</link\>
-
-\</item\>
-
-\<item\>
-
-\...
-
-\</item\>
-
-\...
-
-\</channel\>
-
-\</rss\>
+<rss version="0.92">
+  <channel>
+    <title>Aktuelle www.pc-magazin.de-News</title>
+    ...
+    <lastBuildDate>Sat, 08 Apr 2006 20:27:15 GMT</lastBuildData>
+    ...
+    <item>
+      <title>MIT-Forscher bauen Akkus aus Viren</title>
+      ...
+      <link>http://www.pc-magazin.de/common/nws/einemeldung.php?id=44580</link>
+    </item>
+    <item>
+      ...
+    </item>
+    ...
+  </channel>
+</rss>
+```
 
 Das gesamte XML-Dokument enthält noch einige andere
 Informationselemente, die wir jedoch in unserem einfachen Newsreader
@@ -692,147 +614,97 @@ Es ändern sich folgende Abschnitte:
 -   Der Titel des Dokuments
 -   Die Abfragemaske (body-Abschnitt) und der darin enthaltene
     "getResponse(url)"-Aufruf.
-
-```{=html}
-<!-- -->
-```
 -   Die Auswertungsfunktion "handleResponse()", die nun nicht mehr
     Text-Inhalte aus "responseText", sondern XML-Daten aus
     "responseXML" auswerten soll.
 
 Der neue Quellcode ist im Kasten "Quellcode statischer Newsreader"
 aufgelistet. Abschnitte, die sich nicht geändert haben, sind mit
-"\..." gekürzt.
+"..." gekürzt.
 
-Kasten: Quellcode statischer Newsreader
+<div class="box" markdown="1">
+**Quellcode statischer Newsreader**
 
-\<html\>
+```html
+<html>
+<head>
+<title>www.pixotec.de - pixoFeed (statisch)</title>
+<script type="text/javascript">
+...
+function getXMLHttpRequest() { ... }
 
-\<head\>
-
-\<title\>www.pixotec.de - pixoFeed (statisch)\</title\>
-
-\<script type="text/javascript"\>
-
-\...
-
-function getXMLHttpRequest() { \... }
-
-function getResponse(url) { \... }
+function getResponse(url) { ... }
 
 function handleResponse() {
+  if ((xmlhttp != null)
+      && (xmlhttp.readyState == 4)
+      && (xmlhttp.status == 200)) {
+    var newsliste = document.getElementById("newsliste");
+    newsliste.innerHTML = ""; // vorherige Liste löschen
 
-if ((xmlhttp != null) && (xmlhttp.readyState == 4)
+    // Titel des News-Channel
+    var channel =
+    xmlhttp.responseXML.getElementsByTagName("channel")\[0\];
 
-&& (xmlhttp.status == 200)) {
+    var titleNewsChannel = channel.getElementsByTagName("title");
+    var channelTitle = document.createTextNode(titleNewsChannel\[0\].firstChild.nodeValue);
+    newsliste.appendChild(channelTitle);
 
-var newsliste = document.getElementById("newsliste");
+    var date = channel.getElementsByTagName("lastBuildDate");
+    var dateText = document.createTextNode(" (" + date\[0\].firstChild.nodeValue + ")");
+    newsliste.appendChild(dateText);
 
-newsliste.innerHTML = ""; // vorherige Liste löschen
+    // Liste aller Schlagzeilen
+    var ul = document.createElement("ul");
+    newsliste.appendChild(ul);
 
-// Titel des News-Channel
+    var items = channel.getElementsByTagName("item");
+    for (var i=0; i<items.length; i++) {
+      var item = items\[i\];
+      var li = document.createElement("li");
+      var itemTitle = item.getElementsByTagName("title")\[0\].firstChild.nodeValue;
+      var itemLink = item.getElementsByTagName("link")\[0\].firstChild.nodeValue;
+      var a = document.createElement("a");
 
-var channel =
-xmlhttp.responseXML.getElementsByTagName("channel")\[0\];
+      var href = document.createAttribute("href");
+      href.nodeValue = itemLink;
+      a.setAttributeNode(href);
+      
+      var target = document.createAttribute("target");
+      target.nodeValue = "_blank";
+      a.setAttributeNode(target);
 
-var titleNewsChannel = channel.getElementsByTagName("title");
-
-var channelTitle =
-document.createTextNode(titleNewsChannel\[0\].firstChild.nodeValue);
-
-newsliste.appendChild(channelTitle);
-
-var date = channel.getElementsByTagName("lastBuildDate");
-
-var dateText = document.createTextNode(" (" +
-date\[0\].firstChild.nodeValue + ")");
-
-newsliste.appendChild(dateText);
-
-// Liste aller Schlagzeilen
-
-var ul = document.createElement("ul");
-
-newsliste.appendChild(ul);
-
-var items = channel.getElementsByTagName("item");
-
-for (var i=0; i\<items.length; i++) {
-
-var item = items\[i\];
-
-var li = document.createElement("li");
-
-var itemTitle =
-item.getElementsByTagName("title")\[0\].firstChild.nodeValue;
-
-var itemLink =
-item.getElementsByTagName("link")\[0\].firstChild.nodeValue;
-
-var a = document.createElement("a");
-
-var href = document.createAttribute("href");
-
-href.nodeValue = itemLink;
-
-a.setAttributeNode(href);
-
-var target = document.createAttribute("target");
-
-target.nodeValue = "\_blank";
-
-a.setAttributeNode(target);
-
-a.appendChild(document.createTextNode(itemTitle));
-
-li.appendChild(a);
-
-ul.appendChild(li);
-
+      a.appendChild(document.createTextNode(itemTitle));
+      li.appendChild(a);
+      ul.appendChild(li);
+    }
+  }
 }
+</script>
+</head>
+<body bgcolor="#FFFFFF">
 
-}
-
-}
-
-\</script\>
-
-\</head\>
-
-\<body bgcolor="\#FFFFFF"\>
-
-\<div align="center"\>
-
-\<table border="2" bgcolor="\#AAAAAA"\>
-
-\<tr\>
-
-\<th\>pixoFeed - Newreader\</th\>
-
-\</tr\>
-
-\<tr\>
-
-\<td align="center"\>\<input type="button"
-onClick="getResponse(\'rss.xml\');" value="News holen" /\>\</td\>
-
-\</tr\>
-
-\<tr\>
-
-\<td bgcolor="\#FFFFFF"\>
-
-\<span id="newsliste"\>\</span\>
-
-\</td\>
-
-\</tr\>
-
-\</table\>
-
-\</body\>
-
-\</html\>
+  <div align="center">
+    <table border="2" bgcolor="\#AAAAAA">
+      <tr>
+        <th>pixoFeed - Newreader</th>
+      </tr>
+      <tr>
+        <td align="center">
+          <input type="button" onClick="getResponse('rss.xml');" value="News holen" />
+        </td>
+      </tr>
+      <tr>
+        <td bgcolor="#FFFFFF">
+          <span id="newsliste"></span>
+        </td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>
+```
+</div>
 
 Die Antwort wird nun aus der Datei "rss.xml" geholt, die Daten aus dem
 DOM-Modell der Antwort ausgelesen, HTML erzeugt und das erzeugte HTML in
@@ -841,41 +713,41 @@ das HTML-Element "\<span id="newsliste"\>" eingefügt.
 Die Nachrichten-Schlagzeilen lassen sich nun anklicken und der Volltext
 wird in einem neuen Fenster geöffnet.
 
+<figure>
+<img src="{{site.baseurl}}/assets/posts/docs/javascript/bild_pixoFeed.jpg" alt="AJAX-Newsreader" />
+<figcaption markdown="1">
 **Bild:** Der fertige AJAX-Newsreader nach dem Holen der Daten
+</figcaption>
+</figure>
 
 Zur Auswertung der DOM-Daten wird dabei auf folgende Funktionen
 zurückgegriffen:
 
--   .getElementById("id"):\
-    gibt das DOM-Element mit der angegebenen eindeutigen id zurück
-
-```{=html}
-<!-- -->
-```
--   .getElementsByTagName("tagname"):\
-    gibt alle DOM-Elemente mit dem angegebenen Tag-Namen als Array
-    zurück
--   .firstChild:\
-    gibt das erste Kindelement eines DOM-Elements zurück (z.B. den darin
-    enthaltenen Text-Knoten)
--   .nodeValue:\
-    gibt den enthaltenen Wert eines Knotens zurück (z.B. den Text)
--   .appendChild(element):\
-    fügt ein Node-Element als Kindknoten ein (um z.B. verschachtelte
-    HTML-Strukturen zu erzeugen)
--   .setAttributeNode(attribut):\
-    fügt einem Node-Element ein Attribut hinzu\
--   document.createTextNode("value"):\
-    erzeugt einen neuen Text-Knoten mit dem Text-Inhalt "value"
--   document.createElement("elementname"):\
-    erzeugt ein neues DOM-Element mit dem Tag-Namen "elementname"
--   document.createAttribute("attributename"):\
-    erzeugt ein neues Element-Attribut mit dem Namen "attributname"
+- .getElementById("id"):\
+  gibt das DOM-Element mit der angegebenen eindeutigen id zurück
+- .getElementsByTagName("tagname"):\
+  gibt alle DOM-Elemente mit dem angegebenen Tag-Namen als Array zurück
+- .firstChild:\
+  gibt das erste Kindelement eines DOM-Elements zurück (z.B. den darin
+  enthaltenen Text-Knoten)
+- .nodeValue:\
+  gibt den enthaltenen Wert eines Knotens zurück (z.B. den Text)
+- .appendChild(element):\
+  fügt ein Node-Element als Kindknoten ein (um z.B. verschachtelte
+  HTML-Strukturen zu erzeugen)
+- .setAttributeNode(attribut):\
+  fügt einem Node-Element ein Attribut hinzu\
+- document.createTextNode("value"):\
+  erzeugt einen neuen Text-Knoten mit dem Text-Inhalt "value"
+- document.createElement("elementname"):\
+  erzeugt ein neues DOM-Element mit dem Tag-Namen "elementname"
+- document.createAttribute("attributename"):\
+  erzeugt ein neues Element-Attribut mit dem Namen "attributname"
 
 Eine detailliertere Beschreibung der Javascript/DOM-Funktionen sind
-unter \[3\] zu finden.
+unter [^3] zu finden.
 
-Auswertung dynamischer Antwortdaten in "responseXML"
+## Auswertung dynamischer Antwortdaten in "responseXML"
 
 Der arbeitsintensivste Teil (Auswertung der XML-Daten) ist nun fertig.
 Auf die Dauer werden die immer selben Nachrichten natürlich langweilig.
@@ -886,7 +758,7 @@ Daten über den eigenen Server zu holen, könnte man evtl. auf PHP, CGI,
 Servlet oder eine andere serverseitige Technik zurückgreifen. In unserem
 Anwendungsfall ist dies jedoch weit einfacher möglich.
 
-Der Apache als Proxy
+## Der Apache als Proxy
 
 Der Apache-Webserver bietet die Möglichkeit, als Proxy zu fungieren.
 Anfragen an eine URL auf einem anderen Server können somit über den
@@ -895,38 +767,38 @@ Antwortdaten direkt vom eigenen Apache-Server zu kommen. Es kommt zu
 keinem Sicherheitskonflikt mehr.
 
 Um den Apache für die Umleitung zu konfigurieren, sind folgende Einträge
-in der Konfigurationsdatei "httpd.conf" nötig:
+in der Konfigurationsdatei `httpd.conf` nötig:
 
-LoadModule proxy\_modulemodules/mod\_proxy.so
+```
+LoadModule proxy_module modules/mod_proxy.so
 
-\<IfModule mod\_proxy.c\>
+<IfModule mod_proxy.c>
+  ProxyPass /pcmagazin/ http://www.pc-magazin.de/
+</IfModule>
+```
 
-ProxyPass /pcmagazin/ http://www.pc-magazin.de/
-
-\</IfModule\>
-
-Das Modul "mod\_proxy" leitet somit alle Anfragen an "/pcmagazin/"
+Das Modul `mod_proxy` leitet somit alle Anfragen an "/pcmagazin/"
 an den Server "http://www.pc-magazin.de/" weiter.
 
 Die URL zum Holen der dynamisch erzeugten RSS-Datei lautet somit:
 
-/pcmagazin/common/rss/rss.php?r=all
+`/pcmagazin/rss/alle.xml`
 
 Der Quellcode unseres dynamischen Newsreaders ist somit vollständig. Der
 Quellcode des statischen Newsreaders muß für die dynamische Variante nur
 minimal geändert werden. Es ändert sich (außer dem Titel des Dokuments)
 nur die Anfrage-URL:
 
-\<input type="button"
-
-onClick="getResponse(\'/pcmagazin/common/rss/rss.php?r=all\');"
-
-value="News holen" /\>
+```html
+<input type="button"
+       onClick="getResponse('/pcmagazin/rss/alle.xml');"
+       value="News holen" />
+```
 
 Die fertige Anwendung können Sie live testen unter
 "http://www.pixotec.de/demo/pixoFeed/".
 
-Frameworks
+# Frameworks
 
 Schon in unseren einfachen Beispielen wird deutlich, daß sich einige
 Funktionen nicht ändern und daher in ein eigenes "Framework" (im Sinne
@@ -936,18 +808,18 @@ umfangreiche OpenSource-Frameworks verfügbar.
 
 Dazu gehören u.a.:
 
--   Rico (JavaScript for Rich Internet Applications):\
-    http://openrico.org
--   Prototype (JavaScript Framework):\
-    http://prototype.conio.net
--   script.aculo.us (Erweiterung von Prototype):\
-    http://script.aculo.us
--   Dojo (the browser toolkit):\
-    http://dojotoolkit.org
--   Sajax (Simple AJAX Toolkit):\
-    http://www.modernmethod.com/sajax
+- Rico (JavaScript for Rich Internet Applications):\
+  <http://openrico.org>
+- Prototype (JavaScript Framework):\
+  <http://prototype.conio.net>
+- script.aculo.us (Erweiterung von Prototype):\
+  <http://script.aculo.us>
+- Dojo (the browser toolkit):\
+  <http://dojotoolkit.org>
+- Sajax (Simple AJAX Toolkit):\
+  <http://www.modernmethod.com/sajax>
 
-Fazit
+# Fazit
 
 Durch die Verwendung von AJAX werden Webanwendungen kleiner, schneller
 und benutzerfreundlicher. Da es sich um eine rein browserseitige
@@ -971,21 +843,23 @@ Komplexe AJAX-Anwendung sind bereits im Einsatz und lassen viele auf
 eine zweiten Internet-Hype unter dem Titel "Web 2.0" hoffen. Verpassen
 Sie nicht den Anschluß!
 
-Kasten: Einige AJAX-Anwendungen
+<div class="box" markdown="1">
+**Einige AJAX-Anwendungen**
 
--   Google Gmail (http://gmail.google.com)
--   Web-Groupware "Zimbra": Mail-Client ähnlich Outlook
-    (http://ww.zimbra.com)
--   Online-Textverarbeitung "Writely" (http://www.writely.com)
--   Online-Tabellenkalkulation "NumSum" (http://www.numsum.com)
--   Online-Desktop "Windows Live" (http://www.live.com)
--   Online-Desktop "Netvibes" (http://www.netvibes.com)
--   Online Desktop "Protopage" (http://www.protopage.com)
--   Aufgaben und Terminverwaltung "Backpack"
-    (http://www.backpackit.com)
--   Social Bookmarking "del.icio.us" (http://del.icio.us)
+- Google Gmail (<http://gmail.google.com>)
+- Web-Groupware "Zimbra": Mail-Client ähnlich Outlook
+  (<http://ww.zimbra.com>)
+- Online-Textverarbeitung "Writely" (<http://www.writely.com>)
+- Online-Tabellenkalkulation "NumSum" (<http://www.numsum.com>)
+- Online-Desktop "Windows Live" (<http://www.live.com>)
+- Online-Desktop "Netvibes" (<http://www.netvibes.com>)
+- Online Desktop "Protopage" (<http://www.protopage.com>)
+- Aufgaben und Terminverwaltung "Backpack"
+  (<http://www.backpackit.com>)
+- Social Bookmarking "del.icio.us" (<http://del.icio.us>)
+</div>
 
-Quellen
+# Quellen
 
 [^1]: AJAX - Asynchronous Javascript and XML, ajax.get-the-code.de
 

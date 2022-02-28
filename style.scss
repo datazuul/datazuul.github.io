@@ -122,6 +122,7 @@ img {
 
 figure > img {
   display: block;
+  isolation: unset;
 }
 
 figcaption {
@@ -628,3 +629,50 @@ footer {
 @import "search";
 @import "video";
 @import "mermaid";
+
+main {
+  margin-top: 20px;
+}
+.left {
+  float: left;
+}
+.right {
+  float: right;
+}
+
+aside {
+  border-left: dotted 1px #ccc;
+  padding: 2px 10px;
+}
+aside ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+div.breadcrumbs {
+  margin-top: 5px;
+  font-size: 0.8em;
+}
+div.box {
+  border: solid 1px #aaa;
+  background-color: #eee;
+  padding: 10px;
+}
+
+td p {
+  margin-bottom: initial;
+}
+
+figure {
+  width: 100%;
+}
+figure > img {
+  border: solid 1px #aaa;
+  margin: auto;
+}
+figure > figcaption {
+  margin-top: 5px;
+}
+.resp-sharing-button {
+    border-radius: 50%;
+}

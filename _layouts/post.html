@@ -3,6 +3,9 @@ layout: default
 ---
 
 <article class="post">
+  <div class="breadcrumbs">
+  {% include breadcrumbs.html path=page.path title=page.title %}
+  </div>
   <small>
   <span class="date">
     <i class="fa fa-calendar fa-fw" aria-hidden="true"></i>&nbsp;Date:<span style="color: #333333; font-weight: normal;">&nbsp;{{ page.date | date: "%B %e, %Y" }}</span>

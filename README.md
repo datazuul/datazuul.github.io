@@ -302,3 +302,8 @@ layout: post
 title: "Welcome to Jekyll!"
 toc: true
 ---
+
+## Hierarchy
+
+https://simpleit.rocks/ruby/jekyll/tutorials/how-to-create-breadcrumbs-with-hierarchical-categories-in-jekyll/
+
