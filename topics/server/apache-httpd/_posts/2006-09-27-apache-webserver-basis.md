@@ -154,7 +154,8 @@ Aktiviert ist diese Konfigurationsdatei, da im Verzeichnis „/etc/apache2/sites
 root@lenovo:/etc/apache2/sites-enabled# ls -al
 drwxr-xr-x 2 root root 4096 2006-10-30 15:33 .
 drwxr-xr-x 8 root root 4096 2007-01-26 21:00 ..
-lrwxrwxrwx 1 root root   36 2006-10-30 15:33 000-default -> /etc/apache2/sites-available/default
+lrwxrwxrwx 1 root root   36 2006-10-30 15:33 000-default -> \
+  /etc/apache2/sites-available/default
 ```
 
 Dieser „Default“-Host ist unter „[http://localhost/](http://localhost/)“ erreichbar und zeigt den Inhalt des Verzeichnisses „/var/www“ (der DocumentRoot) an.
@@ -218,7 +219,9 @@ Datei „/etc/apache2/sites-available/envi-con-2006.localhost.conf“:
 Um den virtuellen Host zu aktivieren, genügt es im Verzeichnis „/etc/apache2/sites-enabled“ einen symbolischen Link auf die Datei einzurichten:
 
 ```sh
-root@lenovo:/etc/apache2/sites-enabled# ln -s /etc/apache2/sites-available/envi-con-2006.localhost.conf 001-envi-con-2006.localhost
+root@lenovo:/etc/apache2/sites-enabled# \
+  ln -s /etc/apache2/sites-available/envi-con-2006.localhost.conf \
+    001-envi-con-2006.localhost
 ```
 
 Damit dieser virtualle Host tatsächlich unter „[http://envicon-2006/](http://envi-con-2006.localhost/)“ erreichbar ist, muß der Hostname „envicon-2006“ auflösbar sein. Damit dies lokal geschieht genügt eine Änderung in der Datei „/etc/hosts“:
@@ -246,7 +249,8 @@ Speicherort: /usr/lib/apache2/modules/mod_include.so
 ### Aktivierung
 
 ```sh
-# ln -s /etc/apache2/mods-available/include.load /etc/apache2/mods-enabled/include.load
+# ln -s /etc/apache2/mods-available/include.load \
+  /etc/apache2/mods-enabled/include.load
 ```
 
 ### Konfiguration
@@ -256,7 +260,8 @@ Apache erkennt SSI-Dateien, wenn sie die Endung *.shtml besitzen. Damit „index
 ```sh
 # vi /etc/apache2/apache2.conf
 ...
-DirectoryIndex index.html index.cgi index.pl index.php index.xhtml index.shtml
+DirectoryIndex index.html index.cgi index.pl \
+  index.php index.xhtml index.shtml
 ...
 ```
 

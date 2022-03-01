@@ -678,7 +678,7 @@ figure > figcaption {
 }
 
 @media print {
-  .share-post, .related-posts, .post-nav, .wrapper-footer, .darkmode-toggle {
+  .share-post, .related-posts, .post-nav, .wrapper-footer, .darkmode-toggle, .darkmode-layer, .darkmode-background {
     display: none !important;
   }
 }

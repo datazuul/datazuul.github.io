@@ -644,14 +644,16 @@ function handleResponse() {
 
     // Titel des News-Channel
     var channel =
-    xmlhttp.responseXML.getElementsByTagName("channel")\[0\];
+    xmlhttp.responseXML.getElementsByTagName("channel")[0];
 
     var titleNewsChannel = channel.getElementsByTagName("title");
-    var channelTitle = document.createTextNode(titleNewsChannel\[0\].firstChild.nodeValue);
+    var channelTitle = document.createTextNode(titleNewsChannel[0]\
+            .firstChild.nodeValue);
     newsliste.appendChild(channelTitle);
 
     var date = channel.getElementsByTagName("lastBuildDate");
-    var dateText = document.createTextNode(" (" + date\[0\].firstChild.nodeValue + ")");
+    var dateText = document.createTextNode(" (" + date[0]\
+            .firstChild.nodeValue + ")");
     newsliste.appendChild(dateText);
 
     // Liste aller Schlagzeilen
@@ -660,10 +662,12 @@ function handleResponse() {
 
     var items = channel.getElementsByTagName("item");
     for (var i=0; i<items.length; i++) {
-      var item = items\[i\];
+      var item = items[i];
       var li = document.createElement("li");
-      var itemTitle = item.getElementsByTagName("title")\[0\].firstChild.nodeValue;
-      var itemLink = item.getElementsByTagName("link")\[0\].firstChild.nodeValue;
+      var itemTitle = item.getElementsByTagName("title")[0]\
+              .firstChild.nodeValue;
+      var itemLink = item.getElementsByTagName("link")[0]\
+              .firstChild.nodeValue;
       var a = document.createElement("a");
 
       var href = document.createAttribute("href");
@@ -685,13 +689,14 @@ function handleResponse() {
 <body bgcolor="#FFFFFF">
 
   <div align="center">
-    <table border="2" bgcolor="\#AAAAAA">
+    <table border="2" bgcolor="#AAAAAA">
       <tr>
         <th>pixoFeed - Newreader</th>
       </tr>
       <tr>
         <td align="center">
-          <input type="button" onClick="getResponse('rss.xml');" value="News holen" />
+          <input type="button" onClick="getResponse('rss.xml');"\
+                 value="News holen" />
         </td>
       </tr>
       <tr>
