@@ -676,3 +676,9 @@ figure > figcaption {
 .resp-sharing-button {
     border-radius: 50%;
 }
+
+@media print {
+  .share-post, .related-posts, .post-nav, .wrapper-footer, .darkmode-toggle {
+    display: none !important;
+  }
+}
