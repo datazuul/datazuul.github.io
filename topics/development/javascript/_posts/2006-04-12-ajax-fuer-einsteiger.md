@@ -470,7 +470,7 @@ Funktionen wird sich auch im weiteren Verlauf nicht mehr ändern. Den
 vollständigen Quellcode finden Sie im Kasten "Quellcode 'Hallo Welt!'".
 
 <figure>
-<img src="{{site.baseurl}}/assets/topics/javascript/bild_hallo-ajax.jpg" alt="AJAX - Hello World" />
+<img src="{{site.baseurl}}/assets/topics/development/javascript/bild_hallo-ajax.jpg" alt="AJAX - Hello World" />
 <figcaption markdown="1">
 **Bild:** Die erste AJAX-Anwendung: "Hallo Welt!" vor dem Holen der Antwort
 </figcaption>
@@ -719,7 +719,7 @@ Die Nachrichten-Schlagzeilen lassen sich nun anklicken und der Volltext
 wird in einem neuen Fenster geöffnet.
 
 <figure>
-<img src="{{site.baseurl}}/assets/topics/javascript/bild_pixoFeed.jpg" alt="AJAX-Newsreader" />
+<img src="{{site.baseurl}}/assets/topics/development/javascript/bild_pixoFeed.jpg" alt="AJAX-Newsreader" />
 <figcaption markdown="1">
 **Bild:** Der fertige AJAX-Newsreader nach dem Holen der Daten
 </figcaption>
