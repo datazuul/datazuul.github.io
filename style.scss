@@ -682,3 +682,8 @@ figure > figcaption {
     display: none !important;
   }
 }
+
+dl dt, dl dd {
+  margin: revert;
+  padding: revert;
+}
