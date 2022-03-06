@@ -278,6 +278,7 @@ In such a case feel free to [start a discussion](https://github.com/forever-jeky
 ## Local testing
 
 ```
+$ source ~/.bashrc
 $ bundle install
 $ bundle exec jekyll serve
 ```

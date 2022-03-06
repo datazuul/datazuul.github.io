@@ -35,6 +35,9 @@ navigation_links:
 
   - title: Topics
     url: /topics
+    
+  - title: Projects
+    url: /projects
 
   - title: About
     url: /about
