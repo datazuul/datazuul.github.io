@@ -50,3 +50,13 @@ $ bundle exec jekyll serve
 ```
 
 Open browser at <http://127.0.0.1:4000>
+
+## Editing Posts
+
+### Link to another internal post
+
+Use full path with date being converted to directories:
+
+```sh
+[conversion tools](/topics/linux/2011/09/30/linux-file-conversion)
+```
