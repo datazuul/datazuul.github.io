@@ -250,44 +250,6 @@ To git@bsbrepo.bsb.lrz.de:/examples/springmvc-thymeleaf-javaconfig.git
 $
 ```
 
-### GitHub
-
-#### Authentication
-
-For authentication you have to generate a public private key pair.
-
-see <https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent>
-
-```sh
-$ ssh-keygen -t ed25519 -C "ralf.eichinger@gmail.com"
-Generating public/private ed25519 key pair.
-Enter file in which to save the key (/home/ralf/.ssh/id_ed25519):
-Enter passphrase (empty for no passphrase): 
-Enter same passphrase again:
-...
-$ eval "$(ssh-agent -s)"
-Agent pid 9573
-$ ssh-add ~/.ssh/id_ed25519
-Identity added: /home/ralf/.ssh/id_ed25519 (ralf.eichinger@gmail.com)
-$ cat ~/.ssh/id_ed25519.pub
-ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJQFMZLZ1aroMIWoic8oK06iace9wXX7tWZE5GvO41Oh ralf.eichinger@gmail.com
-```
-
-Then login to GitHub.com and add the public key to known keys in your profile settings.
-
-After doing this you can push your first changes (do this on command line, no in netbeans):
-
-```sh
-$ echo "# com.datazuul.apps--datazuul-textview" >> README.md
-$ git init
-$ git add README.md
-$ git commit -m "first commit"
-$ git remote add origin git@github.com:datazuul/com.datazuul.apps--datazuul-textview.git
-$ git push -u origin master
-```
-
-After first command line usage you can further use git client in netbeans.
-
 ## Adding repository description
 
 ```sh
