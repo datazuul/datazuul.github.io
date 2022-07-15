@@ -46,11 +46,11 @@ Additionally we can use the MIR-Java-Libraries itself:
 ### REST API experiments
 
 Following the advice to use the new (v2) REST API, we start experimenting with this API.
-Documentation of API can be found under <http://localhost:8081/mir/api/v1/objects?format=json>.
-
+Documentation of v2 API can be found under <https://www.mycore.de/documentation/interfaces/interface_rest_v2/>.
 The base URL of our local development API is <http://localhost:8081/mir/api/v2>
 
 Some features (search) are only available in REST v1, so we switch in these cases to v1.
+Documentation of v1 API can be found under <https://www.mycore.de/documentation/interfaces/interface_rest/>.
 
 #### Getting list of all objects
 
