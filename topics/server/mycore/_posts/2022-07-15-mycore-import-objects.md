@@ -24,7 +24,7 @@ Now you are requested to fill out the metadata informations for the object:
 
 After filling (at least the required) fields, save it with button "Save".
 
-Ob the next page you can upload files for the object.
+On the next page you can upload files for the object.
 In our case we had a PDF file at hand that we uploaded.
 
 After this the object is stored in state "submitted". This means you can search and see the document
