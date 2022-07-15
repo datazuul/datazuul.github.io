@@ -794,10 +794,3 @@ drwxr-xr-x  2 ralf ralf 16384 24. Mai 16:57 lib
 -rw-r-----  1 ralf ralf 35147 24. Mai 16:37 LICENSE.txt
 ```
 
-# Usage
-
-## Import Objects
-
-See <https://www.mycore.de/documentation/cli/cli_overview/> and <https://www.mycore.de/documentation/basics/mcrobject/mcrobj_commands/#mcrobject_commands>.
-
-TODO
