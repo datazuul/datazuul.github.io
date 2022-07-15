@@ -1,6 +1,6 @@
 ---
 layout: post
-title: MyCoRe - Importing and Publishing Objects
+title: MyCoRe - Part 2 - Importing and Publishing Objects
 author: Ralf Eichinger
 toc: true
 ---

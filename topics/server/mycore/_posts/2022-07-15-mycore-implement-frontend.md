@@ -1,6 +1,6 @@
 ---
 layout: post
-title: MyCoRe - Implement a individual frontend
+title: MyCoRe - Part 3 - Implement a individual frontend
 author: Ralf Eichinger
 toc: true
 ---

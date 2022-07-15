@@ -1,6 +1,6 @@
 ---
 layout: post
-title: MyCoRe - Installation, Configuration and Usage (on localhost)
+title: MyCoRe - Part 1 - Installation, Configuration and Usage (on localhost)
 author: Ralf Eichinger
 toc: true
 ---
