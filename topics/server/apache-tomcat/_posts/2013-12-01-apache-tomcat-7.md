@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Apache Tomcat - Installation, Configuration and Usage (on localhost)
+title: Apache Tomcat 7 - Installation, Configuration and Usage (on localhost)
 author: Ralf Eichinger
 toc: true
 ---

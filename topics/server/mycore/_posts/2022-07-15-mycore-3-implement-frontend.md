@@ -472,6 +472,14 @@ Browse: <http://localhost:8081/mir/api/v1/search?q=*:*> to get all objects
 </response>
 ```
 
+#### Viewing a digital derivate of an object
+
+MyCoRe offers an viewer for different derivate formats.
+We will try to add this to our frontend, too.
+
+Homepage: <https://github.com/MyCoRe-Org/mycore/tree/2021.06.x/mycore-viewer>
+
+
 ## Prototype implementation of frontend
 
 The first experiments with the API have shown that there seem to be enough data accessible for a simple frontend webapp.
