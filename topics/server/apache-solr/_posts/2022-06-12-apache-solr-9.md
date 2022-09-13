@@ -12,11 +12,24 @@ toc: true
 * Version 9.0.0
 * File: solr-9.0.0.tgz (214 MB)
 
+# Prerequisites
+
+See <https://solr.apache.org/guide/solr/latest/deployment-guide/system-requirements.html>.
+
+Make sure Java version 11 or higher is installed:
+
+```
+$ java -version
+openjdk version "11.0.16" 2022-07-19
+OpenJDK Runtime Environment (build 11.0.16+8-post-Debian-1deb11u1)
+OpenJDK 64-Bit Server VM (build 11.0.16+8-post-Debian-1deb11u1, mixed mode, sharing)
+```
+
 # Installation
 
 Installation is described in <https://solr.apache.org/guide/solr/latest/deployment-guide/installing-solr.html>:
 
-* Download binary package <https://www.apache.org/dyn/closer.lua/solr/solr/9.0.0/solr-9.0.0.tgz?action=download>
+* Download binary package from <https://solr.apache.org/downloads.html>, e.g. <https://www.apache.org/dyn/closer.lua/solr/solr/9.0.0/solr-9.0.0.tgz?action=download>
 * Unpack it in target directory:
 
 ```
@@ -40,10 +53,12 @@ drwxr-xr-x  5 root root    4096  5. Mai 01:00 prometheus-exporter
 drwxr-xr-x 10 root root    4096  5. Mai 01:00 server
 ```
 
-Create an user for Solr and change file owner:
+The directory `/opt/solr-9.0.0` often is referred to as `$SOLR_INSTALL`.
+
+Create an user for Solr (with home directory `/home/solr` and login shell `bash`) and change file owner:
 
 ```
-$ sudo useradd -m solr
+$ sudo useradd -m solr -s /bin/bash
 $ ls -al /home/solr/
 insgesamt 20
 drwxr-xr-x 2 solr solr 4096 15. Jun 14:22 .
@@ -92,6 +107,10 @@ Browse <http://localhost:8983/solr/>
 Stop Solr (with user `solr`):
 
 ```
-$ sudo -u solr /opt/solr-9.0.0/bin/solr stop
+$ sudo -u solr /opt/solr-9.0.0/bin/solr stop -all
 Sending stop command to Solr running on port 8983 ... waiting up to 180 seconds to allow Jetty process 17197 to stop gracefully.
 ```
+
+# Further reading
+
+After successful installation you should continue with our tutorial on indexing and searching example data ["Apache Solr 9 - Tutorial 1 - Index and search 'techproducts' example data"]({% post_url topics/server/apache-solr/2022-09-13-apache-solr-9-tutorial1-techproducts %}). Happy searching!

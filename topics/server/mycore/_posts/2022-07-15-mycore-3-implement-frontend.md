@@ -7,8 +7,8 @@ toc: true
 
 In my previous posts
 
-* ["MyCoRe - Part 1 - Installation, Configuration and Usage (on localhost)"]({% post_url 2022-06-13-mycore-1-installation %}) 
-* ["MyCoRe - Part 2 - Importing and Publishing Objects"]({% post_url 2022-07-15-mycore-2-import-objects %})
+* ["MyCoRe - Part 1 - Installation, Configuration and Usage (on localhost)"]({% post_url topics/server/mycore/2022-06-13-mycore-1-installation %}) 
+* ["MyCoRe - Part 2 - Importing and Publishing Objects"]({% post_url topics/server/mycore/2022-07-15-mycore-2-import-objects %})
 
 I described how to install, configure and stop/start MyCoRe Digital Content Repository + MIR Webapp on top of it
 and how to import objects into the system.

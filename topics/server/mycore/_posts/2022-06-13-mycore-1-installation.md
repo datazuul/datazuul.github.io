@@ -169,7 +169,7 @@ $ sudo -u tomcat /opt/apache-tomcat-9.0.64/bin/catalina.sh stop
 
 ## Apache Solr
 
-Install Apache Solr 9.0.0 according to ["Apache Solr 9 - Installation, Configuration and Usage (on localhost)"]({% post_url 2022-06-12-apache-solr-9 %})
+Install Apache Solr 9.0.0 according to ["Apache Solr 9 - Installation, Configuration and Usage (on localhost)"]({% post_url topics/server/apache-solr/2022-06-12-apache-solr-9 %})
 
 See <https://www.mycore.de/documentation/getting_started/gs_solr8/>.
 

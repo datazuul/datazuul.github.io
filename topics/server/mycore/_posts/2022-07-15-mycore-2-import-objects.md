@@ -5,7 +5,7 @@ author: Ralf Eichinger
 toc: true
 ---
 
-In my previous Post ["MyCoRe - Part 1 - Installation, Configuration and Usage (on localhost)"]({% post_url 2022-06-13-mycore-1-installation %}) I described how to install,
+In my previous Post ["MyCoRe - Part 1 - Installation, Configuration and Usage (on localhost)"]({% post_url topics/server/mycore/2022-06-13-mycore-1-installation %}) I described how to install,
 configure and stop/start MyCoRe Digital Content Repository + MIR Webapp on top of it.
 We ended up with a running webapp with no digital objects.
 
