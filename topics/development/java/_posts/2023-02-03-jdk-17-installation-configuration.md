@@ -12,232 +12,69 @@ Before you can start to develop Java applications or webapps you have to install
 
 On most systems Java is preinstalled, but only the Runtime Environment (JRE). The Runtime Environment lacks developer tools like the Java compiler "javac".
 
-To see if and which Java environment is installed, execute "java -version" on the command line. Example (Linux Mint):
+To see if and which Java Runtime Environment (JRE) is installed, execute "java -version" on the command line. Example (Ubuntu 22.10 Linux):
 
 ```sh
-# java -version
-java version "1.7.0_25"
-OpenJDK Runtime Environment (IcedTea 2.3.10) (7u25-2.3.10-1ubuntu0.13.04.2)
-OpenJDK Server VM (build 23.7-b01, mixed mode)
+$ java -version
+Der Befehl 'java' wurde nicht gefunden, kann aber installiert werden mit:
+sudo apt install openjdk-11-jre-headless  # version 11.0.17+8-1ubuntu2~22.04, or
+sudo apt install default-jre              # version 2:1.11-72build2
+sudo apt install openjdk-17-jre-headless  # version 17.0.5+8-2ubuntu1~22.04
+sudo apt install openjdk-18-jre-headless  # version 18.0.2+9-2~22.04
+sudo apt install openjdk-19-jre-headless  # version 19.0.1+10-1ubuntu1~22.04
+sudo apt install openjdk-8-jre-headless   # version 8u352-ga-1~22.04
 ```
 
-This tells us, that the OpenJDK Runtime Environment is installed. OpenJDK is an open source implementation of Java. The original Java Company was Sun Microsystems and now Oracle. Oracle offers the market leader JDK, which we are going to install now.
+This tells us, that the OpenJDK JRE is not installed.
+
+To see if and which Java Development Kit (JDK) is installed, execute "javac -version" on the command line. Example (Ubuntu 22.10 Linux):
+
+```sh
+$ javac -version
+Der Befehl 'javac' wurde nicht gefunden, kann aber installiert werden mit:
+sudo apt install openjdk-11-jdk-headless  # version 11.0.17+8-1ubuntu2~22.04, or
+sudo apt install default-jdk              # version 2:1.11-72build2
+sudo apt install openjdk-17-jdk-headless  # version 17.0.5+8-2ubuntu1~22.04
+sudo apt install openjdk-18-jdk-headless  # version 18.0.2+9-2~22.04
+sudo apt install openjdk-19-jdk-headless  # version 19.0.1+10-1ubuntu1~22.04
+sudo apt install openjdk-8-jdk-headless   # version 8u352-ga-1~22.04
+sudo apt install ecj                      # version 3.16.0-1
+```
+
+This tells us, that the OpenJDK is not installed.
 
 # Specification
 
-* Homepage: http://www.oracle.com/technetwork/java/index.html
-* Version: Java SE 7 Update 45
-* Download: http://www.oracle.com/technetwork/java/javase/downloads/index.html
-* File(s):
-  * for Windows: jdk-7u45-windows-i586.exe (32-bit, 124 MB)
-  * for Linux: jdk-7u45-linux-i586.tar.gz (124 MB)
+* Homepage: <https://openjdk.org/>
+* Version: JDK 19.0.2
+* Download: <https://jdk.java.net/19/>
 
 # Installation
 
-The following installation guide may differ in JDK versions between different systems, but even if version is outdated the installation process should be still the same.
+As we want to install JDK 17, which is available as Ubuntu package from standard repositories,
+we just follow the above installation hints.
 
-## Windows
-
-* Execute EXE-File
-* Wizard:
-  * Accept License Agreement
-  * Install all components (Java DB not needed, but is only 25 MB...)
-  * Target directories (defaults, don't change anything), e.g.:
-    ```sh
-    Development Tools: C:\Program Files\Java\jdk1.6.0_13\
-    Demos and Samples: C:\Program Files\Java\jdk1.6.0_13\
-    Source Code: C:\Program Files\Java\jdk1.6.0_13\
-    Public JRE: C:\Program Files\Java\jre6\
-    Java DB: C:\Program Files\Sun\JavaDB\
-    ```
-* After installation a popup appears, which wants you to register. You don't need to do this.
-
-## Linux
-
-### Ubuntu
-
-#### SUN JDK 6
-
-* Execute Synaptic package manager
-* Install "sun-java6-jdk"
-* Agree to license shown in dialog
-
-#### Downloaded Oracle JDK
-
-Unpack the downloaded TAR.GZ-package into a suitable directory (as root):
+## Ubuntu 22.10
 
 ```sh
-# mkdir -p /usr/lib/jvm
-# cd /usr/lib/jvm/
-# tar xvfz /home/ralf/Downloads/jdk-7u45-linux-i586.tar.gz
-# ls -al
-total 52
-drwxr-xr-x   6 root root  4096 Okt 30 17:08 .
-drwxr-xr-x 180 root root 28672 Okt 28 22:45 ..
-lrwxrwxrwx   1 root root    23 Okt 28 22:15 default-java\
-  -> java-1.7.0-openjdk-i386
-lrwxrwxrwx   1 root root    19 Okt 28 22:15 java-1.7.0-openjdk-i386\
-  -> java-7-openjdk-i386
--rw-r--r--   1 root root  2396 Jul  3 21:59 .java-1.7.0-openjdk-i386.jinfo
-drwxr-xr-x   5 root root  4096 Apr 25  2013 java-6-openjdk-i386
-drwxr-xr-x   3 root root  4096 Apr 25  2013 java-7-openjdk-common
-drwxr-xr-x   5 root root  4096 Apr 25  2013 java-7-openjdk-i386
-drwxr-xr-x   8 uucp  143  4096 Okt  8 15:07 jdk1.7.0_45
-```
-
-Install the executables as default (with very high priority, e.g. 2000) (as root):
-
-```sh
-# sudo update-alternatives --install "/usr/bin/java" "java"\
-  "/usr/lib/jvm/jdk1.7.0_45/bin/java" 2000
-update-alternatives: using /usr/lib/jvm/jdk1.7.0_45/bin/java\
-  to provide /usr/bin/java (java) in auto mode
-# sudo update-alternatives --install "/usr/bin/javac" "javac"\
-  "/usr/lib/jvm/jdk1.7.0_45/bin/javac" 2000
-update-alternatives: using /usr/lib/jvm/jdk1.7.0_45/bin/javac\
-  to provide /usr/bin/javac (javac) in auto mode
-# sudo update-alternatives --install "/usr/bin/javaws" "javaws"\
-  "/usr/lib/jvm/jdk1.7.0_45/bin/javaws" 2000
-update-alternatives: using /usr/lib/jvm/jdk1.7.0_45/bin/javaws\
-  to provide /usr/bin/javaws (javaws) in auto mode
-# sudo update-alternatives --install "/usr/bin/jar" "jar"\
-  "/usr/lib/jvm/jdk1.7.0_45/bin/jar" 2000
-update-alternatives: using /usr/lib/jvm/jdk1.7.0_45/bin/jar\
-  to provide /usr/bin/jar (jar) in auto mode
-```
-
-### Debian
-
-#### SUN JDK 6
-
-```sh
-(# apt-cache search jdk –n)
-(# apt-get install sun-java6-jdk –s)
-# apt-get install sun-java6-jdk
-```
-
-### Slackware based Distros
-
-```sh
-$ su -
-Password: 
-# cd /opt/
-# ls -al
-total 4
-drwxr-xr-x  2 root root    6 Jun 10  2007 ./
-drwxr-xr-x 20 root root 4096 Oct 31 22:07 ../
-# tar xvfz /home/ralf/Downloads/jdk-7u45-linux-i586.tar.gz
+$ sudo apt install openjdk-17-jdk-headless
 ...
-# ls -al
-total 8
-drwxr-xr-x  3 root root   24 Oct 31 22:11 ./
-drwxr-xr-x 20 root root 4096 Oct 31 22:07 ../
-drwxr-xr-x  8 uucp  143 4096 Oct  8 15:07 jdk1.7.0_45/
-```
-
-# Configuration
-
-## Add JAVA_HOME environment variable
-
-###  Windows
-
-* Start - Settings - Control Panel - System - Advanced - Environment Variables
-* System variables - New: JAVA_HOME = C:\Program Files\Java\jdk1.6.0_13
-
-### Ubuntu Linux
-
-```sh
-# nano /etc/environment
-...
-JAVA_HOME="/usr/lib/jvm/java-6-sun/"
-...
-# source /etc/environment
-```
-
-### Linux Mint
-
-```sh
-# nano /etc/environment
-...
-JAVA_HOME="/usr/lib/jvm/jdk1.7.0_45"
-...
-# source /etc/environment
-```
-
-### Slackware based Distros
-
-```sh
-# vi /etc/profile.d/jdk.csh
-#!/bin/csh
-
-setenv JAVA_HOME /opt/jdk1.7.0_45
-setenv MANPATH ${MANPATH}:${JAVA_HOME}/man
-setenv PATH ${PATH}:${JAVA_HOME}/bin
-
-# vi /etc/profile.d/jdk.sh
-#!/bin/sh
-
-export JAVA_HOME=/opt/jdk1.7.0_45
-export MANPATH="$MANPATH:$JAVA_HOME/man"
-export PATH="$PATH:$JAVA_HOME/bin"
-
-# chmod +x /etc/profile.d/jdk.sh
-# chmod +x /etc/profile.d/jdk.csh
-# chmod -x /etc/profile.d/openjre.sh
-# chmod -x /etc/profile.d/openjre.csh
+Die folgenden NEUEN Pakete werden installiert:
+  ca-certificates-java java-common openjdk-17-jdk-headless openjdk-17-jre-headless
 ```
 
 # Test
 
-## Windows
-
-Open a new command prompt window (Start - Programs - Accessoires - Command Prompt)
-
-```sh
-C:\>java -version
-java version "1.6.0_13"
-Java(TM) SE Runtime Environment (build 1.6.0_13-b03)
-Java HotSpot(TM) Client VM (build 11.3-b02, mixed mode, sharing)
-C:\>echo %JAVA_HOME%
-C:\Program Files\Java\jdk1.6.0_13
-```
-
-## Ubuntu
+## Ubuntu 22.10
 
 Open a new terminal
 
 ```sh
+$ which java
+/usr/bin/java
+
 $ java -version
-java version "1.6.0_16"
-Java(TM) SE Runtime Environment (build 1.6.0_16-b01)
-Java HotSpot(TM) Server VM (build 14.2-b01, mixed mode)
-$ echo $JAVA_HOME
-/usr/lib/jvm/java-6-sun/
+openjdk version "17.0.5" 2022-10-18
+OpenJDK Runtime Environment (build 17.0.5+8-Ubuntu-2ubuntu122.04)
+OpenJDK 64-Bit Server VM (build 17.0.5+8-Ubuntu-2ubuntu122.04, mixed mode, sharing)
 ```
-
-## Other Distro
-
-```sh
-# java -version
-java version "1.7.0_45"
-Java(TM) SE Runtime Environment (build 1.7.0_45-b18)
-Java HotSpot(TM) Server VM (build 24.45-b08, mixed mode)
-$ echo $JAVA_HOME
-/usr/lib/jvm/jdk1.7.0_45
-```
-
-# Troubleshooting
-
-## Download timeout because of proxy
-
-Problem: Timeouts caused by proxy (download takes too long).\
-Solution Debian Linux:
-
-* Download "sun-java6"-packages manually onto your desktop system with browser (e.g. from http://ftp.hosteurope.de/pub/linux/debian/)
-* Copy DEB-packages to server
-* Install the packages using "dpkg –i":
-  ```sh
-  # dpkg –i sun-java6-bin_6-13-1_i386.deb
-  # dpkg –i sun-java6-jdk_6-13-1_i386.deb
-  # dpkg –i sun-java6-jre_6-13-1_all.deb
-  ```
