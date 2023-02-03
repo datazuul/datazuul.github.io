@@ -52,15 +52,14 @@ This tells us, that the OpenJDK is not installed.
 # Installation
 
 As we want to install JDK 17, which is available as Ubuntu package from standard repositories,
-we just follow the above installation hints.
+we just follow the above installation hints. But do not install a "headless" package,
+otherwise GUI-applications will not work!
 
 ## Ubuntu 22.10
 
 ```sh
-$ sudo apt install openjdk-17-jdk-headless
+$ sudo apt install openjdk-17-jdk
 ...
-Die folgenden NEUEN Pakete werden installiert:
-  ca-certificates-java java-common openjdk-17-jdk-headless openjdk-17-jre-headless
 ```
 
 # Test

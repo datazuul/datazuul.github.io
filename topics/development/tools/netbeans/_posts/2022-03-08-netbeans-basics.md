@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Apache NetBeans IDE - Basics
+title: Apache NetBeans 13
 author: Ralf Eichinger
 toc: true
 ---
