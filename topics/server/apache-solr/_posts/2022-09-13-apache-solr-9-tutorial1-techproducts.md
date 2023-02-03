@@ -28,8 +28,7 @@ Now start Solr in SolrCloud mode with this configuration:
 * collection `techproducts` with `sample_techproducts_configs` set of configuration files
 
 ```
-$ cd $SOLR_INSTALL
-$ sudo -u solr bin/solr start -e cloud
+$ sudo -u solr $SOLR_INSTALL/bin/solr start -e cloud
 *** [WARN] *** Your open file limit is currently 1024.  
  It should be set to 65000 to avoid operational disruption. 
  If you no longer wish to see this warning, set SOLR_ULIMIT_CHECKS to false in your profile or solr.in.sh
@@ -337,9 +336,268 @@ $ curl "http://localhost:8983/solr/techproducts/select?q=foundation&fl=id,name,a
 
 to get all 5 results with requested fields "id, name, author, price".
 
+## Field searches
 
-# Velocity UI
+See <https://solr.apache.org/guide/solr/latest/getting-started/tutorial-techproducts.html#field-searches>.
 
-https://www.mail-archive.com/issues@lucene.apache.org/msg38949.html
+The search `q="electronics"` finds all documents that contain the term "electronics" anywhere in the indexed fields (14 documents found):
 
-https://github.com/erikhatcher/solr-velocity
+```
+$ curl "http://localhost:8983/solr/techproducts/select?q=electronics&rows=1"
+{
+  "responseHeader":{
+    "zkConnected":true,
+    "status":0,
+    "QTime":9,
+    "params":{
+      "q":"electronics",
+      "rows":"1"}},
+  "response":{"numFound":14,"start":0,"maxScore":0.9708823,"numFoundExact":true,"docs":[
+      {
+        "id":"SP2514N",
+        "name":"Samsung SpinPoint P120 SP2514N - hard drive - 250 GB - ATA-133",
+        "manu":"Samsung Electronics Co. Ltd.",
+        "manu_id_s":"samsung",
+        "cat":["electronics",
+          "hard drive"],
+        "features":["7200RPM, 8MB cache, IDE Ultra ATA-133",
+          "NoiseGuard, SilentSeek technology, Fluid Dynamic Bearing (FDB) motor"],
+        "price":92.0,
+        "price_c":"92.0,USD",
+        "popularity":6,
+        "inStock":true,
+        "manufacturedate_dt":"2006-02-13T15:26:37Z",
+        "store":"35.0752,-97.032",
+        "_version_":1743864807007715328,
+        "manu_exact":"Samsung Electronics Co. Ltd.",
+        "price_c____l_ns":9200,
+        "name_exact":"Samsung SpinPoint P120 SP2514N - hard drive - 250 GB - ATA-133"}]
+  }}
+```
+
+This is possible with the use of copy fields, which are set up already with this set of configurations.
+
+If you want to limit your query to a single field, e.g. the field "cat" (for "category"), you can specify by adding the prefix "cat:" to the query param value:
+
+
+```
+$ curl "http://localhost:8983/solr/techproducts/select?q=cat:electronics&rows=1"
+{
+  "responseHeader":{
+    "zkConnected":true,
+    "status":0,
+    "QTime":13,
+    "params":{
+      "q":"cat:electronics",
+      "rows":"1"}},
+  "response":{"numFound":12,"start":0,"maxScore":0.5244061,"numFoundExact":true,"docs":[
+      {
+        "id":"SP2514N",
+        "name":"Samsung SpinPoint P120 SP2514N - hard drive - 250 GB - ATA-133",
+        "manu":"Samsung Electronics Co. Ltd.",
+        "manu_id_s":"samsung",
+        "cat":["electronics",
+          "hard drive"],
+        "features":["7200RPM, 8MB cache, IDE Ultra ATA-133",
+          "NoiseGuard, SilentSeek technology, Fluid Dynamic Bearing (FDB) motor"],
+        "price":92.0,
+        "price_c":"92.0,USD",
+        "popularity":6,
+        "inStock":true,
+        "manufacturedate_dt":"2006-02-13T15:26:37Z",
+        "store":"35.0752,-97.032",
+        "_version_":1743864807007715328,
+        "manu_exact":"Samsung Electronics Co. Ltd.",
+        "price_c____l_ns":9200,
+        "name_exact":"Samsung SpinPoint P120 SP2514N - hard drive - 250 GB - ATA-133"}]
+  }}
+```
+
+This reduces the results to 12 having "electronics" in the field "cat".
+
+## Phrase Search
+
+See <https://solr.apache.org/guide/solr/latest/getting-started/tutorial-techproducts.html#phrase-search>.
+
+If you want to search for an exact (multiword) term you have to put the term into double quotes, e.g. `q="CAS latency"`.
+
+Do not forget to put the quotes around if you are using the Admin UI.
+
+If issuing query over HTTP, make sure to replace spaces with "+" sign:
+
+```
+$ curl "http://localhost:8983/solr/techproducts/select?q=\"CAS+latency\""
+{
+  "responseHeader":{
+    "zkConnected":true,
+    "status":0,
+    "QTime":32,
+    "params":{
+      "q":"\"CAS latency\""}},
+  "response":{"numFound":2,"start":0,"maxScore":2.3287714,"numFoundExact":true,"docs":[
+      {
+        "id":"VDBDB1A16",
+        "name":"A-DATA V-Series 1GB 184-Pin DDR SDRAM Unbuffered DDR 400 (PC 3200) System Memory - OEM",
+        "manu":"A-DATA Technology Inc.",
+        "manu_id_s":"corsair",
+        "cat":["electronics",
+          "memory"],
+        "features":["CAS latency 3,   2.7v"],
+        "popularity":0,
+        "inStock":true,
+        "store":"45.18414,-93.88141",
+        "manufacturedate_dt":"2006-02-13T15:26:37Z",
+        "payloads":"electronics|0.9 memory|0.1",
+        "_version_":1743864807166050304,
+        "manu_exact":"A-DATA Technology Inc.",
+        "name_exact":"A-DATA V-Series 1GB 184-Pin DDR SDRAM Unbuffered DDR 400 (PC 3200) System Memory - OEM"},
+      {
+        "id":"TWINX2048-3200PRO",
+        "name":"CORSAIR  XMS 2GB (2 x 1GB) 184-Pin DDR SDRAM Unbuffered DDR 400 (PC 3200) Dual Channel Kit System Memory - Retail",
+        "manu":"Corsair Microsystems Inc.",
+        "manu_id_s":"corsair",
+        "cat":["electronics",
+          "memory"],
+        "features":["CAS latency 2,  2-3-3-6 timing, 2.75v, unbuffered, heat-spreader"],
+        "price":185.0,
+        "price_c":"185.00,USD",
+        "popularity":5,
+        "inStock":true,
+        "store":"37.7752,-122.4232",
+        "manufacturedate_dt":"2006-02-13T15:26:37Z",
+        "payloads":"electronics|6.0 memory|3.0",
+        "_version_":1743864807158710272,
+        "manu_exact":"Corsair Microsystems Inc.",
+        "price_c____l_ns":18500,
+        "name_exact":"CORSAIR  XMS 2GB (2 x 1GB) 184-Pin DDR SDRAM Unbuffered DDR 400 (PC 3200) Dual Channel Kit System Memory - Retail"}]
+  }}
+```
+
+## Combining Searches
+
+See <https://solr.apache.org/guide/solr/latest/getting-started/tutorial-techproducts.html#combining-searches>.
+
+By default Solr searches "OR" wise for multiple query terms, ranking documents higher containing more terms.
+
+To mark a term as required to be contained in document use plus sign "+" as prefix of term, e.g. `+electronics +music`.
+
+When issuing HTTP request encode the plus sign as `%2B` (and space as `%20`):
+
+```
+$ curl "http://localhost:8983/solr/techproducts/select?q=%2Belectronics%20%2Bmusic"
+{
+  "responseHeader":{
+    "zkConnected":true,
+    "status":0,
+    "QTime":44,
+    "params":{
+      "q":"+electronics +music"}},
+  "response":{"numFound":1,"start":0,"maxScore":1.2658794,"numFoundExact":true,"docs":[
+      {
+        "id":"MA147LL/A",
+        "name":"Apple 60 GB iPod with Video Playback Black",
+        "manu":"Apple Computer Inc.",
+        "manu_id_s":"apple",
+        "cat":["electronics",
+          "music"],
+        "features":["iTunes, Podcasts, Audiobooks",
+          "Stores up to 15,000 songs, 25,000 photos, or 150 hours of video",
+          "2.5-inch, 320x240 color TFT LCD display with LED backlight",
+          "Up to 20 hours of battery life",
+          "Plays AAC, MP3, WAV, AIFF, Audible, Apple Lossless, H.264 video",
+          "Notes, Calendar, Phone book, Hold button, Date display, Photo wallet, Built-in games, JPEG photo playback, Upgradeable firmware, USB 2.0 compatibility, Playback speed control, Rechargeable capability, Battery level indication"],
+        "includes":"earbud headphones, USB cable",
+        "weight":5.5,
+        "price":399.0,
+        "price_c":"399.00,USD",
+        "popularity":10,
+        "inStock":true,
+        "store":"37.7752,-100.0232",
+        "manufacturedate_dt":"2005-10-12T08:00:00Z",
+        "_version_":1743864807097892864,
+        "manu_exact":"Apple Computer Inc.",
+        "price_c____l_ns":39900,
+        "name_exact":"Apple 60 GB iPod with Video Playback Black"}]
+  }}
+```
+
+To mark that a term must not be contained in document use minus sign "-" as prefix of term, e.g. `+electronics -music`.
+
+```
+$ curl "http://localhost:8983/solr/techproducts/select?q=%2Belectronics%20-music&rows=1"
+{
+  "responseHeader":{
+    "zkConnected":true,
+    "status":0,
+    "QTime":9,
+    "params":{
+      "q":"+electronics -music",
+      "rows":"1"}},
+  "response":{"numFound":13,"start":0,"maxScore":0.9708823,"numFoundExact":true,"docs":[
+      {
+        "id":"SP2514N",
+        "name":"Samsung SpinPoint P120 SP2514N - hard drive - 250 GB - ATA-133",
+        "manu":"Samsung Electronics Co. Ltd.",
+        "manu_id_s":"samsung",
+        "cat":["electronics",
+          "hard drive"],
+        "features":["7200RPM, 8MB cache, IDE Ultra ATA-133",
+          "NoiseGuard, SilentSeek technology, Fluid Dynamic Bearing (FDB) motor"],
+        "price":92.0,
+        "price_c":"92.0,USD",
+        "popularity":6,
+        "inStock":true,
+        "manufacturedate_dt":"2006-02-13T15:26:37Z",
+        "store":"35.0752,-97.032",
+        "_version_":1743864807007715328,
+        "manu_exact":"Samsung Electronics Co. Ltd.",
+        "price_c____l_ns":9200,
+        "name_exact":"Samsung SpinPoint P120 SP2514N - hard drive - 250 GB - ATA-133"}]
+  }}
+```
+
+## Further reading
+
+See <https://solr.apache.org/guide/solr/latest/getting-started/tutorial-techproducts.html#more-information-on-searching> and <https://solr.apache.org/guide/solr/latest/query-guide/query-syntax-and-parsers.html>
+
+# Stop/Restart cloud with 'techproducts'
+
+(Replace $SOLR_INSTALL with the actual installation directory)
+
+Stop cloud:
+
+```
+$ sudo -u solr $SOLR_INSTALL/bin/solr stop -all
+```
+
+Start again:
+
+```
+$ sudo -u solr $SOLR_INSTALL/bin/solr start -e cloud
+```
+
+When being asked to create a new collection
+
+```
+Now let's create a new collection for indexing documents in your 2-node cluster.
+Please provide a name for your new collection: [gettingstarted]
+```
+
+again enter "techproducts":
+
+```
+techproducts
+
+Collection 'techproducts' already exists!
+Do you want to re-use the existing collection or create a new one? Enter 1 to reuse, 2 to create new [1]: 
+1
+
+Enabling auto soft-commits with maxTime 3 secs using the Config API
+
+POSTing request to Config API: http://localhost:8983/solr/techproducts/config
+{"set-property":{"updateHandler.autoSoftCommit.maxTime":"3000"}}
+Successfully set-property updateHandler.autoSoftCommit.maxTime to 3000
+
+
+SolrCloud example running, please visit: http://localhost:8983/solr
+```
