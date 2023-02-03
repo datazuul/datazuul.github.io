@@ -1,6 +1,6 @@
 ---
 layout: post
-title: JDK 1.7 (Java Development Kit) installation and configuration
+title: JDK 17 (Java Development Kit) installation and configuration
 author: Ralf Eichinger
 toc: true
 ---
