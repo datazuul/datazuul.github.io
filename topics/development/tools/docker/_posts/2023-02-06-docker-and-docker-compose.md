@@ -42,6 +42,8 @@ $ echo \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 ```
 
+### Docker Desktop (optional)
+
 4. Download latest DEB package
 
 https://desktop.docker.com/linux/main/amd64/docker-desktop-4.16.2-amd64.deb?utm_source=docker&utm_medium=webreferral&utm_campaign=docs-driven-download-linux-amd64
@@ -81,11 +83,7 @@ To stop Docker Desktop, open a terminal and run:
 $ systemctl --user stop docker-desktop
 ```
 
-Install docker-compose:
-
-```sh
-$ sudo apt-get install docker-compose
-```
+### Docker Engine & Docker Compose
 
 Install docker engine
 
