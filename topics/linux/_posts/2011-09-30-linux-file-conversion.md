@@ -16,7 +16,7 @@ $ sudo apt install imagemagick
 ## Djvu
 
 ```sh
-sudo apt install djvulibre-bin
+$ sudo apt install djvulibre-bin
 ```
 
 # PDF to JPG/PNG
