@@ -42,47 +42,6 @@ $ echo \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 ```
 
-### Docker Desktop (optional)
-
-4. Download latest DEB package
-
-https://desktop.docker.com/linux/main/amd64/docker-desktop-4.16.2-amd64.deb?utm_source=docker&utm_medium=webreferral&utm_campaign=docs-driven-download-linux-amd64
-
-5. Install the package with apt as follows
-
-```sh
-$ sudo apt-get update
-$ sudo apt-get install ~/Downloads/docker-desktop-4.16.2-amd64.deb
-...
-N: Der Download wird als root und nicht Sandbox-geschützt durchgeführt, da auf die Datei »/home/ralf/Downloads/docker-desktop-4.16.2-amd64.deb« durch den Benutzer »_apt« nicht zugegriffen werden kann. - pkgAcquire::Run (13: Keine Berechtigung)
-```
-
-At the end of the installation process, apt displays an error due to installing a downloaded package. You can ignore this error message.
-
-There are a few post-install configuration steps done through the post-install script contained in the deb package.
-
-The post-install script:
-
-* Sets the capability on the Docker Desktop binary to map privileged ports and set resource limits.
-* Adds a DNS name for Kubernetes to /etc/hosts.
-* Creates a link from /usr/bin/docker to /usr/local/bin/com.docker.cli
-
-To start Docker Desktop for Linux, search Docker Desktop on the Applications menu and open it. This launches the Docker menu icon and opens the Docker Dashboard, reporting the status of Docker Desktop.
-
-To enable Docker Desktop to start on login, from the Docker menu, open a terminal and run:
-
-```sh
-$ systemctl --user enable docker-desktop
-Created symlink /home/ralf/.config/systemd/user/docker-desktop.service → /usr/lib/systemd/user/docker-desktop.service.
-Created symlink /home/ralf/.config/systemd/user/graphical-session.target.wants/docker-desktop.service → /usr/lib/systemd/user/docker-desktop.service.
-```
-
-To stop Docker Desktop, open a terminal and run:
-
-```sh
-$ systemctl --user stop docker-desktop
-```
-
 ### Docker Engine & Docker Compose
 
 Install docker engine
