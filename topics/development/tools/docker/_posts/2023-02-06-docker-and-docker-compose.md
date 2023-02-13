@@ -50,6 +50,10 @@ Install docker engine
 $ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 ```
 
+# Usage
+
+## Docker
+
 Run hello world:
 
 ```sh
@@ -81,3 +85,21 @@ Share images, automate workflows, and more with a free Docker ID:
 For more examples and ideas, visit:
  https://docs.docker.com/get-started/
 ```
+
+## Docker Compose
+
+Use `docker compose` (without dash between...).
+
+Start/Stop:
+
+```sh
+$ docker compose up -d
+$ docker compose stop
+```
+
+Delete:
+
+```sh
+$ docker compose down
+```
+
