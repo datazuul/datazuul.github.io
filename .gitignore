@@ -1,2 +1,5 @@
 /_site/
 /.jekyll-cache/
+**/.project
+**/.classpath
+**/.settings
