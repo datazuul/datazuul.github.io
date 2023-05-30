@@ -213,7 +213,7 @@ Now we install the Angular Language Service in VS Code following <https://market
 * Open VS Code by calling `code` in terminal
 * Launch VS Code Quick Open (Ctrl+P), paste `ext install Angular.ng-template`, and press enter.
 
-For further development of Angualr apps: To get the most complete information in the editor, set the strictTemplates option in tsconfig.json, as shown in the following example:
+For further development of Angular apps: To get the most complete information in the editor, set the strictTemplates option in tsconfig.json, as shown in the following example:
 
 ```
 "angularCompilerOptions": {

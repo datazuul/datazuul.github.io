@@ -43,7 +43,7 @@ The new `HomeComponent` we will create will display the home page of the app. La
 
 # Create homepage component `HomeComponent`
 
-In terminal change to the apps directory and run the command to create the new `HomeComponent`:
+Open the VS Code terminal with "Terminal - New Terminal". In terminal change to the apps directory and run the command to create the new `HomeComponent`:
 
 ```
 $ cd angular-hello-world
