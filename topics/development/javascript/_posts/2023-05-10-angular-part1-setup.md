@@ -132,7 +132,7 @@ Warning: The current version of Node (20.1.0) is not supported by Angular.
 
 `ng version` started something bigger... Ok, we agree to enable autocompletion but for me I decided not to share usage data.
 
-Unfortunately in the end it is stated that `Node (20.1.0) is not supported by Angular.` (even if fulfills the reuirement `>=18.10.0`).
+Unfortunately in the end it is stated that `Node (20.1.0) is not supported by Angular.` (even if it fulfills the requirement `>=18.10.0`).
 
 Ok, so we downgrade to the latest LTS version 18.16.0 (includes npm 9.5.1) and install Angular CLI again:
 

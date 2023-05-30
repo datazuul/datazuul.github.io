@@ -134,7 +134,7 @@ export class HomeComponent {
 
 Note: Now we get a red error code for "housingLocation" which no longer exists. But do not change the @Component decorator, you will update that code in the next step.
 
-# Update the HomeComponent template to use ngFor
+# Update the HomeComponent template to use *ngFor
 
 Now the app has a dataset that you can use to display the entries in the browser using the `ngFor` directive.
 
