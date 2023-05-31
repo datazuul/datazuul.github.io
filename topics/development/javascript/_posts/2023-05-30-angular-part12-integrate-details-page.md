@@ -71,3 +71,183 @@ In the browser, refresh the home page and click the "learn more" button for a ho
 
 # Get route parameters
 
+In this step, you will get the route parameter (housing location `id`) in the `DetailsComponent`.
+Currently, the app displays "details works!", next you'll update the code to display the `id` value passed using the route parameters.
+
+* Update the typescript to import the functions, classes and services (ActivatedRoute, and for later steps: HousingService, HousingLocation) that you'll need to use in the `DetailsComponent`.
+* Update the template property of the `@Component` decorator to display the value `housingLocationId`
+* Update the body of the `DetailsComponent` to set `housingLocationId` by getting the route param
+
+File `src/app/details/details.component.ts`:
+
+```
+import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
+import { HousingService } from '../housing.service';
+import { HousingLocation } from '../housinglocation';
+
+@Component({
+  selector: 'app-details',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <p>details works! {{ housingLocationId }}</p>
+  `,
+  styleUrls: ['./details.component.css']
+})
+export class DetailsComponent {
+  route: ActivatedRoute = inject(ActivatedRoute);
+  housingLocationId = -1;
+  constructor() {
+    this.housingLocationId = Number(this.route.snapshot.params['id']);
+  }
+}
+```
+
+This code give the `DetailsComponent` access to the `ActivatedRoute` router feature that enables you to have access to the data about the current route.
+In the constructor, the code converts the id parameter from the route to a number.
+
+Test: In the browser, click on one of the housing location "learn more" links and confirm that the numeric value displayed on the page matches the id property for that location in the data.
+
+# Customize the `DetailComponent`
+
+Now that routing is working properly in the application this is a great time to update the template of the `DetailsComponent` to display the specific data represented by the housing location for the route parameter.
+
+To access the data you will add a call to the `HousingService`.
+
+* Update the template code to show data
+* Update the body of the DetailsComponent class to use HousingService and setting `housingLocation`
+
+File `src/app/details/details.component.ts`:
+
+```
+import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
+import { HousingService } from '../housing.service';
+import { HousingLocation } from '../housinglocation';
+
+@Component({
+  selector: 'app-details',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <article>
+      <img class="listing-photo" [src]="housingLocation?.photo"
+        alt="Exterior photo of {{housingLocation?.name}}"/>
+      <section class="listing-description">
+        <h2 class="listing-heading">{{housingLocation?.name}}</h2>
+        <p class="listing-location">{{housingLocation?.city}}, {{housingLocation?.state}}</p>
+      </section>
+      <section class="listing-features">
+        <h2 class="section-heading">About this housing location</h2>
+        <ul>
+          <li>Units available: {{housingLocation?.availableUnits}}</li>
+          <li>Does this location have wifi: {{housingLocation?.wifi}}</li>
+          <li>Does this location have laundry: {{housingLocation?.laundry}}</li>
+        </ul>
+      </section>
+    </article>
+  `,
+  styleUrls: ['./details.component.css']
+})
+export class DetailsComponent {
+  route: ActivatedRoute = inject(ActivatedRoute);
+  housingService = inject(HousingService);
+  housingLocation: HousingLocation | undefined;
+
+  constructor() {
+    const housingLocationId = Number(this.route.snapshot.params['id']);
+    this.housingLocation = this.housingService.getHousingLocationById(housingLocationId);
+  }
+}
+```
+
+Now the component has the code to display the correct information based on the selected housing location.
+The constructor now includes a call to the HousingService to pass the route parameter as an argument to the getHousingLocationById service function.
+
+Notice that the `housingLocation` properties are being accessed with the optional chaining operator `?`.
+This ensures that if the `housingLocation` value is `null` or `undefined` the application doesn't crash.
+
+To style the page nicely, add CSS style to `src/app/details/details.component.css`:
+
+```
+.listing-photo {
+    height: 600px;
+    width: 50%;
+    object-fit: cover;
+    border-radius: 30px;
+    float: right;
+}
+
+.listing-heading {
+    font-size: 48pt;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.listing-location::before {
+    content: url('/assets/location-pin.svg') / '';
+}
+
+.listing-location {
+    font-size: 24pt;
+    margin-bottom: 15px;
+}
+
+.listing-features>.section-heading {
+    color: var(--secondary-color);
+    font-size: 24pt;
+    margin-bottom: 15px;
+}
+
+.listing-features {
+    margin-bottom: 20px;
+}
+
+.listing-features li {
+    font-size: 14pt;
+}
+
+li {
+    list-style-type: none;
+}
+
+.listing-apply .section-heading {
+    font-size: 18pt;
+    margin-bottom: 15px;
+}
+
+label,
+input {
+    display: block;
+}
+
+label {
+    color: var(--secondary-color);
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 12pt;
+}
+
+input {
+    font-size: 16pt;
+    margin-bottom: 15px;
+    padding: 10px;
+    width: 400px;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    border-bottom: solid .3px;
+}
+
+@media (max-width: 1024px) {
+    .listing-photo {
+        width: 100%;
+        height: 400px;
+    }
+}
+```
+
+Test: In the browser refresh the page and confirm that when you click on the "learn more" link for a given housing location the details page displays the correct information based on the data for that selected item.
