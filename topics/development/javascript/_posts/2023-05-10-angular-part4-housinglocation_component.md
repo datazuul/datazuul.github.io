@@ -13,7 +13,7 @@ This tutorial recaps the official documentation at <https://angular.io/tutorial/
 ## Create the `HousingLocationComponent`
 
 ```
-$ cd angular-hello-world
+$ cd tutorial-angular-homes
 $ ng generate component HousingLocation --standalone --inline-template --skip-tests
 CREATE src/app/housing-location/housing-location.component.css (0 bytes)
 CREATE src/app/housing-location/housing-location.component.ts (350 bytes)

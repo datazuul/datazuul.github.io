@@ -23,7 +23,7 @@ Further information can be found at <https://www.typescriptlang.org/docs/handboo
 Let's create an interface to define properties that represent data about a single housing location.
 
 ```
-$ cd angular-hello-world
+$ cd tutorial-angular-homes
 $ ng generate interface housinglocation
 CREATE src/app/housinglocation.ts (37 bytes)
 ```

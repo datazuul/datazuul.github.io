@@ -27,7 +27,7 @@ This tutorial recaps the official documentation at <https://angular.io/tutorial/
 Create the `DetailsComponent`:
 
 ```
-$ cd angular-hello-world
+$ cd tutorial-angular-homes
 $ ng generate component details --standalone --inline-template --skip-tests
 CREATE src/app/details/details.component.css (0 bytes)
 CREATE src/app/details/details.component.ts (315 bytes)

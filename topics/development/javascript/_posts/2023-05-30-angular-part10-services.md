@@ -31,7 +31,7 @@ This tutorial recaps the official documentation at <https://angular.io/tutorial/
 This step creates an injectable service for your app.
 
 ```
-$ cd angular-hello-world
+$ cd tutorial-angular-homes
 $ ng generate service housing --skip-tests
 CREATE src/app/housing.service.ts (136 bytes)
 ```

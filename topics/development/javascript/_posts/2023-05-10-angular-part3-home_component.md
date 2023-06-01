@@ -46,7 +46,7 @@ The new `HomeComponent` we will create will display the home page of the app. La
 Open the VS Code terminal with "Terminal - New Terminal". In terminal change to the apps directory and run the command to create the new `HomeComponent`:
 
 ```
-$ cd angular-hello-world
+$ cd tutorial-angular-homes
 $ ng generate component Home --standalone --inline-template --skip-tests
 CREATE src/app/home/home.component.css (0 bytes)
 CREATE src/app/home/home.component.ts (303 bytes)

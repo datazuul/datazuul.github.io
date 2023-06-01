@@ -14,10 +14,10 @@ We will not really start from scratch but download a basic skeleton app and add 
 
 # Download skeleton
 
-Download skeleton app from <https://angular.io/generated/zips/first-app-lesson-00/first-app-lesson-00.zip> and unzip it into a directory named `angular-hello-world`.
+Download skeleton app from <https://angular.io/generated/zips/first-app-lesson-00/first-app-lesson-00.zip> and unzip it into a directory named `tutorial-angular-homes`.
 
 ```
-angular-hello-world$ ls -al
+tutorial-angular-homes$ ls -al
 insgesamt 44
 drwxrwxr-x  4 ralf ralf 4096 Mai 10 10:07 .
 drwxrwxr-x 13 ralf ralf 4096 Mai 10 10:07 ..
@@ -37,7 +37,7 @@ drwx------  4 ralf ralf 4096 Mai 10 10:07 src
 ## Build the default Angular app
 
 ```
-$ cd angular-hello-world
+$ cd tutorial-angular-homes
 $ npm install
 npm ERR! code ERESOLVE
 npm ERR! ERESOLVE unable to resolve dependency tree

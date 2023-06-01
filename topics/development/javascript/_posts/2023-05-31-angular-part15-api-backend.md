@@ -52,7 +52,7 @@ drwxr-xr-x 5 root root 4096 Mai 31 17:12 json-server
 * Copy the data from `src/app/housing.service.ts` array `housingLocationList` to the file and assign a new array variable to it:
 * Put property keys in double quotes and replce single quotes with double quotes (search and replace...)
 
-Final file `db.json` in top of app directory `angular-hello-world`:
+Final file `db.json` in top of app directory `tutorial-angular-homes`:
 
 ```
 {
