@@ -185,7 +185,7 @@ export class AppComponent {
 Replace the generated HTML in `src/app/app.component.html` with the following line of HTML:
 
 ```
-<h1>{{title}}</h1>
+<h1>{% raw %}{{title}}{% endraw %}</h1>
 ```
 
 The double curly braces are Angular's "interpolation binding" syntax. This interpolation binding renders the component's `title` property value inside the HTML header tag `h1`.
