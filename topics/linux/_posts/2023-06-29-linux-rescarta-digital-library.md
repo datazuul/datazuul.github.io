@@ -188,7 +188,7 @@ Note: As on our system two versions of Java are installed, we will call the ResC
 
 ## Curating a collection of scanned books
 
-In this use case we have a directory (e.g. "ALX") at hand under which (multi sublevels are detected) there are subdirectories, one for each book containing the scan images for each page of the book. The images are named in a way that there correct sequence is represented by alphanumeric sorting.
+In this use case we have a directory (e.g. "ALX") at hand under which (multi sublevels are detected) there are subdirectories, one for each book containing the scan images for each page of the book. The images are named in a way that their correct sequence is represented by alphanumeric sorting.
 The images of a book are considered as a single "Digital Object".
 
 Example directory:
