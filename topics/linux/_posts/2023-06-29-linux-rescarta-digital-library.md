@@ -281,8 +281,41 @@ We chose to use "ALX00000". Click "OK".
 
 ![ResCarta Metadata Creation Tool - Select Source Institution](/assets/topics/linux/rescarta/rescarta-metadata-creation-tool-07.jpg)
 
-Choose "alexana Digital Library"and click "OK".
+Choose "alexana Digital Library" and click "OK".
 
 ##### Select Aggregator and Root Id
 
-TODO
+After choosing the source institution identifier (here "ALX00000"), we have to give an aggregator and a root id.
+
+Collectively, the source institution identifier (Id), aggregator (Aggregator), and root
+identifier (Root id) specified comprise the object identifier, which must - in combination - be unique for each object, so that it can specify the location of that object. This object identifier/directory structure "institution identifier/aggregator/root identifier" is referenced throughout the ResCarta Toolkit.
+
+The aggregator is just the name of a target subdirectory under the institutional directory for the reason of not having all book directories (with directory name is the root id, containing all the images of one book) on one level. Operating systems could have a problem having thousands of directories on one level. The aggregator (= subdirectory name) you can choose by your liking.
+
+What IS required: aggregator and root identifier must each be eight characters (letters and/or numbers) in length.
+
+The tool's default is a number padded to eight characters (e.g. "00000001"). You can use the current date as a simple aggregator (e.g. 20230701) or the digitization date (e.g. 20221105) or something else. Just use something that really will contain more than one book (e.g. if you only scan one book a day and use the digitization date), because otherwise you will end up again with too many aggregator directories decreasing performance.
+
+We plan to have 1000 books in one directory before starting a new aggregator. So we choose "00000001" (the default recommendation) for the first aggregator directory (books 1 to 1000) and "00000002" for the second (books 1001 to 2000) and so on.
+
+![ResCarta Metadata Creation Tool - Select Aggregator and Rood Id](/assets/topics/linux/rescarta/rescarta-metadata-creation-tool-08.jpg)
+
+##### Select Object Type
+
+Next dialog is the "Select Object type" dialog. You have to select the type of the object ("Monograph", "Serial Monograph", "Serial", "Newspaper", "Photo"). In our case it is a book (not part of serial), so we choose "Monograph" and click "OK".
+
+![ResCarta Metadata Creation Tool - Select Object Type](/assets/topics/linux/rescarta/rescarta-metadata-creation-tool-09.jpg)
+
+#### Create monograph metadata
+
+After selecting "Monograph", the monograph create metadata dialog appears.
+
+![ResCarta Metadata Creation Tool - Monograph create metadata](/assets/topics/linux/rescarta/rescarta-metadata-creation-tool-10.jpg)
+
+**Problem:**
+
+Unfortunately the creation of the thumbnail view for the first image of the book fails with error message "java.lang.IllegalArgumentException: "SubsampleAverage" operation`s value for parameter "scaleX" is invalid."
+
+So the dialog further metadata form fields didn't show up and we can not enter metadata...
+
+
