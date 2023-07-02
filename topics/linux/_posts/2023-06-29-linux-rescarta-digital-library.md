@@ -318,4 +318,73 @@ Unfortunately the creation of the thumbnail view for the first image of the book
 
 So the dialog further metadata form fields didn't show up and we can not enter metadata...
 
+To debug this I tried to build rc-tools, but unfortunately I can not build it:
 
+```
+$ export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+$ cd ~/development/rescarta.org/rc-tools
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for ResCarta Tools Parent 7.0.5:
+[INFO] 
+[INFO] ResCarta Tools Parent .............................. SUCCESS [  0.262 s]
+[INFO] ResCarta MIX SDK ................................... SUCCESS [  2.474 s]
+[INFO] ResCarta MODS SDK .................................. SUCCESS [  2.133 s]
+[INFO] ResCarta AUDIOMD SDK ............................... SUCCESS [  1.658 s]
+[INFO] ResCarta rcVTMD SDK ................................ SUCCESS [  2.561 s]
+[INFO] ResCarta METS SDK .................................. SUCCESS [  2.134 s]
+[INFO] ResCarta Broadcast Wave Format SDK ................. SUCCESS [  1.584 s]
+[INFO] ResCarta Vorbis SDK ................................ SUCCESS [  1.315 s]
+[INFO] ResCarta SDK ....................................... SUCCESS [  9.459 s]
+[INFO] ResCarta Data Format Update Tool ................... FAILURE [  0.312 s]
+[INFO] ResCarta Metadata Creation Tool .................... SKIPPED
+[INFO] ResCarta Data Conversion Tool ...................... SKIPPED
+[INFO] ResCarta Collections Manager ....................... SKIPPED
+[INFO] ResCarta IR SDK .................................... SKIPPED
+[INFO] ResCarta Indexer ................................... SKIPPED
+[INFO] ResCarta Textual Metadata Editor ................... SKIPPED
+[INFO] ResCarta Audio Transcription Editor ................ SKIPPED
+[INFO] ResCarta Checksum Verification Tool ................ SKIPPED
+[INFO] ResCarta Kaltura Video Upload Tool ................. SKIPPED
+[INFO] ResCarta-Web ....................................... SKIPPED
+[INFO] ResCarta Web Browser Launcher ...................... SKIPPED
+[INFO] ResCarta Tools Uninstaller Launcher ................ SKIPPED
+[INFO] ResCarta Tools Installer ........................... SKIPPED
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  24.055 s
+[INFO] Finished at: 2023-07-02T18:25:11+02:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.bluestemsoftware.open.maven.plugin:rc-launch4j-plugin:1.5.0.2:launch4j (exe) on project rc-dfut: Failed to build the executable; please verify your configuration.: net.sf.launch4j.ExecException: java.io.IOException: Cannot run program "/home/ralf/.m2/repository/org/bluestemsoftware/open/maven/plugin/rc-launch4j-plugin/1.5.0.2/rc-launch4j-plugin-1.5.0.2-workdir-linux/bin/windres": error=2, File or directory not found -> [Help 1]
+[ERROR]
+```
+
+But when I list the file it is there:
+
+```
+$ ls -al /home/ralf/.m2/repository/org/bluestemsoftware/open/maven/plugin/rc-launch4j-plugin/1.5.0.2/rc-launch4j-plugin-1.5.0.2-workdir-linux/bin/windres
+-rwxr-xr-x 1 ralf ralf 412348 Mai 25  2013 /home/ralf/.m2/repository/org/bluestemsoftware/open/maven/plugin/rc-launch4j-plugin/1.5.0.2/rc-launch4j-plugin-1.5.0.2-workdir-linux/bin/windres
+```
+
+Stackoverflow leads to <https://github.com/TheBoegl/gradle-launch4j/issues/52>, mentioning that it is a `ld` problem
+pointing to <https://sourceforge.net/p/launch4j/feature-requests/74/#2051>:
+
+```
+I still have the same issue when reinstalling launch4j 3.5 on a new Debian 7 server. Actually, it's even worse as I didn't install ia-libs32 which required adding the i686 architecture and may jeopardize the server stability.
+
+My new workaround under Debian 7 is :
+Backup the provided bin/ld and bin/windres. They can't work on a 64 bits system as stated before (No such file or directory)
+Install gcc and binutils-mingw-w64-x86-64 packages
+* Link to the 32 bits ld and windres provided by mingw :
+$ cd launch4j/bin
+$ ln -s /usr/bin/x86_64-w64-mingw32-ld ./ld
+$ ln -s /usr/bin/x86_64-w64-mingw32-windres ./windres
+
+It may a good idea to provide these new 64 binaries or at least add this in a FAQ (if not already done). Thanks.
+
+...
+
+This should be fixed with version 3.10 and later.
+```
+
+TODO
