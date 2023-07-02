@@ -387,4 +387,39 @@ It may a good idea to provide these new 64 binaries or at least add this in a FA
 This should be fixed with version 3.10 and later.
 ```
 
-TODO
+So we replace `ld` and `windres` as mentioned above:
+
+```
+$ sudo apt install gcc
+...
+gcc ist schon die neueste Version (4:11.2.0-1ubuntu1).
+gcc wurde als manuell installiert festgelegt.
+0 aktualisiert, 0 neu installiert, 0 zu entfernen und 5 nicht aktualisiert
+
+$ sudo apt install binutils-mingw-w64-x86-64
+...
+Die folgenden NEUEN Pakete werden installiert:
+  binutils-mingw-w64-x86-64
+...
+Holen:1 http://de.archive.ubuntu.com/ubuntu jammy/universe amd64 binutils-mingw-w64-x86-64 amd64 2.38-3ubuntu1+9build1 [3.308 kB]
+...
+binutils-mingw-w64-x86-64 (2.38-3ubuntu1+9build1) wird eingerichtet ...
+
+$ cd ~/.m2/repository/org/bluestemsoftware/open/maven/plugin/rc-launch4j-plugin/1.5.0.2/rc-launch4j-plugin-1.5.0.2-workdir-linux/bin
+
+$ mv ld ld.old
+$ ln -s /usr/bin/x86_64-w64-mingw32-ld ./ld
+
+$ mv windres windres.old
+$ ln -s /usr/bin/x86_64-w64-mingw32-windres ./windres
+```
+
+After this the build still fails now with:
+
+```
+[INFO] launch4j: /home/ralf/.m2/repository/org/bluestemsoftware/open/maven/plugin/rc-launch4j-plugin/1.5.0.2/rc-launch4j-plugin-1.5.0.2-workdir-linux/bin/ld: cannot open linker script file ldscripts/i386pe.x: Datei oder Verzeichnis nicht gefunden
+[ERROR] 
+net.sf.launch4j.BuilderException: net.sf.launch4j.ExecException: Exec failed(1): [Ljava.lang.String;@6aa0c66
+```
+
+May be a build on linux is not supported? ... Giving up for now...
