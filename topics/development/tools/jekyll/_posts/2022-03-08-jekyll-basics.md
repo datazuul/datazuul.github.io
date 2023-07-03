@@ -60,3 +60,45 @@ Use full path with date being converted to directories:
 ```sh
 [conversion tools](/topics/linux/2011/09/30/linux-file-conversion)
 ```
+
+### Link to heading inside same page
+
+Activate Kramdown auto ids (see <https://stackoverflow.com/a/48539931/643690>):
+
+File `_config.yml`:
+
+```
+kramdown:
+    auto_ids: true
+```
+
+With this enabled each heading gets an id ref based on the heading text. For example
+
+```
+### My Funky Heading
+```
+
+will become
+
+```
+<h3 id="my-funky-heading">My Funky Heading</h3>
+```
+
+You can link to this from within the same document by doing something like this:
+
+```
+The funky text is [described below](#my-funky-heading)
+```
+
+You can assign an explicit id if you prefer:
+
+```
+### My Funky Heading
+{: #funky }
+```
+
+and link to it
+
+```
+The funky text is [described below](#funky)
+```

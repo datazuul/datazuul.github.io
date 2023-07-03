@@ -157,7 +157,7 @@ We get final information that installation is finished and that there is an unin
 
 Finish installation by clicking "Done".
 
-**IMPORTANT**: Before starting usage of ResCarta, read carefully section "Troubleshooting" and prepare installed system for first use.
+**IMPORTANT**: Before starting usage of ResCarta, read carefully section ["Troubleshooting" below](#troubleshooting) and prepare installed system for first use.
 
 # Usage
 
@@ -293,15 +293,227 @@ After selecting "Monograph", the monograph create metadata dialog appears.
 
 As we did not enter metadata (title), yet, the object's Id is shown in the list on the left: "ALX00000/00000001/00000001".
 
+We now have to enter metadata. Required fields are:
+
+* Title
+* Volume (if you add a serial object)
+
+For our monograph we enter "Title": "Kürschners Handlexikon für alle Wissensgebiete" and save this by clicking the floppy disc labeled button "Save Modifications" at the bottom. 
+
+We get an error message "Invalid width entered. The width must a number representing width in inches.".
+The "Size (inches)" fields of the object were automatically filled (see screenshot).
+
+![ResCarta Metadata Creation Tool - Select Aggregator and Rood Id](/assets/topics/linux/rescarta/rescarta-metadata-creation-tool-12.jpg)
+
+As the values seem to be invalid we empty the size fields and save again.
+
+Now the title has been saved (along with some prefilled fields) and we see the title appear in the list of objects instead the Id of the object.
+
+![ResCarta Metadata Creation Tool - Title saved](/assets/topics/linux/rescarta/rescarta-metadata-creation-tool-13.jpg)
+
+For further editing of metadata we click the button "Modify Metadata" (card with pencil icon) on the left bottom side under the list of objects. Fill as much fields as possible.
+
+Editable metadata are:
+
+* Title
+* Volume (for serial monograph or serial documents only)
+* Abstract
+* Alternative titles
+* Names (Author, Owner, etc.): for possible roles of a named person, corporate body, conference or family (or "n/a") see [Appendix "Available Roles" below](#availableRoles)
+* Type of resource: for selectable values (MODS typeOfResource) see [Appendix "Types of resource" below](#typeOfResource)
+* Genre
+* Publisher name
+* Place of publication
+* Publication date (actual)
+* Publication date (questionable, as printed)
+* Capture date
+* Languages
+* Size (inches)
+* Notes
+* Subjects
+* Access Restrictions
+* Alternate Identifiers
+* Issues
+* Sections
+* Pages
+
+For our example we entered:
+
+* Title: "Kürschners Handlexikon für alle Wissensgebiete"
+* Volume: -
+* Abstract: -
+* Alternative titles: -
+* Names:
+  * Corporate: Name: "alexana Digital Library", Role(s): "Owner"
+  * Personal: Family: "Kürschner", Given: "Joseph", Date: "† 29.07.1902", Role(s): "Creator"
+* Type of resource: "text"
+* Genre: "encyclopedia"
+* Publisher name: "Union Deutsche Verlagsgesellschaft"
+* Place of publication: "Stuttgart, Berlin, Leipzig"
+* Publication date (actual): 1929
+* Publication date (questionable, as printed): -
+* Capture date: -
+* Languages: "German"
+* Size (inches): -
+* Notes: -
+* Subjects: -
+* Access Restrictions: -
+* Use and reproduction restrictions: -
+* Alternate Identifiers: -
+
+#### Review Tool Preferences
+
+Let's have a review of the default Preferences and if they correctly work for our book.
+Choose menu "File - Preferences".
+
+##### Sorting
+
+The files of our digital object are named "alx-00001.jpg" up to "alx-0935.jpg".
+The default sorting "Alphanumeric" correctly sorted the files. The sequence in the generated METS-XML (see tab "METS XML") is sorted correctly. So we do not have to change this for this book / digital object.
+
+If images would be named like "1.jpg", "2.jpg", ... , "10.jpg", ... , "935.jpg" the alphanumeric sorting would be not correct. You should choose "Alphabetic" sorting then.
+
+##### Object Id Assignment
+
+As we work on a local machine with no shared data "Object ID source" - "User configuration" is ok.
+As we do not want to assign root IDs manual, the checkbox "Allow manual root ID assignment" is not checked.I
+##### Metadata
+
+We change default language from "English" to "German" as most of our books are in german language.
+Default pagination numbers are created "Sequential" starting from 1.
+
+##### Layout
+
+The tools layout is ok. We keep "Object display position" as "Above metadata".
+
+##### Spelling
+
+For our german books we install the dictionary for "German (Germany)" and select it.
+
+#### Final METS-XML
+
+We click modify metadata again and save without changes to make sure that we have the most recent METS-XML generated according to our preferences.
+
+Close "ResCarta Metadata Creation Tool" ("File - Exit").
+
+### Step 2: ResCarta Data Conversion Tool
+
+#### Configuration
+
+As we do want the results of optical character recognition (OCR) of our images to be written in separate ALTO (Analyzed Layout and Text Object)-files (and not in TIFF-headers), we have to configure this.
+
+File `.RcTools/config/RcSystem.properties`:
+
+```
+# ALTO
+#
+# If set to false text will stored in TIFF headers.
+org.rescarta.alto.output.enabled=true
+```
+
+For more information about MODS/ALTO, refer to the website at the Library of Congress:
+<http://www.loc.gov/standards/alto> or <http://www.loc.gov/mods>
+
+#### Do conversion
+
+The "ResCarta Data Conversion Tool" is used to convert your TIFF, JPEG, PDF (image only), PDF (image and text),Wav or MP4 files into *ResCarta archive data format*. Any new, digitized object needs object metadata in order to become part of your ResCarta archive.
+
+Start the "ResCarta Data Conversion Tool":
+
+```
+$ export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+$ cd ~/RcTools-7.0.5/bin
+$ ./2_ResCartaDataConversionTool.sh
+```
+
+![ResCarta Data Conversion Tool - start](/assets/topics/linux/rescarta/rescarta-data-conversion-tool-01.jpg)
+
+* Click the button to the right of the "Source data directory" text field to specify the directory in which your source files are located. In our case (see above): "/media/ralf/TOSHIBA EXT/Gescannte Bücher/ALX/"
+
+Note: In "Object per Directory mode" ResCarta toolkit requires that all files representing a particular
+object are stored in the same directory and all directories representing other objects are stored under
+the same "parent" directory (here "ALX"), enter or browse to that parent directory to work with any or all of the
+objects included within it.
+
+* Click the button to the right of the "Destination directory" text field to specify the directory into which
+your converted objects will be placed. Again choose a parent directory.
+
+We create and select a new directory "/media/ralf/TOSHIBA EXT/TEMP/RCDATA01" for our (temporary for the conversion process) ResCarta archive.
+
+**Important:** The destination directory can be located wherever you specify, if it does not exist at the
+time you begin the conversion process it will be created, it must be named `RCDATA01` (upper case).
+
+**Safety Note**: As a good practice do not use your ResCarta archive (the intended final location of your
+data) as your destination directory; use an intermediate location during the conversion process, and
+then transfer converted data from this intermediate location to your ResCarta archive.
+
+* Select the "Source data type" as "Object per directory" from the pull down and select the "Source metadata type" as "ResCarta METS".
+
+**Note:** The "Source metadata type" for "objects per directory" is currently restricted to "ResCarta METS".
+Future versions of the *ResCarta Data Conversion Tool* will include support for other source metadata types.
+
+* Select "TIFF compression (color & gray)" as "Uncompressed"
+
+**Suggestion**: We suggest that your archive contain uncompressed color and gray TIFF images for long term preservation
+advantages. But if you are concerned with storage space or recompression of existing JPEG compressed images,
+then use of the Data Conversion Tool TIFF compression dialog is advised. When compression is set to JPEG @
+100%, original compressed tiles or strips from JPEG compressed TIFF source files will be reused to prevent image
+degradation.
+
+* Select "Enable OCR" for optical character recognition (with `tesseract` engine).
+
+* Select "Source metadata filename" as "metadata.xml".
+
+**Note**: If you created metadata using the *ResCarta Metadata Creation Tool*, the source
+metadata filename is `metadata.xml`. If the source metadata filename you specify does not exist in an
+object directory, the conversion process will fail.
+
+* Finally click on the tools button on the right side and specify the locations for ghostscript and ffmpeg (not neede for our book, but good to set it now for later usage): Ghostscript (/usr/bin/gs), FFmepg (!typo) (/usr/bin/ffmpeg)
+
+* Start conversion by clicking "Begin Conversion"
+
+We got trouble with
+* missing "metadata.xml" files in subdirectories of "ALX"
+* missing language mapping for german language for tesseract OCR
+* `libtesseract.so.3` not found
+* `libpng12.so.0` not found
+
+For solutions see [Troubleshooting](#troubleshooting2).
+
+* Restart "Begin Conversion"
+
+We started at 16:18h ... so let's see how long it takes ...
 
 
+# Appendix
 
+## Available Roles
+{: #availableRoles }
 
+Available roles (MARC relators, taken from sourcecode) are:
 
+Enum value | acronym | Role name | description
+-|-|-|-
+ABRIDGER | "abr" | "Abridger" | "A person, family, or organization contributing to a resource by shortening or condensing the original work but leaving the nature and content of the original work substantially unchanged. For substantial modifications that result in the creation of a new work, see author")
+ACTOR | "act" | "Actor" | "A performer contributing to an expression of a work by acting as a cast member or player in a musical or dramatic presentation, etc."
+ADAPTER | "adp" | "Adapter" | "A person or organization who 1) reworks a musical composition, usually for a different medium, or 2) rewrites novels or stories for motion pictures or other audiovisual medium."
+ADDRESSEE | "rcp" | "Addressee" | "A person, family, or organization to whom the correspondence in a work is addressed"
+ANALYST | "anl" | "Analyst" | "A person or organization that reviews, examines and interprets data or information in a specific area"
+
+TODO
+
+## Types of resource
+{: #typeOfResource }
+
+Supported values resource types (MODS typeOfResource, taken from sourcecode) are:
+
+"text", "cartographic", "notated music", "sound recording", "sound recording-musical", "sound recording-nonmusical", "still image", "moving image", "three dimensional object", "software, multimedia", "mixed material"
 
 # Troubleshooting
+{: #troubleshooting }
 
 ## 1_ResCartaMetadataCreationTool.sh
+{: #troubleshooting1 }
 
 ### "SubsampleAverage" operation`s value for parameter "scaleX" is invalid.
 
@@ -320,6 +532,7 @@ This is caused if you resized the window of the tool to a too small size.
 Resize the window to a bigger size and try again.
 
 ## 2_ResCartaDataConversionTool.sh
+{: #troubleshooting2 }
 
 ### RcTools-7.0.5/lib/libz.so.1
 
@@ -341,6 +554,208 @@ $ cd ~/RcTools-7.0.5
 $ mv lib/libz.so.1 libz.so.1.save
 $ ls
 apache-tomcat-8.5.31  bin  docs  lib  libz.so.1.save  RcToolsLicense.txt  tessdata  Uninstaller
+```
+### metadata.xml does not exist
+
+Problem:
+
+If you get an error message like this:
+
+```
+java.io.IOException: Unable to read METS record from /media/ralf/TOSHIBA EXT/Gescannte Bücher/ALX/advent_und_weihnacht/data/done/metadata.xml - /media/ralf/TOSHIBA EXT/Gescannte Bücher/ALX/advent_und_weihnacht/data/done/metadata.xml does not exist
+```
+
+you selected a parent-directory containing subdirectories with images of books that do not have `metadata.xml` created, yet.
+
+Solution:
+
+Choose as source data directory directly the directory containing a ready book, e.g. `/media/ralf/TOSHIBA EXT/Gescannte Bücher/ALX/Kürschners_Handlexikon-600dpi`
+
+### No OCR language mapping found
+
+Problem:
+
+`metadata.xml` defines a content language not yet installed.
+
+You will get an error message like this:
+
+```
+No OCR language mapping found for ger.
+```
+
+because tesseract does not have german language mapping, yet.
+By default ResCarta Data Converion Tool only supports english language.
+
+Solution:
+
+Adding Addtional OCR Language Support to `tesseract` OCR engine.
+
+To support other languages you will need to download a language pack from the Tesseract site. The packs are available in compressed formats. You will need to uncompress them and add them to the ResCarta Toolkit installation directory `tessdata` directory which by default is `~/RcTools-7.0.X/tessdata`.
+
+Browse <https://github.com/tesseract-ocr/tessdata>
+
+We download
+
+* `deu_frak.traineddata` - support for german language in fraktur typography
+* `deu_frak.traineddata`
+
+After downloading we have to uncompress them and place into directory `~/RcTools-7.0.5/tessdata`
+
+See <https://tesseract-ocr.github.io/tessdoc/Data-Files>:
+
+```
+$ cd ~/RcTools-7.0.5/tessdata
+$ cp ~/Downloads/deu*.traineddata .
+$ combine_tessdata -u deu.traineddata deu.
+
+Extracting tessdata components from deu.traineddata
+Wrote deu.unicharset
+Wrote deu.unicharambigs
+Wrote deu.inttemp
+Wrote deu.pffmtable
+Wrote deu.normproto
+Wrote deu.punc-dawg
+Wrote deu.word-dawg
+Wrote deu.number-dawg
+Wrote deu.freq-dawg
+Wrote deu.shapetable
+Wrote deu.bigram-dawg
+Wrote deu.params-model
+Wrote deu.lstm
+Wrote deu.lstm-punc-dawg
+Wrote deu.lstm-word-dawg
+Wrote deu.lstm-number-dawg
+Wrote deu.lstm-unicharset
+Wrote deu.lstm-recoder
+Wrote deu.version
+Version string:Pre-4.0.0+4.00.00alpha:deu:best2int20180322
+1:unicharset:size=7836, offset=192
+2:unicharambigs:size=3859, offset=8028
+3:inttemp:size=1211942, offset=11887
+4:pffmtable:size=886, offset=1223829
+5:normproto:size=14016, offset=1224715
+6:punc-dawg:size=5154, offset=1238731
+7:word-dawg:size=1038274, offset=1243885
+8:number-dawg:size=1650, offset=2282159
+9:freq-dawg:size=1594, offset=2283809
+13:shapetable:size=66226, offset=2285403
+14:bigram-dawg:size=11014922, offset=2351629
+16:params-model:size=688, offset=13366551
+17:lstm:size=962440, offset=13367239
+18:lstm-punc-dawg:size=5154, offset=14329679
+19:lstm-word-dawg:size=1092834, offset=14334833
+20:lstm-number-dawg:size=2162, offset=15427667
+21:lstm-unicharset:size=6610, offset=15429829
+22:lstm-recoder:size=1048, offset=15436439
+23:version:size=43, offset=15437487
+
+$ combine_tessdata -u deu_frak.traineddata deu_frak.
+
+Extracting tessdata components from deu_frak.traineddata
+Wrote deu_frak.unicharset
+Wrote deu_frak.inttemp
+Wrote deu_frak.pffmtable
+Wrote deu_frak.normproto
+Wrote deu_frak.punc-dawg
+Wrote deu_frak.word-dawg
+Wrote deu_frak.number-dawg
+Wrote deu_frak.freq-dawg
+Wrote deu_frak.version
+Version string:Pre-4.0.0+Pre-4.0.0:best2int20180321
+1:unicharset:size=1716, offset=192
+3:inttemp:size=1183293, offset=1908
+4:pffmtable:size=799, offset=1185201
+5:normproto:size=16901, offset=1186000
+6:punc-dawg:size=170, offset=1202901
+7:word-dawg:size=569218, offset=1203071
+8:number-dawg:size=90, offset=1772289
+9:freq-dawg:size=206322, offset=1772379
+23:version:size=36, offset=1978701
+```
+
+Language support is controlled by the contents of the file `~/.RcTools/config/RcTessLangMap.properties`.
+
+```
+#Map ISO languages to Tesseract languages for ResCarta data conversion
+#Fri Jun 30 14:42:32 CEST 2023
+rus=rus
+fre=fra
+eng=eng
+```
+
+The above shows Russian, French and English settings for mapping from ISO language to Tesseract language. Note that French
+and English ISO language three character codes do not map directly to the Tesseract codes.
+
+We add the german mappings but activate only the fraktur type, as we need this mapping for our example book that is printed in fraktur.
+
+```
+#ger=deu
+ger=deu_frak
+```
+
+Remember to change this configuration in the future if you have a german book being not printed in fraktur!
+
+### Unable to load library 'libtesseract.so.3'
+
+Problem:
+
+If you start conversion with enabled OCR, you may get the error:
+
+```
+Error converting page 1 of alx-0001.jpg: Unable to load library 'libtesseract.so.3': Native library (linux-x86-64/libtesseract.so.3) not found in resource path (../lib/rc-ir-sdk-7.0.5.jar:../lib/rc-audiomd-sdk-7.0.5.jar:../lib/rc-jedit-syntax-2.2.2.1.jar:../lib/rc-ir-indexer-7.0.5.jar:../lib/FastInfoset-1.2.16.jar:../lib/commons-logging-1.2.jar:../lib/lucene-grouping-7.3.0.jar:../lib/xmpcore-6.1.10.jar:../lib/rc-cmgr-7.0.5.jar:../lib/rc-mets-sdk-7.0.5.jar:../lib/slf4j-api-1.6.6.jar:../lib/poi-4.0.1.jar:../lib/commons-codec-1.11.jar:../lib/rc-dct-7.0.5.jar:../lib/jhighlight-1.0.2.jar:../lib/rc-sdk-7.0.5.jar:../lib/commons-lang-2.6.jar:../lib/xmlbeans-3.0.2.jar:../lib/paranamer-2.7.jar:../lib/json-20160810.jar:../lib/opensans-1.10.jar:../lib/jna-4.5.1.jar:../lib/rc-ate-7.0.5.jar:../lib/jaxb-api-2.3.1.jar:../lib/rc-vorbis-sdk-7.0.5.jar:../lib/hunspell-en-us-20070829.jar:../lib/lucene-facet-7.3.0.jar:../lib/log4j-1.2.15.jar:../lib/vlcj-3.10.1.jar:../lib/commons-compress-1.18.jar:../lib/poi-ooxml-schemas-4.0.1.jar:../lib/sphinx4-1.0.0-beta6.jar:../lib/orika-core-1.4.6.jar:../lib/lucene-queries-7.3.0.jar:../lib/rc-cvt-7.0.5.jar:../lib/ipaddress-4.1.0.jar:../lib/commons-io-2.6.jar:../lib/rc-jai-codec-1.1.3.3.jar:../lib/istack-commons-runtime-3.0.8.jar:../lib/slf4j-simple-1.7.12.jar:../lib/txw2-2.3.2.jar:../lib/xml-apis-1.4.01.jar:../lib/javax.activation-api-1.2.0.jar:../lib/rc-mct-7.0.5.jar:../lib/jpedal-lgpl-4.51b32.jar:../lib/rc-jai-core-1.1.3.3.jar:../lib/javassist-3.19.0-GA.jar:../lib/jaxb-runtime-2.3.2.jar:../lib/commons-cli-1.5.0.jar:../lib/KalturaClient-3.3.1.jar:../lib/rc-tme-7.0.5.jar:../lib/commons-httpclient-3.1.jar:../lib/rc-dfut-7.0.5.jar:../lib/curvesapi-1.05.jar:../lib/jcodec-javase-0.2.2.jar:../lib/pdfbox-2.0.16.jar:../lib/javahelp-2.0.02.jar:../lib/xercesImpl-2.11.0.jar:../lib/tritonus-share-0.3.6.jar:../lib/rc-bwf-sdk-7.0.5.jar:../lib/ejml-0.16.jar:../lib/rc-mods-sdk-7.0.5.jar:../lib/tritonus-remaining-0.3.6.jar:../lib/subtitle-0.9.0.jar:../lib/jcodec-0.2.2.jar:../lib/xml-resolver-1.2.jar:../lib/lucene-core-7.3.0.jar:../lib/bcprov-jdk16-1.46.jar:../lib/fontbox-2.0.16.jar:../lib/commons-lang3-3.8.1.jar:../lib/rc-mix-sdk-7.0.5.jar:../lib/sphinx4-hub4-1.0.0-beta6.jar:../lib/rc-kvut-7.0.5.jar:../lib/java-sizeof-0.0.4.jar:../lib/jbig2-imageio-3.0.2.jar:../lib/poi-ooxml-4.0.1.jar:../lib/mediainfo-java-api-1.0.0.RELEASE.jar:../lib/rc-revtmd-sdk-7.0.5.jar:../lib/jna-platform-4.1.0.jar:../lib/stax-ex-1.8.1.jar:../lib/commons-collections4-4.2.jar:../lib/commons-math3-3.6.1.jar:../lib/lucene-analyzers-common-7.3.0.jar:../lib/jai-imageio-1.1.jar:../lib/concurrentlinkedhashmap-lru-1.2_jdk5.jar)
+```
+
+Only JAR-files are listed, but existing file `~/RcTools-7.0.5/lib/libtesseract.so.3` can not be found.
+
+Solution:
+
+Open start script and add `lib`-directory containing `libtesseract.so.3` to CLASSPATH:
+
+File `~/RcTools-7.0.5/bin/2_ResCartaDataConversionTool.sh`:
+
+```
+export CLASSPATH="../lib/*:/home/ralf/RcTools-7.0.5/lib"
+```
+
+### 'libpng12.so.0' not found
+
+Problem:
+
+During conversion we got error:
+
+```
+Error converting page 1 of alx-0001.jpg: libpng12.so.0: Kann die Shared-Object-Datei nicht öffnen: Datei oder Verzeichnis nicht gefunden
+```
+
+telling us that PNG-lib can not be opened because file or directory not found.
+
+Solution:
+
+Install `libpng` in wanted version:
+
+The documented approach failed:
+
+```
+$ cd ~/Downloads/
+$ wget http://security.ubuntu.com/ubuntu/pool/main/libp/libpng/libpng12-0_1.2.54-1ubuntu1.1_amd64.deb
+$ sudo dpkg -i ./libpng12-0_1.2.54-1ubuntu1.1_amd64.deb
+Vormals nicht ausgewähltes Paket libpng12-0:amd64 wird gewählt.
+dpkg: Betreffend .../libpng12-0_1.2.54-1ubuntu1.1_amd64.deb, welches libpng12-0:amd64 enthält:
+ usrmerge kollidiert mit libpng12-0 (<< 1.2.54-4~)
+  libpng12-0:amd64 (Version 1.2.54-1ubuntu1.1) soll installiert werden.
+
+dpkg: Fehler beim Bearbeiten des Archivs ./libpng12-0_1.2.54-1ubuntu1.1_amd64.deb (--install):
+ Kollidierende Pakete - libpng12-0:amd64 wird nicht installiert
+Fehler traten auf beim Bearbeiten von:
+ ./libpng12-0_1.2.54-1ubuntu1.1_amd64.deb
+```
+
+So we install library according to <https://www.linuxuprising.com/2018/05/fix-libpng12-0-missing-in-ubuntu-1804.html>:
+
+```
+$ sudo add-apt-repository ppa:linuxuprising/libpng12
+$ sudo apt update
+$ sudo apt install libpng12-0
 ```
 
 ## Developing / Compiling tools from source

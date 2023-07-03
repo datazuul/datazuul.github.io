@@ -76,6 +76,7 @@ permalink: pretty
 
 # Jekyll 3 now only supports Kramdown for Markdown
 kramdown:
+  auto_ids: true
   # Use GitHub flavored markdown, including triple backtick fenced code blocks
   input: GFM
   # Jekyll 3 and GitHub Pages now support rouge for syntax highlighting
