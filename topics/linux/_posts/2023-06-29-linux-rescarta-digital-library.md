@@ -157,28 +157,7 @@ We get final information that installation is finished and that there is an unin
 
 Finish installation by clicking "Done".
 
-# Troubleshooting
-
-## RcTools-7.0.5/lib/libz.so.1
-
-Problem: When starting `2_ResCartaDataConversionTool.sh` the application crashes with stacktrace:
-
-```
-$ ./2_ResCartaDataConversionTool.sh 
-Exception in thread "main" java.lang.UnsatisfiedLinkError: /usr/lib/jvm/java-11-openjdk-amd64/lib/libfontmanager.so: /home/ralf/RcTools-7.0.5/lib/libz.so.1: version `ZLIB_1.2.9' not found (required by /lib/x86_64-linux-gnu/libpng16.so.16)
-```
-
-Solution:
-
-Change to installation location and move/rename the `lib/libz.so.1` file:
-
-```
-$ cd ~/RcTools-7.0.5
-$ mv lib/libz.so.1 libz.so.1.save
-$ ls
-apache-tomcat-8.5.31  bin  docs  lib  libz.so.1.save  RcToolsLicense.txt  tessdata  Uninstaller
-```
-
+**IMPORTANT**: Before starting usage of ResCarta, read carefully section "Troubleshooting" and prepare installed system for first use.
 
 # Usage
 
@@ -310,19 +289,75 @@ Next dialog is the "Select Object type" dialog. You have to select the type of t
 
 After selecting "Monograph", the monograph create metadata dialog appears.
 
+![ResCarta Metadata Creation Tool - Monograph create metadata](/assets/topics/linux/rescarta/rescarta-metadata-creation-tool-11.jpg)
+
+As we did not enter metadata (title), yet, the object's Id is shown in the list on the left: "ALX00000/00000001/00000001".
+
+
+
+
+
+
+
+# Troubleshooting
+
+## 1_ResCartaMetadataCreationTool.sh
+
+### "SubsampleAverage" operation`s value for parameter "scaleX" is invalid.
+
+Problem:
+
+After selecting of object type in modal dialog of metaata creation tool, the preview image and metadata form fields are supposed to be shown.
+
 ![ResCarta Metadata Creation Tool - Monograph create metadata](/assets/topics/linux/rescarta/rescarta-metadata-creation-tool-10.jpg)
 
-**Problem:**
+If you get an error dialog showing "java.lang.IllegalArgumentException: "SubsampleAverage" operation`s value for parameter "scaleX" is invalid.", the creation of the thumbnail view for the first image of the book failed.
+ResCarta could not resize the thumbnail because the desired width is invalid.
 
-Unfortunately the creation of the thumbnail view for the first image of the book fails with error message "java.lang.IllegalArgumentException: "SubsampleAverage" operation`s value for parameter "scaleX" is invalid."
+Solution:
 
-So the dialog further metadata form fields didn't show up and we can not enter metadata...
+This is caused if you resized the window of the tool to a too small size.
+Resize the window to a bigger size and try again.
 
-To debug this I tried to build rc-tools, but unfortunately I can not build it:
+## 2_ResCartaDataConversionTool.sh
+
+### RcTools-7.0.5/lib/libz.so.1
+
+Problem:
+
+When starting `2_ResCartaDataConversionTool.sh` the application crashes with stacktrace:
+
+```
+$ ./2_ResCartaDataConversionTool.sh 
+Exception in thread "main" java.lang.UnsatisfiedLinkError: /usr/lib/jvm/java-11-openjdk-amd64/lib/libfontmanager.so: /home/ralf/RcTools-7.0.5/lib/libz.so.1: version `ZLIB_1.2.9' not found (required by /lib/x86_64-linux-gnu/libpng16.so.16)
+```
+
+Solution:
+
+Change to installation location and move/rename the `lib/libz.so.1` file:
+
+```
+$ cd ~/RcTools-7.0.5
+$ mv lib/libz.so.1 libz.so.1.save
+$ ls
+apache-tomcat-8.5.31  bin  docs  lib  libz.so.1.save  RcToolsLicense.txt  tessdata  Uninstaller
+```
+
+## Developing / Compiling tools from source
+
+If you are eager to contribute or want to debug the tools, you would have to compile them.
+
+### launch4j / windres not found
+
+Problem:
+
+On Ubuntu 22.04 I could not compile completely all tools:
 
 ```
 $ export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 $ cd ~/development/rescarta.org/rc-tools
+$ mvn clean install
+
 [INFO] ------------------------------------------------------------------------
 [INFO] Reactor Summary for ResCarta Tools Parent 7.0.5:
 [INFO] 
