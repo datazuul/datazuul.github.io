@@ -488,6 +488,7 @@ Unfortunately the second tesseract problem could not be solved, so we deactivate
 
 We started at 16:52h ... so let's see how long conversion for 935 files take ...
 
+![ResCarta Data Conversion Tool - conversion](/assets/topics/linux/rescarta/rescarta-data-conversion-tool-03.jpg)
 
 # Appendix
 
