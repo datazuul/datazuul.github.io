@@ -501,6 +501,246 @@ The converted result is in target directory `/media/ralf/TOSHIBA EXT/TEMP/RCDATA
 * `00000001.tif` ... `00000935.tif`
 * `metadata.xml` with updated file paths
 
+### Step 3: Create collections
+
+To be able to index data it is required to create collections first.
+
+Start *ResCarta Collections Manager*:
+ 
+```
+$ export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+$ cd ~/RcTools-7.0.5/bin
+$ ./5_ResCartaCollectionsManager.sh
+```
+
+![ResCarta Collections manager Tool - start](/assets/topics/linux/rescarta/rescarta-collections-manager-tool-01.jpg)
+
+**Important**: You should copy your ResCarta data from its intermediate location to your ResCarta archive
+(its intended final location) before using the ResCarta Collections Manager.
+
+(* Resize window to a bigger size / fullscreen, to avoid again preview image crashes...)
+* move content of temporary `TEMP/RCDATA01` to final destination `/media/ralf/TOSHIBA EXT/RCDATA01/`
+
+```
+$ mkdir /media/ralf/TOSHIBA\ EXT/RCDATA01/
+$ mv /media/ralf/TOSHIBA\ EXT/TEMP/RCDATA01/* /media/ralf/TOSHIBA\ EXT/RCDATA01/
+```
+
+**Note**: After making any changes to your ResCarta collections, objects (ResCarta-formatted objects), or
+metadata, the ResCarta Indexer must be run to update the index!
+
+* Open ResCarta archive directory: Menu "File - Open ResCarta Data Volume": we select "/media/ralf/TOSHIBA EXT/RCDATA01"
+* Add a collection "Encyclopedias" by clicking "+"-button ("New Collection")
+* Add object to collection by clicking second "+"-button ("Add Objects to Collection"), select book
+* Save collections with menu "File - Save Collections Data" (or "Ctrl-S")
+
+The collections metadata is stored as METS in file `/media/ralf/TOSHIBA EXT/RCDATA01/metadata.xml`:
+
+```
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<mets xmlns="http://www.loc.gov/METS/" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TYPE="ResCarta Collection Metadata v7.0" xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/mets.xsd http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-4.xsd" xmlns:mets="http://www.loc.gov/METS/" xmlns:mods="http://www.loc.gov/mods/v3">
+ <metsHdr CREATEDATE="2023-07-03T18:16:38.433+02:00" RECORDSTATUS="Complete">
+  <agent ROLE="CREATOR" TYPE="ORGANIZATION">
+   <name>ResCarta Foundation, Inc.</name>
+  </agent>
+ </metsHdr>
+ <dmdSec ID="DMD0001">
+  <mdWrap MDTYPE="MODS" MIMETYPE="text/xml">
+   <xmlData>
+    <mods:mods>
+     <mods:titleInfo>
+      <mods:title>Encyclopedias</mods:title>
+     </mods:titleInfo>
+     <mods:identifier type="local">a248a6bd-4d5b-4e20-b09c-32041cb8cde1</mods:identifier>
+    </mods:mods>
+   </xmlData>
+  </mdWrap>
+ </dmdSec>
+ <dmdSec ID="DMD0002">
+  <mdWrap MDTYPE="MODS" MIMETYPE="text/xml">
+   <xmlData>
+    <mods:mods>
+     <mods:titleInfo>
+      <mods:title>Kürschners Handlexikon für alle Wissensgebiete</mods:title>
+     </mods:titleInfo>
+     <mods:name type="corporate">
+      <mods:namePart>alexana Digital Library</mods:namePart>
+      <mods:role>
+       <mods:roleTerm authority="marcrelator" type="code">own</mods:roleTerm>
+       <mods:roleTerm authority="marcrelator" type="text">Owner</mods:roleTerm>
+      </mods:role>
+     </mods:name>
+     <mods:name type="personal">
+      <mods:namePart type="family">Kürschner</mods:namePart>
+      <mods:namePart type="given">Joseph</mods:namePart>
+      <mods:namePart type="date">† 29.07.1902</mods:namePart>
+      <mods:role>
+       <mods:roleTerm authority="marcrelator" type="code">cre</mods:roleTerm>
+       <mods:roleTerm authority="marcrelator" type="text">Creator</mods:roleTerm>
+      </mods:role>
+     </mods:name>
+     <mods:typeOfResource>text</mods:typeOfResource>
+     <mods:genre authority="marcgt">encyclopedia</mods:genre>
+     <mods:originInfo>
+      <mods:place>
+       <mods:placeTerm type="text">Stuttgart, Berlin, Leipzig</mods:placeTerm>
+      </mods:place>
+      <mods:publisher>Union Deutsche Verlagsgesellschaft</mods:publisher>
+      <mods:dateIssued encoding="iso8601">1929</mods:dateIssued>
+      <mods:dateCaptured encoding="iso8601">2023-07-03</mods:dateCaptured>
+      <mods:issuance>monographic</mods:issuance>
+     </mods:originInfo>
+     <mods:language>
+      <mods:languageTerm authority="iso639-2b" type="code">ger</mods:languageTerm>
+     </mods:language>
+     <mods:identifier type="local">ALX00000/00000001/00000001</mods:identifier>
+     <mods:location>
+      <mods:url>ALX00000/00000001/00000001</mods:url>
+     </mods:location>
+    </mods:mods>
+   </xmlData>
+  </mdWrap>
+ </dmdSec>
+ <structMap TYPE="LOGICAL">
+  <div TYPE="collections">
+   <div DMDID="DMD0001" TYPE="collection">
+    <div DMDID="DMD0002" TYPE="monograph"/>
+   </div>
+  </div>
+ </structMap>
+</mets>
+```
+
+* Close tool.
+
+### Step 4: ResCarta Indexer
+
+For indexing of the whole archive:
+
+Start Indexer:
+
+```
+$ export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+$ cd ~/RcTools-7.0.5/bin
+$ ./6_ResCartaIndexer.sh
+```
+
+* Add "ResCarta Data Volume Directory (RCDATA01)": "/media/ralf/TOSHIBA EXT/RCDATA01"
+* "Index Output Directory" is set automatically to "/media/ralf/TOSHIBA EXT/RCDATA01/index.ir7"
+* Options: "Verbose"
+
+![ResCarta Indexer Tool - conversion](/assets/topics/linux/rescarta/rescarta-indexer-tool-01.jpg)
+
+Click "Begin indexing".
+
+As we only have one object this is fast:
+
+![ResCarta Data Conversion Tool - indexing finished](/assets/topics/linux/rescarta/rescarta-indexer-tool-02.jpg)
+
+Close tool.
+
+### Step 5: ResCarta Web
+
+The installation of ResCarta Toolkit dis also install an Apache Tomcat with a ResCarta Web webapp and sample data.
+
+Let's have a look:
+
+```
+$ ~/RcTools-7.0.5/apache-tomcat-8.5.31/bin/startup.sh
+Using CATALINA_BASE:   /home/ralf/RcTools-7.0.5/apache-tomcat-8.5.31
+Using CATALINA_HOME:   /home/ralf/RcTools-7.0.5/apache-tomcat-8.5.31
+Using CATALINA_TMPDIR: /home/ralf/RcTools-7.0.5/apache-tomcat-8.5.31/temp
+Using JRE_HOME:        /usr/lib/jvm/java-11-openjdk-amd64
+Using CLASSPATH:       /home/ralf/RcTools-7.0.5/apache-tomcat-8.5.31/bin/bootstrap.jar:/home/ralf/RcTools-7.0.5/apache-tomcat-8.5.31/bin/tomcat-juli.jar
+Tomcat started.
+```
+
+Browse <http://localhost:8302/ResCarta-Web/>
+
+![ResCarta Web - sample data](/assets/topics/linux/rescarta/rescarta-web-01.png)
+
+To change served archive to your archive, we have to reconfigure the webapp:
+
+* Log into restricted user area by clicking link "Log in" in the upper right: <http://localhost:8302/ResCarta-Web/jsp/RcWebUserWelcome.jsp>
+* Authenticate with "admin"/"password"
+* Click tab "Server Administration"
+* Change "ResCarta Data Volume Directory" to your ResCarta archive directory, e.g. "/media/ralf/TOSHIBA EXT/RCDATA01/"
+* Click "Save"
+
+The configuration got saved into file `~/RcTools-7.0.5/apache-tomcat-8.5.31/webapps/ResCarta-Web/work/conf/rcWebConf.xml`:
+
+```
+<rcDataVolume>/media/ralf/TOSHIBA EXT/RCDATA01</rcDataVolume>
+```
+
+* View new content by clicking on tab "Browse Titles"
+
+![ResCarta Web - own data](/assets/topics/linux/rescarta/rescarta-web-02.png)
+
+Success! We see our first digital object (book) and we can view it by clicking on it:
+
+![ResCarta Web - viewer](/assets/topics/linux/rescarta/rescarta-web-03.png)
+
+What is missing:
+
+* preview image
+* search facets/filter
+
+#### Generate thumbnails
+
+For thumbnails we have to generate them:
+
+```
+$ java -Xmx1G -cp "/home/ralf/RcTools-7.0.5/lib/*" \
+org.rescarta.tools.cmd.RcWebThumbnailGenerator /media/ralf/TOSHIBA\ EXT/RCDATA01 /media/ralf/TOSHIBA\ EXT/RCDATA01/thumbs
+Generating thumbnails for ALX00000/00000001/00000001...(Done)
+```
+
+Now we see the preview image in the web:
+
+![ResCarta Web - preview image](/assets/topics/linux/rescarta/rescarta-web-04.png)
+
+#### Facets/Filter
+
+ResCarta-Web allows the user to limit a browse listing to particular metadata elements of objects. These
+can be anyone of the following facets:
+
+```
+TITLE, VOLUME, ISSUE, EDITION, ROLE_AUTHOR, ROLE_CREATOR, ROLE_PHOTOGRAPHER,
+ROLE_PUBLISHER, DIGITAL_PUBLISHER_NAME, ,TYPE_OF_RESOURCE, GENRE,
+PLACE_OF_PUBLICATION, DATE_PUBLISHED, YEAR_PUBLISHED, MONTH_PUBLISHED,
+DAY_PUBLISHED, QUESTIONABLE_DATE_PUBLISHED, DATE_CAPTURED, LANGUAGE,
+SUBJECT_TOPIC, SUBJECT_GEOGRAPHIC, SUBJECT_TEMPORAL, SUBJECT_COUNTRY,
+SUBJECT_STATE, SUBJECT_COUNTY, SUBJECT_CITY, ALTERNATE_IDENTIFIER
+```
+
+Enable and configure facets in `~/RcTools-7.0.5/apache-tomcat-8.5.31/webapps/ResCarta-Web/work/conf/rcWebConf.xml`
+
+```
+<!--
+Enable / disable facets
+true or false
+-->
+<facetsEnabled>true</facetsEnabled>
+```
+
+This was documented in PDF-documentation. But no change: facets not shown.
+Maybe facets are only shown if more than one object found?
+
+Yes! we see facets after adding another book (to new collection "Fact Books"!
+
+![ResCarta Web - facets](/assets/topics/linux/rescarta/rescarta-web-05.png)
+
+**Open question is**: When I change metadata of a book, e.g. correcting issue year from 1929 to 1925 and index data again: Why I can not see the changes in the Web UI? (even after restart of Tomcat)
+
+And what we notice, too: facets having only one value are not shown either: "language" facet is not shown, because only german books are indexed...
+
+And another viewer (Mirador) is installed for browsing collections and objects:
+
+<http://localhost:8302/ResCarta-Web/mirador>
+
+
+
 # Appendix
 
 ## Available Roles
@@ -864,6 +1104,22 @@ So this is a dead end?
 
 So as long ResCarta does not support Tesseract 4 we have to do Data Conversion without OCR :-(...
 
+## 6_ResCartaIndexer.sh
+
+### RCDATA01/metadata.xml does not exist
+
+Problem:
+
+After starting indexing you get a message like this:
+
+```
+/media/ralf/TOSHIBA EXT/RCDATA01/metadata.xml does not exist.
+```
+
+Solution:
+
+Indexing requires creation of collections before.
+Create collections using `5_ResCartaCollectionsManager.sh`
 ## Developing / Compiling tools from source
 
 If you are eager to contribute or want to debug the tools, you would have to compile them.
