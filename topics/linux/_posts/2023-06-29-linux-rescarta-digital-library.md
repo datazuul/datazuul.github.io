@@ -731,7 +731,11 @@ Yes! we see facets after adding another book (to new collection "Fact Books"!
 
 ![ResCarta Web - facets](/assets/topics/linux/rescarta/rescarta-web-05.png)
 
-**Open question is**: When I change metadata of a book, e.g. correcting issue year from 1929 to 1925 and index data again: Why I can not see the changes in the Web UI? (even after restart of Tomcat)
+**Important**: When you change metadata of a book, e.g. correcting issue year from 1929 to 1925 and index data again. You will not see the changes in the Web UI (even after restart of Tomcat). Why? Because all metadata is copied to collections' `metadata.xml`! To update it there based on your objects' `metadata.xml`: Open `./5_ResCartaCollectionsManager.sh` remove changed object from collection and add it again. After this start indexer `./6_ResCartaIndexer.sh` (no complete reindexing needed).
+
+Now we get updated data and facets:
+
+![ResCarta Web - updated facets](/assets/topics/linux/rescarta/rescarta-web-06.png)
 
 And what we notice, too: facets having only one value are not shown either: "language" facet is not shown, because only german books are indexed...
 
