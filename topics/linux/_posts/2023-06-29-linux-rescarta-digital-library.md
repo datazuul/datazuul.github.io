@@ -477,12 +477,16 @@ We got trouble with
 * missing language mapping for german language for tesseract OCR
 * `libtesseract.so.3` not found
 * `libpng12.so.0` not found
+* getting a tesseract core dump "actual_tessdata_num_entries_ <= TESSDATA_NUM_ENTRIES"
+* getting a tesseract core dump "Illegal min or max specification!"
 
 For solutions see [Troubleshooting](#troubleshooting2).
 
-* Restart "Begin Conversion"
+Unfortunately the second tesseract problem could not be solved, so we deactivated "OCR" :-(p
 
-We started at 16:18h ... so let's see how long it takes ...
+* Restart "Begin Conversion" without OCR
+
+We started at 16:52h ... so let's see how long conversion for 935 files take ...
 
 
 # Appendix
@@ -592,7 +596,7 @@ Adding Addtional OCR Language Support to `tesseract` OCR engine.
 
 To support other languages you will need to download a language pack from the Tesseract site. The packs are available in compressed formats. You will need to uncompress them and add them to the ResCarta Toolkit installation directory `tessdata` directory which by default is `~/RcTools-7.0.X/tessdata`.
 
-Browse <https://github.com/tesseract-ocr/tessdata>
+For Tesseract 3 traineddata, browse <https://github.com/tesseract-ocr/tessdata/tree/3.04.00>
 
 We download
 
@@ -621,14 +625,8 @@ Wrote deu.freq-dawg
 Wrote deu.shapetable
 Wrote deu.bigram-dawg
 Wrote deu.params-model
-Wrote deu.lstm
-Wrote deu.lstm-punc-dawg
-Wrote deu.lstm-word-dawg
-Wrote deu.lstm-number-dawg
-Wrote deu.lstm-unicharset
-Wrote deu.lstm-recoder
 Wrote deu.version
-Version string:Pre-4.0.0+4.00.00alpha:deu:best2int20180322
+Version string:Pre-4.0.0
 1:unicharset:size=7836, offset=192
 2:unicharambigs:size=3859, offset=8028
 3:inttemp:size=1211942, offset=11887
@@ -641,13 +639,7 @@ Version string:Pre-4.0.0+4.00.00alpha:deu:best2int20180322
 13:shapetable:size=66226, offset=2285403
 14:bigram-dawg:size=11014922, offset=2351629
 16:params-model:size=688, offset=13366551
-17:lstm:size=962440, offset=13367239
-18:lstm-punc-dawg:size=5154, offset=14329679
-19:lstm-word-dawg:size=1092834, offset=14334833
-20:lstm-number-dawg:size=2162, offset=15427667
-21:lstm-unicharset:size=6610, offset=15429829
-22:lstm-recoder:size=1048, offset=15436439
-23:version:size=43, offset=15437487
+23:version:size=9, offset=13367239
 
 $ combine_tessdata -u deu_frak.traineddata deu_frak.
 
@@ -661,7 +653,7 @@ Wrote deu_frak.word-dawg
 Wrote deu_frak.number-dawg
 Wrote deu_frak.freq-dawg
 Wrote deu_frak.version
-Version string:Pre-4.0.0+Pre-4.0.0:best2int20180321
+Version string:Pre-4.0.0
 1:unicharset:size=1716, offset=192
 3:inttemp:size=1183293, offset=1908
 4:pffmtable:size=799, offset=1185201
@@ -670,7 +662,7 @@ Version string:Pre-4.0.0+Pre-4.0.0:best2int20180321
 7:word-dawg:size=569218, offset=1203071
 8:number-dawg:size=90, offset=1772289
 9:freq-dawg:size=206322, offset=1772379
-23:version:size=36, offset=1978701
+23:version:size=9, offset=1978701
 ```
 
 Language support is controlled by the contents of the file `~/.RcTools/config/RcTessLangMap.properties`.
@@ -757,6 +749,108 @@ $ sudo add-apt-repository ppa:linuxuprising/libpng12
 $ sudo apt update
 $ sudo apt install libpng12-0
 ```
+
+### tesseract core dump with "actual_tessdata_num_entries_ <= TESSDATA_NUM_ENTRIES"
+
+Problem:
+
+During conversion with OCR we got a tesseract core dump:
+
+```
+actual_tessdata_num_entries_ <= TESSDATA_NUM_ENTRIES:Error:Assert failed:in file tessdatamanager.cpp, line 53
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007fcf0ba51f00, pid=42943, tid=42999
+#
+# JRE version: OpenJDK Runtime Environment (11.0.19+7) (build 11.0.19+7-post-Ubuntu-0ubuntu122.04.1)
+# Java VM: OpenJDK 64-Bit Server VM (11.0.19+7-post-Ubuntu-0ubuntu122.04.1, mixed mode, sharing, tiered, compressed oops, g1 gc, linux-amd64)
+# Problematic frame:
+# C  [libtesseract.so.3+0x251f00]  ERRCODE::error(char const*, TessErrorLogCode, char const*, ...) const+0x190
+#
+# Core dump will be written. Default location: Core dumps may be processed with "/usr/share/apport/apport -p%p -s%s -c%c -d%d -P%P -u%u -g%g -- %E" (or dumping to /home/ralf/RcTools-7.0.5/bin/core.42943)
+#
+# An error report file with more information is saved as:
+# /home/ralf/RcTools-7.0.5/bin/hs_err_pid42943.log
+#
+# If you would like to submit a bug report, please visit:
+#   https://bugs.launchpad.net/ubuntu/+source/openjdk-lts
+# The crash happened outside the Java Virtual Machine in native code.
+# See problematic frame for where to report the bug.
+#
+```
+
+Solution:
+
+Searching the net I found <https://github.com/gali8/Tesseract-OCR-iOS/issues/299>.
+So it seems that the downloaded "traineddata" files are not compatible with the used tesseract version.
+
+The deployed `libtesseract.so.3` is for Tesseract 3 (see <https://pkgs.org/download/libtesseract.so.3()(64bit)>),
+the traineddata from <https://github.com/tesseract-ocr/tessdata> are for Tesseract 4:
+
+"These language data files only work with Tesseract 4.0.0 and newer versions."
+
+So we have to delete language files from `tessdata` and install the version 3 traineddata.
+(We updated above installation instructions to use the correct version 3.)
+
+```
+$ cd ~/RcTools-7.0.5/tessdata
+$ rm deu*
+```
+
+### tesseract core dump with "Illegal min or max specification!"
+
+Problem:
+
+During conversion tesseract call throws core dump:
+
+```
+Error: Illegal min or max specification!
+"Fatal error encountered!" == NULL:Error:Assert failed:in file globaloc.cpp, line 75
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007f2c77651f00, pid=44522, tid=44581
+#
+# JRE version: OpenJDK Runtime Environment (11.0.19+7) (build 11.0.19+7-post-Ubuntu-0ubuntu122.04.1)
+# Java VM: OpenJDK 64-Bit Server VM (11.0.19+7-post-Ubuntu-0ubuntu122.04.1, mixed mode, sharing, tiered, compressed oops, g1 gc, linux-amd64)
+# Problematic frame:
+# C  [libtesseract.so.3+0x251f00]  ERRCODE::error(char const*, TessErrorLogCode, char const*, ...) const+0x190
+#
+# Core dump will be written. Default location: Core dumps may be processed with "/usr/share/apport/apport -p%p -s%s -c%c -d%d -P%P -u%u -g%g -- %E" (or dumping to /home/ralf/RcTools-7.0.5/bin/core.44522)
+#
+# An error report file with more information is saved as:
+# /home/ralf/RcTools-7.0.5/bin/hs_err_pid44522.log
+#
+# If you would like to submit a bug report, please visit:
+#   https://bugs.launchpad.net/ubuntu/+source/openjdk-lts
+# The crash happened outside the Java Virtual Machine in native code.
+# See problematic frame for where to report the bug.
+#
+```
+
+Solution:
+
+Found discussion on <https://stackoverflow.com/questions/63634166/tesseract-fatal-error-encountered-nullerrorassert-failedin-file-globaloc>.
+
+So I have Tesseract natively installed on my system:
+
+```
+$ tesseract --version
+tesseract 4.1.1
+ leptonica-1.82.0
+  libgif 5.1.9 : libjpeg 8d (libjpeg-turbo 2.1.1) : libpng 1.6.37 : libtiff 4.3.0 : zlib 1.2.11 : libwebp 1.2.2 : libopenjp2 2.4.0
+ Found AVX2
+ Found AVX
+ Found FMA
+ Found SSE
+ Found libarchive 3.6.0 zlib/1.2.11 liblzma/5.2.5 bz2lib/1.0.8 liblz4/1.9.3 libzstd/1.4.8
+```
+
+Uninstallation of tesseract 4 did not help.
+So this is a dead end?
+
+So as long ResCarta does not support Tesseract 4 we have to do Data Conversion without OCR :-(...
 
 ## Developing / Compiling tools from source
 
