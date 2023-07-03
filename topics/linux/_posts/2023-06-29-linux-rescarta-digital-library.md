@@ -402,7 +402,7 @@ Close "ResCarta Metadata Creation Tool" ("File - Exit").
 
 As we do want the results of optical character recognition (OCR) of our images to be written in separate ALTO (Analyzed Layout and Text Object)-files (and not in TIFF-headers), we have to configure this.
 
-File `.RcTools/config/RcSystem.properties`:
+File `~/.RcTools/config/RcSystem.properties`:
 
 ```
 # ALTO
@@ -472,7 +472,7 @@ object directory, the conversion process will fail.
 
 * Start conversion by clicking "Begin Conversion"
 
-We got trouble with
+If you get trouble with
 * missing "metadata.xml" files in subdirectories of "ALX"
 * missing language mapping for german language for tesseract OCR
 * `libtesseract.so.3` not found
@@ -480,15 +480,26 @@ We got trouble with
 * getting a tesseract core dump "actual_tessdata_num_entries_ <= TESSDATA_NUM_ENTRIES"
 * getting a tesseract core dump "Illegal min or max specification!"
 
-For solutions see [Troubleshooting](#troubleshooting2).
+see solutions under [Troubleshooting](#troubleshooting2).
 
-Unfortunately the second tesseract problem could not be solved, so we deactivated "OCR" :-(p
+Unfortunately we ran into the second tesseract problem that could not be solved, so we deactivated "OCR" :-(p
 
 * Restart "Begin Conversion" without OCR
 
 We started at 16:52h ... so let's see how long conversion for 935 files take ...
 
 ![ResCarta Data Conversion Tool - conversion](/assets/topics/linux/rescarta/rescarta-data-conversion-tool-03.jpg)
+
+It finished after 18 minutes:
+
+![ResCarta Data Conversion Tool - conversion finished](/assets/topics/linux/rescarta/rescarta-data-conversion-tool-04.jpg)
+
+Close tool.
+
+The converted result is in target directory `/media/ralf/TOSHIBA EXT/TEMP/RCDATA01/ALX00000/00000001/00000001/` and contains these files:
+
+* `00000001.tif` ... `00000935.tif`
+* `metadata.xml` with updated file paths
 
 # Appendix
 
