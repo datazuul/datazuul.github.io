@@ -724,8 +724,7 @@ true or false
 <facetsEnabled>true</facetsEnabled>
 ```
 
-This was documented in PDF-documentation. But no change: facets not shown.
-Maybe facets are only shown if more than one object found?
+This was documented in PDF-documentation (I think no longer in use, was not in config file!). But no change: facets not shown. Maybe facets are only shown if more than one object found?
 
 Yes! we see facets after adding another book (to new collection "Fact Books"!
 
@@ -743,7 +742,113 @@ And another viewer (Mirador) is installed for browsing collections and objects:
 
 <http://localhost:8302/ResCarta-Web/mirador>
 
+#### Customizing Webapp
 
+##### Images in Header
+
+Header images (left and right one) are configured in `~/RcTools-7.0.5/apache-tomcat-8.5.31/webapps/ResCarta-Web/work/conf/rcWebConf.xml`
+
+```
+<!--
+  Left header image location
+  ______________________________________________________________________
+  A path based at the webapp root, or empty for no left header image.
+ -->
+
+ <leftHeaderImageLocation>work/header-images/alexana.png</leftHeaderImageLocation>
+
+ <!--
+  Left header image HREF
+  ______________________________________________________________________
+  A link target for the left header image, or empty for no link.
+ -->
+
+ <leftHeaderImageHref>/</leftHeaderImageHref>
+
+ <!--
+  Right header image location
+  ______________________________________________________________________
+  A path based at the webapp root, or empty for no right header image.
+ -->
+
+ <rightHeaderImageLocation/>
+
+ <!--
+  Right header image HREF
+  ______________________________________________________________________
+  A link target for the right header image, or empty for no link.
+ -->
+
+ <rightHeaderImageHref>http://www.rescarta.org</rightHeaderImageHref>
+```
+
+In above code we already changed
+
+* the left image location to `work/header-images/alexana.png` and the left image's url to `/`.
+* the right image location to "none" (empty) to disable right image display
+
+Copy the referenced image(s) into webapp's directory `~/RcTools-7.0.5/apache-tomcat-8.5.31/webapps/ResCarta-Web/work/header-images/`.
+
+(This configuration and upload could also be done comfortable in browser after login to admin area of webapp.)
+
+##### Custom CSS
+
+If you want to style the page to a higher degree, it is possible to put custom CSS into place.
+
+The standard location ResCarta Web looks for this is `work/css/RcWebCustom.css`.
+
+(for local installation testing this is under `~/RcTools-7.0.5/apache-tomcat-8.5.31/webapps/ResCarta-Web/work/css/RcWebCustom.css`)
+
+This CSS makes a big difference to our styling:
+
+```
+#rc-nav-tabs {
+    border-bottom-color: #000;
+    padding-bottom: 5px;
+    border-top: solid 1px #000;
+    padding-top: 0px;
+    text-transform: uppercase;
+}
+#rc-nav-tabs li, #rc-nav-tabs li:hover {
+    border: none;
+    background: none;
+}
+#rc-nav-tabs li:hover a {
+    color: #2b5db4ff;
+}
+#rc-left-header-area {
+    text-align: center;
+}
+#rc-right-header-area {
+    display: none;
+}
+.rc-nav-tab-content {
+    border: none;
+}
+#rc-nav-tabs li#current a {
+    color: #2b5db4ff;
+}
+```
+
+##### Remove login link
+
+Finally we do not want the login link to be shown. We can deactivate it again in `~/RcTools-7.0.5/apache-tomcat-8.5.31/webapps/ResCarta-Web/work/conf/rcWebConf.xml`:
+
+```
+<!--
+  Enable / disable login link
+  ______________________________________________________________________
+  true or false
+ -->
+
+ <loginLinkEnabled>false</loginLinkEnabled>
+```
+
+Setting `loginLinkEnabled` to `false`.
+
+And here is the result with custom header image, custom CSS and deactivated login link:
+
+![ResCarta Web - customizing](/assets/topics/linux/rescarta/rescarta-web-07.png)
 
 # Appendix
 
