@@ -911,7 +911,7 @@ Execute `startup.sh` on server:
 # /usr/local/bin/apache-tomcat-8.5.31/bin/startup.sh
 ```
 
-Browse: <http://www.alexana.org:8302/ResCarta-Web/jsp/RcWebBrowse.jsp>
+Browse: <http://www.yourdomain.com:8302/ResCarta-Web/jsp/RcWebBrowse.jsp>
 
 TODO: Put webserver in front of tomcat and redirect to browse page...
 
