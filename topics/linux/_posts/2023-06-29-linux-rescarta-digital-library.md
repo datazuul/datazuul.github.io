@@ -850,6 +850,71 @@ And here is the result with custom header image, custom CSS and deactivated logi
 
 ![ResCarta Web - customizing](/assets/topics/linux/rescarta/rescarta-web-07.png)
 
+##### Install on Server
+
+* Transfer archive to server location:
+
+Login to your webserver and prepare directory for archive directory:
+
+```
+root@yourserver# cd /var/www/
+# mkdir www.yourdomain.com
+# chown nginx:nginx www.yourdomain.com/
+# chmod 777 www.yourdomain.com
+```
+
+Example using `scp`:
+
+```
+$ cd /media/ralf/TOSHIBA\ EXT
+$ scp -r RCDATA01 username@yourdomain.com:/var/www/www.yourdomain.com/
+```
+
+* Transfer Tomcat to server:
+
+```
+$ cd ~/RcTools-7.0.5
+$ tar -zcvf  apache-tomcat-8.5.31.tar.gz apache-tomcat-8.5.31
+$ scp apache-tomcat-8.5.31.tar.gz username@yourdomain.com:~/
+```
+
+Login to your webserver and unpack Apache Tomcat to a suitable directory:
+
+```
+root@yourserver# cd /usr/local/bin/
+# tar xvfz /home/username/apache-tomcat-8.5.31.tar.gz
+```
+
+Configure archive directory:
+
+```
+$ nano /usr/local/bin/apache-tomcat-8.5.31/webapps/ResCarta-Web/work/conf/rcWebConf.xml
+<rcDataVolume>/var/www/www.yourdomain.com/RCDATA01</rcDataVolume>
+```
+
+Configure start and shutdown scripts and change lines according to your environment, e.g.:
+
+```
+$ nano /usr/local/bin/apache-tomcat-8.5.31/bin/startup.sh
+cd "/usr/local/bin/apache-tomcat-8.5.31/bin"
+export JAVA_HOME="/usr/lib/jvm/adoptopenjdk-11-hotspot-amd64"
+$ nano /usr/local/bin/apache-tomcat-8.5.31/bin/shutdown.sh
+cd "/usr/local/bin/apache-tomcat-8.5.31/bin"
+export JAVA_HOME="/usr/lib/jvm/adoptopenjdk-11-hotspot-amd64"
+```
+
+##### Run Server
+
+Execute `startup.sh` on server:
+
+```
+# /usr/local/bin/apache-tomcat-8.5.31/bin/startup.sh
+```
+
+Browse: <http://www.alexana.org:8302/ResCarta-Web/jsp/RcWebBrowse.jsp>
+
+TODO: Put webserver in front of tomcat and redirect to browse page...
+
 # Appendix
 
 ## Available Roles
