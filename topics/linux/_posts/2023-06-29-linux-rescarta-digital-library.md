@@ -878,21 +878,21 @@ $ tar -zcvf  apache-tomcat-8.5.31.tar.gz apache-tomcat-8.5.31
 $ scp apache-tomcat-8.5.31.tar.gz username@yourdomain.com:~/
 ```
 
-Login to your webserver and unpack Apache Tomcat to a suitable directory:
+* Login to your webserver and unpack Apache Tomcat to a suitable directory:
 
 ```
 root@yourserver# cd /usr/local/bin/
 # tar xvfz /home/username/apache-tomcat-8.5.31.tar.gz
 ```
 
-Configure archive directory:
+* Configure archive directory:
 
 ```
 $ nano /usr/local/bin/apache-tomcat-8.5.31/webapps/ResCarta-Web/work/conf/rcWebConf.xml
 <rcDataVolume>/var/www/www.yourdomain.com/RCDATA01</rcDataVolume>
 ```
 
-Configure start and shutdown scripts and change lines according to your environment, e.g.:
+* Configure start and shutdown scripts and change lines according to your environment, e.g.:
 
 ```
 $ nano /usr/local/bin/apache-tomcat-8.5.31/bin/startup.sh
@@ -915,7 +915,64 @@ Browse: <http://www.yourdomain.com:8302/ResCarta-Web/jsp/RcWebBrowse.jsp>
 
 TODO: Put webserver in front of tomcat and redirect to browse page...
 
+#### Syncing local archive with remote archive
+
+Sync remote archive (make sure your user has write access to target directory) with local one:
+
+**Hint**: add option `--dry-run` to simulate the execution of the command to be sure if all is correct.
+
+* Sync only new files on the local machine, that do not exist on the remote machine, e.g.:
+
+```
+$ rsync -av --ignore-existing /media/ralf/TOSHIBA\ EXT/RCDATA01/* username@yourdomain.com:/var/www/www.yourdomain.com/RCDATA01/
+```
+
+* Sync only updated or modified files on the remote machine that have changed on the local machine, e.g.:
+
+```
+$ rsync -av --dry-run --update /media/ralf/TOSHIBA\ EXT/RCDATA01/* username@yourdomain.com:/var/www/www.yourdomain.com/RCDATA01/
+```
+
+Restart Tomcat on remote machine.
+
 # Appendix
+
+## Questions
+
+* Size in inches: How is this calculated? How to change to metric (cm)?
+* How to fill and index field DIGITAL_PUBLISHER_NAME? (no GUI)
+* Would it be possible to add virtual books (expanding software's target of being an archive management tool to additionally reference remote images (IIIF)...) but local preview image and metadata/METS referencing remote images?
+* How to set preview image to another image than 00000001?
+* After updating archive: always tomcat restart needed?
+* TIF-sizes are very big for usage as web presentation (remote, not original archive). How to create a second (compressed) "presentation" archive? Just do compressed conversion step to another directory and copy index over?
+* Why are native libraries used? I know of Java libraries (<https://github.com/haraldk/TwelveMonkeys> to be used for image reading/writing)
+
+## Cheat Sheet of fastest way to curate archive
+
+```
+$ export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+$ cd ~/RcTools-7.0.5/bin
+$ ./1_ResCartaMetadataCreationTool.sh
+$ ./2_ResCartaDataConversionTool.sh
+$ ./5_ResCartaCollectionsManager.sh
+$ ./6_ResCartaIndexer.sh
+$ java -Xmx1G -cp "/home/ralf/RcTools-7.0.5/lib/*" org.rescarta.tools.cmd.RcWebThumbnailGenerator /media/ralf/TOSHIBA\ EXT/RCDATA01 /media/ralf/TOSHIBA\ EXT/RCDATA01/thumbs
+```
+
+Sync local with remote archive:
+
+```
+$ rsync -av --ignore-existing /media/ralf/TOSHIBA\ EXT/RCDATA01/* username@yourdomain.com:/var/www/www.yourdomain.com/RCDATA01/
+$ rsync -av --update /media/ralf/TOSHIBA\ EXT/RCDATA01/* username@yourdomain.com:/var/www/www.yourdomain.com/RCDATA01/
+```
+
+Restart Webapp/Tomcat:
+
+```
+$ sudo su -
+# /usr/local/bin/apache-tomcat-8.5.31/bin/shutdown.sh
+# /usr/local/bin/apache-tomcat-8.5.31/bin/startup.sh
+```
 
 ## Available Roles
 {: #availableRoles }
@@ -941,6 +998,15 @@ Supported values resource types (MODS typeOfResource, taken from sourcecode) are
 
 # Troubleshooting
 {: #troubleshooting }
+
+## Preparation
+
+Problem: I just have files in JPEG2000 (*.jp2)
+Solution: Convert them to TIFF:
+
+```
+$ mogrify -format tif *.jp2
+```
 
 ## 1_ResCartaMetadataCreationTool.sh
 {: #troubleshooting1 }
@@ -1277,6 +1343,20 @@ Uninstallation of tesseract 4 did not help.
 So this is a dead end?
 
 So as long ResCarta does not support Tesseract 4 we have to do Data Conversion without OCR :-(...
+
+### Duplicate property or field node 'xmp:Rating'
+
+Problem:
+
+During conversion of a JPG file we got error
+
+```
+Error converting page 1 of 001.jpg: com.adobe.internal.xmp.XMPException: Duplicate property or field node 'xmp:Rating'
+```
+
+Solution:
+
+Opened file with GIMP (<https://www.gimp.org>) and saved it (overwritting old file).
 
 ## 6_ResCartaIndexer.sh
 
