@@ -1001,7 +1001,8 @@ Supported values resource types (MODS typeOfResource, taken from sourcecode) are
 
 ## Preparation
 
-Problem: I just have files in JPEG2000 (*.jp2)
+Problem: I just have files in JPEG2000 (*.jp2) format.
+
 Solution: Convert them to TIFF:
 
 ```
