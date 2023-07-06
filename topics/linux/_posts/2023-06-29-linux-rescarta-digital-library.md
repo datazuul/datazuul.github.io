@@ -1055,12 +1055,12 @@ As we want build our configuration step by step we start with a simple Proxy fro
 ```
 # nano /etc/nginx/conf.d/alexana.org.conf
 ...
-location / {
-    proxy_pass http://alexana.org:8302/ResCarta-Web/;
+location = / {
+  return 301 /ResCarta-Web/jsp/RcWebBrowse.jsp;
 }
 
 location /ResCarta-Web/ {
-    proxy_pass http://alexana.org:8302/ResCarta-Web/;
+  proxy_pass http://alexana.org:8302/ResCarta-Web/;
 }
 ...
 # nginx -t -c /etc/nginx/nginx.conf
@@ -1069,9 +1069,8 @@ nginx: configuration file /etc/nginx/nginx.conf test is successful
 # systemctl reload nginx
 ```
 
-When browsing "/" we will get `index.htm` from within ResCarta-Web that redirects use to the browse titles Url at `alexana.org/ResCarta-Web/jsp/RcWebBrowse.jsp`.
-
-All further requests are handled by the second location `/ResCarta-Web`.
+When browsing "/" we will get a redirect to `/ResCarta-Web/jsp/RcWebBrowse.jsp` (what we did before in webapps' `index.htm`).
+This redirected request and all further requests are handled by the second location `/ResCarta-Web/` and be proxied to Apache Tomcat.
 
 ###### Setting Request Headers
 
