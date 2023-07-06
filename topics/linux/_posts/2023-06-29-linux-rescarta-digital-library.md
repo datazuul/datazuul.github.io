@@ -1072,6 +1072,12 @@ nginx: configuration file /etc/nginx/nginx.conf test is successful
 When browsing "/" we will get a redirect to `/ResCarta-Web/jsp/RcWebBrowse.jsp` (what we did before in webapps' `index.htm`).
 This redirected request and all further requests are handled by the second location `/ResCarta-Web/` and be proxied to Apache Tomcat.
 
+To test, if redirect is really no longer done by `index.htm` we rename it:
+
+```
+# mv /usr/local/bin/apache-tomcat-8.5.31/webapps/ResCarta-Web/index.htm /usr/local/bin/apache-tomcat-8.5.31/webapps/ResCarta-Web/index.htm.old
+```
+
 ###### Setting Request Headers
 
 As clients will now first connect to NGinx before their request is proxied to Tomcat, we have to make sure,
