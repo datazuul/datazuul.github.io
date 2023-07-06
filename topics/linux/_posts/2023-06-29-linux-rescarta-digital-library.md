@@ -935,6 +935,155 @@ $ rsync -av --dry-run --update /media/ralf/TOSHIBA\ EXT/RCDATA01/* username@your
 
 Restart Tomcat on remote machine.
 
+#### Customize landing page at `/ResCarta-Web/`
+
+When we browse to our webapp without dedicated path to a specific page (browse, search, collections, ...) 
+a default landing page is shown.
+
+<http://localhost:8302/ResCarta-Web/> shows:
+
+![ResCarta Web - default landing page](/assets/topics/linux/rescarta/rescarta-web-08.png)
+
+What we want to achieve is a direct redirect to the "browse titles" view under `/ResCarta-Web/jsp/RcWebBrowse.jsp`.
+
+The default landing page is locally located under `~/RcTools-7.0.5/apache-tomcat-8.5.31/webapps/ResCarta-Web/index.htm`
+
+We replace the HTML-code with this automatic redirect code:
+
+```
+<!DOCTYPE HTML>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="refresh" content="0; url='/ResCarta-Web/jsp/RcWebBrowse.jsp'">
+        <script type="text/javascript">
+            window.location.href = "/ResCarta-Web/jsp/RcWebBrowse.jsp"
+        </script>
+        <title>Page Redirection</title>
+    </head>
+    <body>
+        If you are not redirected automatically, follow this <a href='/ResCarta-Web/jsp/RcWebBrowse.jsp'>link to browsing titles</a>.
+    </body>
+</html>
+```
+
+When we now browse to <http://localhost:8302/ResCarta-Web/> we get redirected automatically to <http://localhost:8302/ResCarta-Web/jsp/RcWebBrowse.jsp>.
+
+Note: This could be achieved also by using `.htaccess` on Apache Webserver. Above approach is independent of what webserver you use.
+
+After this successful test, we do this change on our productive server, too.
+On our installation the file to change is `/usr/local/bin/apache-tomcat-8.5.31/webapps/ResCarta-Web/index.htm`.
+
+#### Putting Webserver in front of Tomcat
+
+Until now our webapp runs in Tomcat under port 8302, e.g. <http://alexana.org:8302/ResCarta-Web/>.
+
+We could configure tomcat to use the port 80 to serve without specifying port in URL.
+But we also want hide Tomcat behind a webserver that may do load balancing, SSL-Securing, only let dedicated access to tomcat webapps.
+Until now Tomcat also serves another ROOT-webapp with welcome page and examples, host-manager and manager.
+When putting Tomcat behind webserver these webapps are no longer accessible to the public (or you delete them from tomcat).
+
+Here is the way to put Apache Tomcat behind a NGinx-webserver (see <https://nginx.org/>).
+Our example's target is to put ResCarta-Web <http://alexana.org:8302/ResCarta-Web/> at address <http://alexana.org/ResCarta-Web/> (no SSL, yet).
+
+##### Configure virtual host for domain on NGinx
+
+On server (with already running NGinx webserver): Our nginx configuration `/etc/nginx/nginx.conf` pulls in / includes all configurations iles for all our domains on the webserver from `/etc/nginx/conf.d/*.conf`. So we create a new configuration file for our domain `alexana.org` to be included:
+
+```
+$ sudo su -
+# nano /etc/nginx/conf.d/alexana.org.conf
+server {
+  listen 80;
+  listen [::]:80;
+
+  server_name alexana.org www.alexana.org;
+
+  root /var/www/www.alexana.org/public_html;
+
+  index index.html index.htm;
+
+  location / {
+    try_files $uri $uri/ =404;
+  }
+}
+```
+
+And let's put a `index.html` file in `public_html` directory as configured:
+
+```
+# mkdir -p /var/www/www.alexana.org/public_html
+# nano /var/www/www.alexana.org/public_html/index.html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>alexana.org</title>
+  </head>
+<body>
+Welcome to alexana.org!
+</body>
+</html>
+```
+
+Note: testing just the single domain file fails because it is not a complete configuration just a part of it (`server` is a subelement of `http`).
+To test / validate the new configuration we have to test the complete configuration file `/etc/nginx/nginx.conf`:
+
+```
+# nginx -t -c /etc/nginx/nginx.conf 
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+```
+
+To activate it, we reload the server:
+
+```
+# systemctl reload nginx
+```
+
+When we now browse <http://alexana.org> we see a simple welcome (out `index.html` file):
+
+```
+Welcome to alexana.org!
+```
+
+Now we are ready to establish the connection between NGinx and our Apache Tomcat ResCarta webapp.
+
+##### Proxy to Apache Tomcat webapp
+
+As we want build our configuration step by step we start with a simple Proxy from URI `/ ` to the webapp on Tomcat under `http://alexana.org:8302/ResCarta-Web`.
+
+```
+# nano /etc/nginx/conf.d/alexana.org.conf
+...
+location / {
+    proxy_pass http://alexana.org:8302/ResCarta-Web/;
+}
+
+location /ResCarta-Web/ {
+    proxy_pass http://alexana.org:8302/ResCarta-Web/;
+}
+...
+# nginx -t -c /etc/nginx/nginx.conf
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+# systemctl reload nginx
+```
+
+When browsing "/" we will get `index.htm` from within ResCarta-Web that redirects use to the browse titles Url at `alexana.org/ResCarta-Web/jsp/RcWebBrowse.jsp`.
+
+All further requests are handled by the second location `/ResCarta-Web`.
+
+###### Setting Request Headers
+
+As clients will now first connect to NGinx before their request is proxied to Tomcat, we have to make sure,
+that headers are set into Tomcat request so that the webapp does not get NGinx specific values, but the client values.
+
+TODO
+
+##### Secure connection with TLS/SSL
+
+TODO
+
 # Appendix
 
 ## Questions
