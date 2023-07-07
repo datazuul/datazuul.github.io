@@ -1,11 +1,20 @@
 ---
 layout: post
-title: ResCarta Digital Collection Toolkit on Linux
+title: From scanned books to own Digital Library with ResCarta Toolkit on Linux
 author: Ralf Eichinger
 toc: true
 ---
 
 This post describes how to install and use the ResCarta Toolkit to create and maintain a digital collection (of e.g. digitized books).
+
+If you follow this documentation you will get a ready to use online archive like this:
+
+![ResCarta Web - Secured](/assets/topics/linux/rescarta/rescarta-web-09.png)
+
+# Prerequisites
+
+* You have directories with images of scanned material (books) at hand
+* For bringing them online with ResCarta-Web you need a webserver you have root access (full admin rights) to.
 
 # Specification
 
@@ -1141,9 +1150,104 @@ $ sudo snap install --classic certbot
 certbot 2.6.0 from Certbot Project (certbot-eff) installed
 ```
 
-https://certbot.eff.org/instructions?ws=nginx&os=debianbuster
+Get and install your certificates automatically (if you do not want certbot to change your configuration automatically, read alternative at 
+<https://certbot.eff.org/instructions?ws=nginx&os=debianbuster>).
 
+Run this command to get a certificate and have Certbot edit your nginx configuration automatically to serve it, turning on HTTPS access in a single step:
 
+```
+$ sudo certbot --nginx
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+
+Which names would you like to activate HTTPS for?
+We recommend selecting either all domains, or all domains in a VirtualHost/server block.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+1: alexana.org
+...
+18: www.someotherdomain.de
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Select the appropriate numbers separated by commas and/or spaces, or leave input
+blank to select all options shown (Enter 'c' to cancel):
+```
+
+To select all just press `Enter`.
+
+If existing certificates are found you will see something like this:
+```
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+An RSA certificate named someotherdomain.de already exists. Do you want to update its
+key type to ECDSA?
+(U)pdate key type/(K)eep existing key type:
+```
+
+Update with `U`
+
+```
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+You have an existing certificate that contains a portion of the domains you
+requested (ref: /etc/letsencrypt/renewal/someotherdomain.de.conf)
+
+It contains these names: ...
+
+You requested these names for the new certificate: ...
+
+Do you want to expand and replace this existing certificate with the new
+certificate?
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+(E)xpand/(C)ancel:
+```
+
+Press `E`.
+
+```
+Renewing an existing certificate for alexana.org and 17 more domains
+
+Successfully received certificate.
+Certificate is saved at: /etc/letsencrypt/live/someotherdomain.de/fullchain.pem
+Key is saved at:         /etc/letsencrypt/live/someotherdomain.de/privkey.pem
+This certificate expires on 2023-10-05.
+These files will be updated when the certificate renews.
+Certbot has set up a scheduled task to automatically renew this certificate in the background.
+
+Deploying certificate
+Successfully deployed certificate for alexana.org to /etc/nginx/conf.d/alexana.org.conf
+...
+Your existing certificate has been successfully renewed, and the new certificate has been installed.
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+If you like Certbot, please consider supporting our work by:
+ * Donating to ISRG / Let's Encrypt:   https://letsencrypt.org/donate
+ * Donating to EFF:                    https://eff.org/donate-le
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+```
+
+Note these important infomations:
+
+* The configuration file for our domain `/etc/nginx/conf.d/alexana.org.conf` has been updated
+* Certbot has set up a scheduled task to automatically renew this certificate in the background.
+
+So we do not have to care for manually renewing certificates in the future :-)
+
+You can check if renewal would work (use option `--dry-run`):
+
+```
+# certbot renew --dry-run
+```
+
+The crobjob for renewal can be found in `/etc/cron.d/certbot`:
+
+So let's test now if we have HTTPS!
+
+Browse your domain, e.g. <https://alexana.org/> and watch out for the lock in address bar:
+
+Hooray, we are online with secure HTTPS!:
+
+![ResCarta Web - Secured](/assets/topics/linux/rescarta/rescarta-web-09.png)
+
+That's it for now, I hope you get online easily now with your archive, too.
+
+<hr>
+<hr>
 
 # Appendix
 
