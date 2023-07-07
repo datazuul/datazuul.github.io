@@ -11,6 +11,8 @@ If you follow this documentation you will get a ready to use online archive like
 
 ![ResCarta Web - Secured](/assets/topics/linux/rescarta/rescarta-web-09.png)
 
+Don't hesitate to give feedback at <https://github.com/datazuul/datazuul.github.io/issues>, you are welcome.
+
 # Prerequisites
 
 * You have directories with images of scanned material (books) at hand
@@ -1243,8 +1245,6 @@ Hooray, we are online with secure HTTPS!:
 ![ResCarta Web - Secured](/assets/topics/linux/rescarta/rescarta-web-09.png)
 
 That's it for now, I hope you get online easily now with your archive, too.
-
-Don't hesitate to give feedback at <https://github.com/datazuul/datazuul.github.io/issues>, you are welcome.
 
 <hr>
 <hr>
