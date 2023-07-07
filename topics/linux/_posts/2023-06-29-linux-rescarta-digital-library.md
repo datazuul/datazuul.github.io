@@ -1092,7 +1092,20 @@ To test, if redirect is really no longer done by `index.htm` we rename it:
 As clients will now first connect to NGinx before their request is proxied to Tomcat, we have to make sure,
 that client request headers are set into Tomcat request so that the webapp does not get NGinx specific values, but the client values.
 
-TODO
+```
+# nano /etc/nginx/conf.d/alexana.org.conf
+...
+location /ResCarta-Web/ {
+  proxy_buffering off;
+  proxy_set_header Host $host;
+  proxy_set_header X-Real-IP $remote_addr;
+  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+  proxy_set_header X-Forwarded-Host $host;
+  proxy_set_header X-Forwarded-Proto $scheme;
+
+  proxy_pass http://alexana.org:8302/ResCarta-Web/;
+}
+```
 
 ##### Secure connection with TLS/SSL
 
