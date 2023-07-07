@@ -1081,13 +1081,69 @@ To test, if redirect is really no longer done by `index.htm` we rename it:
 ###### Setting Request Headers
 
 As clients will now first connect to NGinx before their request is proxied to Tomcat, we have to make sure,
-that headers are set into Tomcat request so that the webapp does not get NGinx specific values, but the client values.
+that client request headers are set into Tomcat request so that the webapp does not get NGinx specific values, but the client values.
 
 TODO
 
 ##### Secure connection with TLS/SSL
 
-TODO
+We use CertBot to install a SSL-certificate from LetsEncrypt:
+
+```
+$ ssh username@yourdomain.com
+$ sudo apt update
+$ sudo apt install snapd
+```
+
+Either log out and back in again, or restart your system, to ensure snap’s paths are updated correctly.
+Install fuse stuff and the core snap in order to get the latest snapd
+
+```
+$ ssh username@yourdomain.com
+$ sudo apt install libsquashfuse0 squashfuse fuse
+$ sudo snap install core
+2023-07-06T18:56:02+02:00 INFO Waiting for restart...
+core 16-2.59.5 from Canonical✓ installed
+Channel latest/stable for core is closed; temporarily forwarding to stable.
+```
+
+To test your system, install the `hello-world` snap and make sure it runs correctly:
+
+```
+$ sudo snap install hello-world
+hello-world 6.4 from Canonical installed
+$ hello-world
+Hello World!
+```
+
+Execute the following instructions on the command line on the machine to ensure that you have the latest version of snapd.
+
+```
+$ sudo snap install core; sudo snap refresh core
+snap "core" is already installed, see 'snap help refresh'
+snap "core" has no updates available
+```
+
+Remove certbot-auto and any Certbot OS packages:
+If you have any Certbot packages installed using an OS package manager like apt, dnf, or yum, you should remove them before installing the Certbot snap to ensure that when you run the command certbot the snap is used rather than the installation from your OS package manager.
+
+```
+$ sudo apt-get remove certbot
+...
+Entfernen von certbot (0.31.0-1+deb10u1) ...
+...
+```
+
+Run this command on the command line on the machine to install Certbot:
+
+```
+$ sudo snap install --classic certbot
+certbot 2.6.0 from Certbot Project (certbot-eff) installed
+```
+
+https://certbot.eff.org/instructions?ws=nginx&os=debianbuster
+
+
 
 # Appendix
 
