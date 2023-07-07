@@ -939,7 +939,7 @@ $ rsync -av --ignore-existing /media/ralf/TOSHIBA\ EXT/RCDATA01/* username@yourd
 * Sync only updated or modified files on the remote machine that have changed on the local machine, e.g.:
 
 ```
-$ rsync -av --dry-run --update /media/ralf/TOSHIBA\ EXT/RCDATA01/* username@yourdomain.com:/var/www/www.yourdomain.com/RCDATA01/
+$ rsync -av --update /media/ralf/TOSHIBA\ EXT/RCDATA01/* username@yourdomain.com:/var/www/www.yourdomain.com/RCDATA01/
 ```
 
 Restart Tomcat on remote machine.
