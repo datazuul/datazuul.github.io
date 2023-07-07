@@ -650,7 +650,7 @@ Close tool.
 
 ### Step 5: ResCarta Web
 
-The installation of ResCarta Toolkit dis also install an Apache Tomcat with a ResCarta Web webapp and sample data.
+The installation of ResCarta Toolkit did also install an Apache Tomcat with a ResCarta Web webapp and sample data.
 
 Let's have a look:
 
@@ -739,7 +739,7 @@ Yes! we see facets after adding another book (to new collection "Fact Books"!
 
 ![ResCarta Web - facets](/assets/topics/linux/rescarta/rescarta-web-05.png)
 
-**Important**: When you change metadata of a book, e.g. correcting issue year from 1929 to 1925 and index data again. You will not see the changes in the Web UI (even after restart of Tomcat). Why? Because all metadata is copied to collections' `metadata.xml`! To update it there based on your objects' `metadata.xml`: Open `./5_ResCartaCollectionsManager.sh` remove changed object from collection and add it again. After this start indexer `./6_ResCartaIndexer.sh` (no complete reindexing needed).
+**Important**: When you change metadata of a book, e.g. correcting issue year from 1929 to 1925 and index data again you will not see the changes in the Web UI (even after restart of Tomcat). Why? Because all metadata is copied to collections' `metadata.xml`! To update it there based on your objects' `metadata.xml`: Open `./5_ResCartaCollectionsManager.sh` remove changed object from collection and add it again. After this start indexer `./6_ResCartaIndexer.sh` (no complete reindexing needed).
 
 Now we get updated data and facets:
 
@@ -921,8 +921,6 @@ Execute `startup.sh` on server:
 ```
 
 Browse: <http://www.yourdomain.com:8302/ResCarta-Web/jsp/RcWebBrowse.jsp>
-
-TODO: Put webserver in front of tomcat and redirect to browse page...
 
 #### Syncing local archive with remote archive
 
@@ -1245,6 +1243,8 @@ Hooray, we are online with secure HTTPS!:
 ![ResCarta Web - Secured](/assets/topics/linux/rescarta/rescarta-web-09.png)
 
 That's it for now, I hope you get online easily now with your archive, too.
+
+Don't hesitate to give feedback at <https://github.com/datazuul/datazuul.github.io/issues>, you are welcome.
 
 <hr>
 <hr>
