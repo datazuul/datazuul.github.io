@@ -1273,6 +1273,7 @@ That's it for now, I hope you get online easily now with your archive, too.
 * After updating archive: always tomcat restart needed?
 * TIF-sizes are very big for usage as web presentation (remote, not original archive). How to create a second (compressed) "presentation" archive? Just do compressed conversion step to another directory and copy index over?
 * Why are native libraries used? I know of Java libraries (<https://github.com/haraldk/TwelveMonkeys> to be used for image reading/writing)
+* When doing OCR on commandline with tesseract creating ALTO-files: How to correct OCR with `3_ResCartaTextualMetadataEditor.sh`? Only TIF-header OCR supported? How to change this?
 
 ## Cheat Sheet of fastest way to curate archive
 
