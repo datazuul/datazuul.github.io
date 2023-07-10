@@ -1266,7 +1266,7 @@ That's it for now, I hope you get online easily now with your archive, too.
 
 ## Questions
 
-* Size in inches: How is this calculated? How to change to metric (cm)?
+* Size in inches: How is this calculated (dots per inch I guess...)? How to change to metric (cm)?
 * How to fill and index field DIGITAL_PUBLISHER_NAME? (no GUI)
 * Would it be possible to add virtual books (expanding software's target of being an archive management tool to additionally reference remote images (IIIF)...) but local preview image and metadata/METS referencing remote images?
 * How to set preview image to another image than 00000001?
@@ -1274,6 +1274,7 @@ That's it for now, I hope you get online easily now with your archive, too.
 * TIF-sizes are very big for usage as web presentation (remote, not original archive). How to create a second (compressed) "presentation" archive? Just do compressed conversion step to another directory and copy index over?
 * Why are native libraries used? I know of Java libraries (<https://github.com/haraldk/TwelveMonkeys> to be used for image reading/writing)
 * When doing OCR on commandline with tesseract creating ALTO-files: How to correct OCR with `3_ResCartaTextualMetadataEditor.sh`? Only TIF-header OCR supported? How to change this?
+* How to add externally created ALTO-files to be shown in Mirador? (file `00000001.alto.xml` already beside `00000001.tif`) Must be somehow added to index and/or metadata.xml?
 
 ## Cheat Sheet of fastest way to curate archive
 
