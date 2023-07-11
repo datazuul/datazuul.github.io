@@ -1257,6 +1257,147 @@ Hooray, we are online with secure HTTPS!:
 
 ![ResCarta Web - Secured](/assets/topics/linux/rescarta/rescarta-web-09.png)
 
+#### Add Mirador view for objects
+
+[Mirador 3 IIIF viewer](https://projectmirador.org/) is part of ResCarta-Web, too.
+You can browse it under <https://alexana.org/ResCarta-Web/mirador>.
+
+Before you can view an object in Mirador, you have to click "+ Start here" in the upper left corner to select a collection and then one of the objects to be added to the viewer:
+
+![ResCarta Web - Mirador](/assets/topics/linux/rescarta/rescarta-mirador-01.png)
+
+In this section we will customize ResCartaWeb by adding a direct link for opening an object in Mirador.
+So why should we want that? Because Mirador has a text overlay feature to show our ALTO-OCR-fulltext!
+
+Example:
+
+![ResCarta Web - Mirador](/assets/topics/linux/rescarta/rescarta-mirador-02.png)
+
+Customization:
+
+Mirador needs the URL to the IIIF manifest of the object to show.
+For an object the standard viewer is called with the needed `doc_id`, e.g.:
+
+```
+https://alexana.org/ResCarta-Web/jsp/RcWebImageViewer.jsp?doc_id=49ce0abe-dfce-4e8d-b982-dfc768f760ea/ALX00000/00000001/00000011
+```
+
+The `doc_id` in the given example is `49ce0abe-dfce-4e8d-b982-dfc768f760ea/ALX00000/00000001/00000011`.
+
+The IIIF manifest can be retrieved from ResCarataWeb from URL:
+
+```
+https://alexana.org/ResCarta-Web/iiif/api/presentation/3/49ce0abe-dfce-4e8d-b982-dfc768f760ea%252FALX00000%252F00000001%252F00000011/manifest
+```
+
+So we have to take the `doc_id`, URL-encode it and create the manifest URL like this:
+
+```
+/ResCarta-Web/iiif/api/presentation/3/[encoded doc id]/manifest
+```
+
+* First we add a link passing the `doc_id` to the "Mirador"-Viewer-page in the standard viewer JSP-page.
+
+In file `ResCarta-Web/jsp/RcWebImageViewer.jsp` add link after "Reference URL":
+
+```
+<!-- Reference URL -->
+<td style="width: 120px; vertical-align: bottom;">
+  <div class="rc-ref-url-div">
+    <span class="ui-icon ui-icon-link">&#160;</span>
+    <a href="javascript:void(0);" onclick="rcShowRefUrlDialog();">${rc_web_fn:msg('rcWebBrowse.referenceUrlLink.text')}</a>
+  </div>
+</td>
+
+<!-- Mirador Link -->
+<td style="width: 120px; vertical-align: bottom;">
+  <div class="rc-ref-url-div">
+    <span class="ui-icon ui-icon-link">&#160;</span>
+    <a href="../mirador?doc_id=${rc_ext_obj_id}">Mirador</a>
+  </div>
+</td>
+```
+
+* In "Mirador"-JSP-page we add option to view a single object if `doc_id` is a given request param.
+
+File `ResCarta-Web/mirador/index.jsp`:
+
+```
+<jsp:directive.page import="java.net.URLEncoder,org.rescarta.rcweb.RcWebConstants,org.rescarta.nio.charset.RcCharset"/>
+
+<jsp:scriptlet>
+  ...
+
+  // if doc_id given, create iiif manifest url to show:
+  String extObjId = request.getParameter(RcWebConstants.EXTENDED_OBJECT_ID_REQUEST_PARAM);
+  if (extObjId != null &amp;&amp; extObjId.trim().length() > 0) {
+    String iiifManifestUrl = "../iiif/api/presentation/3/" + URLEncoder.encode(URLEncoder.encode(extObjId, RcCharset.UTF_8_NAME), RcCharset.UTF_8_NAME) + "/manifest";
+    request.setAttribute("rc_iiif_manifest", iiifManifestUrl);
+  }
+</jsp:scriptlet>
+
+...
+
+<head>
+
+  ...
+  
+  <script type="text/javascript">
+    var iiifManifestUrl = '${rc_iiif_manifest}';
+
+    if (iiifManifestUrl) {
+      $(function() {
+        rcMiradorInstance = RcMirador.viewer({
+          id: 'rc-mirador-viewer',
+          window: {
+            textOverlay: {
+              enabled: true,
+              selectable: true,
+              visible: false
+            }
+          },
+          windows: [
+            {
+              "loadedManifest": iiifManifestUrl,
+              "canvasIndex": 0,
+              "thumbnailNavigationPosition": 'far-bottom'
+            }
+          ],
+          language: '${rc_locale}',
+          textOverlay: true
+        });
+      });
+    } else {
+      $(function() {
+        rcMiradorInstance = RcMirador.viewer({
+          id: 'rc-mirador-viewer',
+          window: {
+            textOverlay: {
+              enabled: true,
+              selectable: true,
+              visible: false
+            }
+          },
+          windows: [],
+          catalog: ${rc_json_catalog},
+          language: '${rc_locale}',
+          textOverlay: true
+        });
+      });
+    }
+  </script>
+</head>
+```
+
+Now we have a "Mirador"-link in viewer page in the upper right:
+
+![ResCarta Web - Mirador](/assets/topics/linux/rescarta/rescarta-mirador-03.png)
+
+Linking to a single object view of the "Mirador" viewer:
+
+![ResCarta Web - Mirador](/assets/topics/linux/rescarta/rescarta-mirador-04.png)
+
+
 That's it for now, I hope you get online easily now with your archive, too.
 
 <hr>
