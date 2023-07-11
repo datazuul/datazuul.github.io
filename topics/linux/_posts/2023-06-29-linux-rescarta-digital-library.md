@@ -499,7 +499,7 @@ Unfortunately we ran into the second tesseract problem that could not be solved,
 
 **Workaround**:
 
-Later we found out, that we still could add tesseract ALTO-OCR-files before data conversion for creating ResCarta-ALTO-files that later on can be shown as text-overlay in Mirador in ResCarta-Web. Indexing fulltext is not supported like this. So before restarting "Begin Conversion" without OCR let's create OCR files by executing tesseract manually from command line. [We wrote an own post on executing tesseract]({% post_url topics/linux/2022-03-13-linux-ocr %}).
+Later we found out, that we still could add tesseract ALTO-OCR-files before data conversion for creating ResCarta-ALTO-files that later on can be shown as text-overlay in Mirador and fulltext searched in ResCarta-Web. So before restarting "Begin Conversion" without OCR let's create OCR files by executing tesseract manually from command line. [We wrote an own post on executing tesseract]({% post_url topics/linux/2022-03-13-linux-ocr %}).
 
 Short summary example:
 
