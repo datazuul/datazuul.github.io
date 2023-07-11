@@ -495,6 +495,42 @@ see solutions under [Troubleshooting](#troubleshooting2).
 
 Unfortunately we ran into the second tesseract problem that could not be solved, so we deactivated "OCR" :-(p
 
+<hr>
+
+**Workaround**:
+
+Later we found out, that we still could add tesseract ALTO-OCR-files before data conversion for creating ResCarta-ALTO-files that later on can be shown as text-overlay in Mirador in ResCarta-Web. Indexing fulltext is not supported like this. So before restarting "Begin Conversion" without OCR let's create OCR files by executing tesseract manually from command line. [We wrote an own post on executing tesseract]({% post_url topics/linux/2022-03-13-linux-ocr %}).
+
+Short summary example:
+
+Change to directory containing images:
+
+```
+$ cd /media/ralf/TOSHIBA\ EXT/Gescannte\ Bücher/ALX/Aus\ Natur\ und\ Geisteswelt/mechanik1/
+```
+
+Start tesseract OCR for each image file, generating ALTO, hOCR and text files:
+
+```
+$ for i in *jpg; do b=`basename "$i" .jpg`; echo "$i"; tesseract "$i" "$b" -l Fraktur alto hocr txt; done
+```
+
+Note: in our example we used language "Fraktur" because the text is in german fraktur printed.
+
+Rename ALTO-XML-files to end in `.alto.xml` as required by ResCarta:
+
+```
+$ for i in *xml; do b=`basename "$i" .xml`; echo "$i"; mv "$i" "$b.alto.xml"; done
+```
+
+As ResCarta-`metadata.xml` has renamed, too, rename it back to `metadata.xml`:
+
+```
+$ mv metadata.alto.xml metadata.xml
+```
+
+<hr>
+
 * Restart "Begin Conversion" without OCR
 
 We started at 16:52h ... so let's see how long conversion for 935 files take ...
@@ -1423,7 +1459,23 @@ That's it for now, I hope you get online easily now with your archive, too.
 $ export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 $ cd ~/RcTools-7.0.5/bin
 $ ./1_ResCartaMetadataCreationTool.sh
+```
+
+OCR-Workaround (if needed) in directory of object:
+
+```
+$ for i in *tif; do b=`basename "$i" .tif`; echo "$i"; tesseract "$i" "$b" -l Fraktur alto hocr txt; done
+$ for i in *xml; do b=`basename "$i" .xml`; echo "$i"; mv "$i" "$b.alto.xml"; done
+$ mv metadata.alto.xml metadata.xml
+```
+
+Continue with data conversion:
+
+```
 $ ./2_ResCartaDataConversionTool.sh
+
+$ mv /media/ralf/TOSHIBA\ EXT/TEMP/RCDATA01/ALX00000/00000001/00000003/ /media/ralf/TOSHIBA\ EXT/RCDATA01/ALX00000/00000001/
+
 $ ./5_ResCartaCollectionsManager.sh
 $ ./6_ResCartaIndexer.sh
 $ java -Xmx1G -cp "/home/ralf/RcTools-7.0.5/lib/*" org.rescarta.tools.cmd.RcWebThumbnailGenerator /media/ralf/TOSHIBA\ EXT/RCDATA01 /media/ralf/TOSHIBA\ EXT/RCDATA01/thumbs
