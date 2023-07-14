@@ -877,7 +877,47 @@ This CSS makes a big difference to our styling:
 }
 ```
 
-##### Remove login link
+##### Change UI-Language
+
+Translation-files are place in ResCarta-Web under `apache-tomcat-8.5.31/webapps/ResCarta-Web/WEB-INF/classes/RcWebMessages_LANGUAGE.properties`. In version 7.0.5 the following languages are provided:
+
+* `RcWebMessages_en.properties`: english
+* `RcWebMessages_fr.properties`: french
+* `RcWebMessages_ru.properties`: russian
+
+Default lnguage is `en` (english).
+
+This is/can be configured in file `~/RcTools-7.0.5/apache-tomcat-8.5.31/webapps/ResCarta-Web/work/conf/rcWebConf.xml`:
+
+```
+<!--
+  Available locales
+  ______________________________________________________________________
+  A comma delimited list of available ResCarta-Web locales. This should
+  only be modified if you have created a resource bundle for a new
+  locale.
+ -->
+
+ <locales>en_US, ru</locales>
+
+ <!--
+  Locale
+  ______________________________________________________________________
+  The locale to be used by ResCarta-Web, must be one of the locales
+  defined by the locales option.
+-->
+
+<locale>en_US</locale>
+```
+
+* `locales`: defines list of available locales (seems french is missing... so we added `fr` to it)
+* `locale`: the language to be actually used for GUI language
+
+We did a translation for german (`de`) and set it as GUI language, here is the result:
+
+![ResCarta Web - german locale](/assets/topics/linux/rescarta/rescarta-web-10.png)
+
+##### Remove login lin
 
 Finally we do not want the login link to be shown. We can deactivate it again in `~/RcTools-7.0.5/apache-tomcat-8.5.31/webapps/ResCarta-Web/work/conf/rcWebConf.xml`:
 
