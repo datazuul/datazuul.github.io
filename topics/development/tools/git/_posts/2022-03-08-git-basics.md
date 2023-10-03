@@ -66,9 +66,34 @@ The git config command lets you configure your Git installation (or an individua
 This command can define everything from user info to preferences to the behavior of a repository.
 Several common configuration options are listed below.
 
-The first thing you’ll want to do after installing Git is tell it your name/email and customize some of the default settings.
+## List configuration values
+
+After a fresh installation there is no configuration existing. To list all configured values:
+
+System wide configuration:
+
+```sh
+$ git config --system -l
+fatal: Konnte Konfigurationsdatei '/etc/gitconfig' nicht lesen.: Datei oder Verzeichnis nicht gefunden
+```
+
+Global (linux user specific) configuration:
+
+```sh
+$ git config --global -l
+fatal: Konnte Konfigurationsdatei '/home/ralf/.gitconfig' nicht lesen.: Datei oder Verzeichnis nicht gefunden
+```
+
+Local (git repository specific) configuration:
+
+```sh
+$ git config --local -l
+fatal: --local kann nur innerhalb eines Git-Repositories verwendet werden
+```
 
 ## Define the author name
+
+The first thing you’ll want to do after installing Git is tell it your name/email and customize some of the default settings.
 
 Define the author name to be used for all commits in the current repository:
 
