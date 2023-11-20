@@ -12,7 +12,7 @@ toc: true
 
 # Installation
 
-# Windows
+## Windows
 
 * Download `VSCodeUserSetup-x64-1.84.2.exe` from <https://code.visualstudio.com/Download>.
 * Execute installer
