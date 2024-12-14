@@ -29,3 +29,13 @@ Type ".help" for more information.
 >
 ```
 
+## Linux (Xubuntu)
+
+```shell
+$ sudo apt install nodejs
+$ node -v
+v18.13.0
+$ sudo apt install npm
+$ npm -v
+9.2.0
+```
