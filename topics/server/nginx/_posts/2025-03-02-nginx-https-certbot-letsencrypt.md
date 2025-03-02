@@ -275,3 +275,6 @@ Congratulations, all simulated renewals succeeded:
 
 To confirm that your site is set up properly, visit https://yourwebsite.com/ in your browser and look for the lock icon in the URL bar.
 
+If you want to check that you have the top-of-the-line installation,
+you can head to <https://www.ssllabs.com/ssltest/>.
+
