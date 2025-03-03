@@ -1,6 +1,6 @@
 ---
 layout: post
-title: UFW-Firewall under Debian Linux
+title: Configure iptables firewall with UFW under Debian Linux
 author: Ralf Eichinger
 toc: true
 ---
@@ -194,4 +194,4 @@ Nmap done: 1 IP address (1 host up) scanned in 194.15 seconds
 
 ```
 
-The `teredo` port seems to be necessary for IPv6 to work [Wikipedi](https://en.wikipedia.org/wiki/Teredo_tunneling).
+The `teredo` port seems to be necessary for IPv6 to work [Wikipedia](https://en.wikipedia.org/wiki/Teredo_tunneling).
