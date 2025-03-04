@@ -194,6 +194,40 @@ Run the playbook with the following command to deploy the webapp (limited) to ho
 $ ansible-playbook -i inventories/production/inventory.yml -l web1 playbooks/deploy-my-webapp.yaml
 ```
 
+# Check Webservice
+
+You now can login to the host `web1` and check running webservice using `wget`:
+
+```sh
+$ wget localhost:10000
+--2025-03-04 15:30:32--  http://localhost:10000/
+Resolving localhost (localhost)... ::1, 127.0.0.1
+Connecting to localhost (localhost)|::1|:10000... connected.
+HTTP request sent, awaiting response... 200 
+Length: 404 [text/html]
+Saving to: ‘index.html’
+
+index.html                                           100%[===================================================================================================================>]     404  --.-KB/s    in 0s      
+
+2025-03-04 15:30:32 (79.0 MB/s) - ‘index.html’ saved [404/404]
+```
+
+Assuming you configured Spring Boot Actuator to reside under path `/monitoring`:
+
+```yml
+management:
+  endpoints:
+    web:
+      base-path: '/monitoring'
+```
+
+You can get health status calling url `http://localhost:10001/monitoring/health`.
+
+```json
+{"status":"UP"}
+```
+
+Your webservice is up and running!
 
 ---
 
