@@ -24,6 +24,7 @@ Our example uses Maven installed artifact under `~/.m2/repository`.
 
 Create a new file `playbooks/deploy-my-webapp.yaml` and add the following content:
 
+{% raw %}
 ```yaml
 - name: Deploy my Spring Boot Webapp
   hosts: managed_host
@@ -102,6 +103,7 @@ Create a new file `playbooks/deploy-my-webapp.yaml` and add the following conten
         enabled: yes
       when: not ansible_check_mode
 ```
+{% endraw %}
 
 # Create a Systemd Service Template
 
@@ -109,6 +111,7 @@ The playbook references the template `templates/springboot.service.j2`.
 
 Create `templates/springboot.service.j2` for configuring Linux systemd service:
 
+{% raw %}
 ```ini
 [Unit]
 Description={{ app_name }}
@@ -123,6 +126,7 @@ SuccessExitStatus=143
 [Install]
 WantedBy=multi-user.target
 ```
+{% endraw %}
 
 # Set `spring_profile` variable
 

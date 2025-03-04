@@ -131,6 +131,7 @@ app_env: production
 
 Example Jinja Template `playbooks/templates/app_config.j2`:
 
+{% raw %}
 ```txt
 server {
     listen {{ app_port }};
@@ -143,9 +144,11 @@ server {
     }
 }
 ```
+{% endraw %}
 
 Example task in a playbook:
 
+{% raw %}
 ```yml
 - name: Deploy web application
   hosts: web1
@@ -160,6 +163,7 @@ Example task in a playbook:
       debug:
         msg: "The application environment is {{ app_env }}"
 ```
+{% endraw %}
 
 In this example, the task will ensure that the application uses the port and environment specified in the `inventories/production/host_vars/web1.yml` file. The debug task will output the application environment variable for verification.
 
