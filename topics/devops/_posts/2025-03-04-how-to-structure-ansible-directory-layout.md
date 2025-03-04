@@ -16,15 +16,21 @@ ansible
 ├── ansible.cfg
 ├── inventories
 │   ├── development
+│   │   ├── inventory.yml
+|   |   ├── group_vars
+|   |   └── host_vars
 │   ├── production
 │   │   ├── inventory.yml
 |   |   ├── group_vars
 |   |   │   ├── all
 |   |   │   ├── webservers
 |   |   │   └── dbservers
-|   |   ├── host_vars
-|   |   │   └── hostname1
+|   |   └── host_vars
+|   |       └── hostname1
 │   └── staging
+│   │   ├── inventory.yml
+|   |   ├── group_vars
+|   |   └── host_vars
 ├── playbooks
 │   ├── site.yml
 │   ├── webservers.yml
@@ -33,18 +39,18 @@ ansible
 │   ├── common
 │   │   ├── tasks
 │   │   │   └── main.yml
-│   │   ├── templates
-│   │   │   └── common_template.j2
+│   │   └── templates
+│   │       └── common_template.j2
 │   ├── webserver
 │   │   ├── tasks
 │   │   │   └── main.yml
-│   │   ├── templates
-│   │   │   └── webserver_template.j2
+│   │   └── templates
+│   │       └── webserver_template.j2
 │   └── database
 │       ├── tasks
 │       │   └── main.yml
-│       ├── templates
-│       │   └── db_template.j2
+│       └── templates
+│           └── db_template.j2
 └── files
     ├── ...
 ```
