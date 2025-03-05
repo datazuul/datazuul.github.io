@@ -1,5 +1,4 @@
 ---
 layout: directory
-title: Development
+title: ng (Angular CLI)
 ---
-

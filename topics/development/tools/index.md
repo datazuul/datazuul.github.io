@@ -1,5 +1,5 @@
 ---
 layout: directory
-title: Entwickler-Tools
+title: Developer-Tools
 ---
 

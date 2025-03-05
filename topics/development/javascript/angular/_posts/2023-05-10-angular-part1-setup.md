@@ -226,6 +226,6 @@ For more information, see the Angular compiler options guide <https://angular.io
 # Summary
 
 In this first part of our Angular series we installed all necessary tools to get started.
-In the ["next part"]({% post_url topics/development/javascript/2023-05-10-angular-part2-hello_world %}) we are going to develop our first Angular webapp.
+In the ["next part"]({% post_url topics/development/javascript/angular/2023-05-10-angular-part2-hello_world %}) we are going to develop our first Angular webapp.
 
 

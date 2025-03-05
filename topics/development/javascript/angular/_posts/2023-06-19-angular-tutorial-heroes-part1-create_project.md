@@ -17,7 +17,7 @@ This tutorial recaps the official documentation at <https://angular.io/tutorial/
 
 We assume that you have already installed a local development environment (see <https://angular.io/guide/setup-local>).
 
-We did so as described in our post ["Angular Javascript Frontend Framework - Part 1 (Setup)"]({% post_url topics/development/javascript/2023-05-10-angular-part1-setup %}).
+We did so as described in our post ["Angular Javascript Frontend Framework - Part 1 (Setup)"]({% post_url topics/development/javascript/angular/2023-05-10-angular-part1-setup %}).
 
 # Create a new workspace and an initial application
 
