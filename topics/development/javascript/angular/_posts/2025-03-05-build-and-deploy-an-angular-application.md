@@ -46,7 +46,7 @@ dist/your_app/browser:
 assets  index.html  main-KP3ZWSOV.js  media  polyfills-MH2GNY63.js  scripts-OCZFKTZ6.js  styles-7MDPNQY7.css
 ```
 
-# Configure NGINX for Angular aplication
+# Configure NGINX for Angular application
 
 ## Basic authentication
 
