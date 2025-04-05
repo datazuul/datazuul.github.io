@@ -1,0 +1,66 @@
+2025.03.08
+
+To deskew TIFF images using the tool **unpaper**, you can follow these steps:
+
+1. **Install unpaper**: If you don't already have it installed, you can typically find it in your package manager on Linux. For example, on Ubuntu, you can install it by running:
+   ```bash
+   sudo apt-get install unpaper
+   ```
+
+2. **Prepare your TIFF images**: Ensure your TIFF images are accessible and ready for processing.
+
+3. **Run unpaper**: Use the `--deskew` option to correct the skew in your images. Here's an example command:
+   ```bash
+   unpaper --deskew input.tif output.tif
+   ```
+   Replace `input.tif` with the path to your input file and `output.tif` with the desired output file name.
+
+4. **Batch processing**: If you have multiple TIFF files, you can use a loop in your terminal to process them all. For example:
+   ```bash
+   for file in *.tif; do
+       unpaper --deskew "$file" "deskewed_$file"
+   done
+   ```
+   This will process all `.tif` files in the current directory and save the deskewed versions with a `deskewed_` prefix.
+
+Let me know if you'd like more details or assistance with this!
+
+
+unpaper --deskew-scan-direction left 00284-scan_2024-07-17_10-47-44l.tif deskewed_00284-scan_2024-07-17_10-47-44l.tif
+
+
+
+You can use **ImageMagick's `convert`** tool to pipe a TIFF image into **unpaper** for processing. Here’s how you can do it:
+
+### 1. **Single Image Processing**
+Use the `convert` command to read the TIFF file and pipe the output to `unpaper`:
+```bash
+convert input.tif - | unpaper --deskew - output.tif
+```
+- `input.tif`: The original TIFF file.
+- `-`: Sends the image data as a stream to `unpaper`.
+- `output.tif`: The processed and deskewed TIFF file.
+
+### 2. **Batch Processing Multiple TIFFs**
+If you have multiple TIFF files, you can loop through them:
+```bash
+for file in *.tif; do
+    convert "$file" - | unpaper --deskew - "processed_$file"
+done
+```
+This will process all `.tif` files in the current directory and save the output as `processed_<original filename>.tif`.
+
+### 3. **Adjust Parameters**
+You can add additional **ImageMagick** or **unpaper** options to control the processing:
+- For example, to convert the image to grayscale before deskewing:
+  ```bash
+  convert input.tif -colorspace gray - | unpaper --deskew - output.tif
+  ```
+
+Let me know if you need further help fine-tuning the commands!
+
+
+Scantailor-Advanced:
+
+$ sudo snap install scantailor-advanced
+$ sudo snap connect scantailor-advanced:removable-media
