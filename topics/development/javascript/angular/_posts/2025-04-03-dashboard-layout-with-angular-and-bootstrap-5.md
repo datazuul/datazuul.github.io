@@ -55,6 +55,14 @@ For the icons we will use the Bootstrap 5 icon library. To add it to your projec
 To structure your Angular project so that the layout is separate from inner components, a clean directory organization will help maintain clarity and scalability. Here's a suggested structure:
 
 ```
+/public
+  /assets                  # Static assets (images, fonts, etc.)
+    /css
+    /fonts
+    /img
+  favicon.ico              # Favicon
+  index.html               # Main HTML file
+  robots.txt               # Robots.txt file
 /src
   /app
     /core                  # Global services, guards, interceptors
@@ -90,7 +98,7 @@ The layout will contain the following sections:
 * A sidebar with navigation items
 * The main content area with a section to show the breadcrumbs, title, toolbar, and  for the current page
 
-Basic HTML skeleton:
+Basic Boostrap 5 HTML skeleton:
 
 ```html
 <html lang="en">
@@ -656,3 +664,160 @@ Add the breadcrumb navigation CSS to `breadcrumb-navigation.component.scss`:
   border-radius: .25rem;
 }
 ```
+
+(and remove it from `layout.component.scss`)
+
+# Sidebar navigation items
+
+Until now, we have a static design dummy of the sidebar in `layout.component.html`.
+
+Let's create a `SidebarComponent` that will hold the sidebar navigation items and will be used in the `LayoutComponent`.
+
+```bash
+$ ng generate component layout/sidebar
+CREATE src/app/layout/sidebar/sidebar.component.html (23 bytes)
+CREATE src/app/layout/sidebar/sidebar.component.spec.ts (622 bytes)
+CREATE src/app/layout/sidebar/sidebar.component.ts (230 bytes)
+CREATE src/app/layout/sidebar/sidebar.component.scss (0 bytes)
+```
+
+We replace the current sidebar HTML with a hierarchical structure of the sidebar navigation items (see [examples here](https://getbootstrap.com/docs/5.3/examples/sidebars/#)).
+
+Add the sidebar HTML to `sidebar.component.html`:
+
+```html
+<ul class="list-unstyled ps-0">
+  <li class="mb-1">
+    <a href="#" class="ms-3 link-body-emphasis text-decoration-none rounded" [routerLink]="['/dashboard']">Dashboard</a>
+  </li>
+
+  <li class="mb-1">
+    <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="false">
+      Home
+    </button>
+    <div class="collapse" id="home-collapse" style="">
+      <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+        <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Overview</a></li>
+        <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Updates</a></li>
+        <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Reports</a></li>
+      </ul>
+    </div>
+  </li>
+  <li class="mb-1">
+    <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
+      Reports
+    </button>
+    <div class="collapse" id="dashboard-collapse">
+      <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+        <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Overview</a></li>
+        <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Weekly</a></li>
+        <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Monthly</a></li>
+        <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Annually</a></li>
+      </ul>
+    </div>
+  </li>
+  <li class="mb-1">
+    <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
+      Orders
+    </button>
+    <div class="collapse" id="orders-collapse">
+      <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+        <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">New</a></li>
+        <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Processed</a></li>
+        <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Shipped</a></li>
+        <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Returned</a></li>
+      </ul>
+    </div>
+  </li>
+  <li class="border-top my-3"></li>
+  <li class="mb-1">
+    <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
+      Account
+    </button>
+    <div class="collapse" id="account-collapse" style="">
+      <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+        <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">New...</a></li>
+        <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Profile</a></li>
+        <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Settings</a></li>
+        <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Sign out</a></li>
+      </ul>
+    </div>
+  </li>
+</ul>
+```
+
+and the sidebar CSS to `sidebar.component.scss`:
+
+```css
+.btn-toggle {
+  padding: .25rem .5rem;
+  font-weight: 600;
+  color: var(--bs-emphasis-color);
+  background-color: transparent;
+}
+
+.btn-toggle::before {
+  width: 1.25em;
+  line-height: 0;
+  content: url("data:image/svg+xml;utf-8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'><path fill='none' stroke='rgba(0,0,0,.5)' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/></svg>");
+  transition: transform .35s ease;
+  transform-origin: .5em 50%;
+}
+
+.btn-toggle:hover, .btn-toggle:focus {
+  color: rgba(var(--bs-emphasis-color-rgb), .85);
+  /*background-color: var(--bs-tertiary-bg);*/
+  background-color: white;
+}
+
+[data-bs-theme="dark"] .btn-toggle::before {
+  content: url("data:image/svg+xml;utf-8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'><path fill='none' stroke='rgba(255,255,255,.5)' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/></svg>");
+}
+
+.btn-toggle[aria-expanded="true"] {
+  color: rgba(var(--bs-emphasis-color-rgb), .85);
+}
+.btn-toggle[aria-expanded="true"]::before {
+  transform: rotate(90deg);
+}
+
+.btn-toggle-nav a {
+  padding: .1875rem .5rem;
+  margin-top: .125rem;
+  margin-left: 1.25rem;
+}
+.btn-toggle-nav a:hover,
+.btn-toggle-nav a:focus {
+  background-color: var(--bs-tertiary-bg);
+}
+```
+
+and replace the sidebar HTML from `layout.component.html` (we let the wrapping nav and div in place, because moving them to sidebar caused display issues):
+
+```html
+<div class="container-fluid">
+  <div class="row">
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+      <div class="position-sticky pt-3">
+        <app-sidebar></app-sidebar>
+      </div>
+    </nav>
+
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <app-breadcrumb-navigation></app-breadcrumb-navigation>
+```
+
+# Final result
+
+Finally, we get a dashboard layout with a sticky top navigation bar and a sticky sidebar navigation that is responsive to different screen sizes.
+
+![final Dashboard](/assets/topics/development/javascript/angular/dashboard-final.jpeg)
+
+Some things are left to do:
+
+* use Bootstrap icons
+* move navbar to an own layout component
+* change page title accordingly to activated route
+* highlight active sidebar item
+
+FOr now enjoy the result!
