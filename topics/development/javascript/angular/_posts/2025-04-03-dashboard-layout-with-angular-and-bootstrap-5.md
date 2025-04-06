@@ -820,4 +820,4 @@ Some things are left to do:
 * change page title accordingly to activated route
 * highlight active sidebar item
 
-FOr now enjoy the result!
+For now enjoy the result!
